@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.innopolis.stc9.pojo.User;
-import ru.innopolis.stc9.service.IUserService;
+import ru.innopolis.stc9.pojo.hibernate.entities.User;
+import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
+import ru.innopolis.stc9.service.hibernate.interfaces.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,12 +20,15 @@ public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class);
     private static final String BEFORE = "First line of method";
     private static final String AFTER = "Before exit";
-    private IUserService service;
-
     @Autowired
-    public UserController(IUserService service) {
-        this.service = service;
-    }
+    PersonService personService;
+    @Autowired
+    private UserService service;
+
+//    @Autowired
+//    public UserController(UserService service) {
+//        this.service = service;
+//    }
 
     @RequestMapping(value = "/addOrUpdateUser", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
@@ -42,7 +46,8 @@ public class UserController {
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
     public String deleteUser(@RequestAttribute String id, Model model) {
         logger.debug(BEFORE);
-        service.deleteById(Integer.parseInt(id));
+        User user = service.getById(Long.parseLong(id));
+        service.deleteById(user);
         logger.debug(AFTER);
         return ("redirect:userAll");
     }
@@ -65,7 +70,7 @@ public class UserController {
     @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
     public String updateUser(@RequestAttribute String id, Model model) {
         logger.debug(BEFORE);
-        model.addAttribute("user", service.getById(Integer.parseInt(id)));
+        model.addAttribute("user", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
         return ("/addOrUpdate");
     }
@@ -73,7 +78,7 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String getUser(@RequestAttribute String id, Model model) {
         logger.debug(BEFORE);
-        User user = service.getById(Integer.parseInt(id));
+        User user = service.getById(Long.parseLong(id));
         model.addAttribute("user", user);
         return "/getUser";
     }
@@ -97,9 +102,9 @@ public class UserController {
                                       Model model) {
         logger.debug(BEFORE);
         String result = "login";
-        boolean b = service.addUserOnRegistration(personName, email, login, password, passwordConfirm);
+        boolean b = service.signUpUser(personName, email, login, password, passwordConfirm);
         if (!b) {
-            model.addAttribute("err", "Не удалось зарегистрировать. Указанные данные не найдены в системе");
+            model.addAttribute("err", "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             result = "registration";
         }
         return result;

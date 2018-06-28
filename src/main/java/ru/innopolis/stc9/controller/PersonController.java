@@ -7,14 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.pojo.Role;
-import ru.innopolis.stc9.service.IPersonService;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.realisationJDBC.Role;
 import ru.innopolis.stc9.service.IRoleService;
+import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.util.List;
 
 
@@ -23,7 +22,7 @@ public class PersonController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(PersonController.class);
 
     @Autowired
-    private IPersonService service;
+    private PersonService service;
 
     @Autowired
     private IRoleService roleService;
@@ -53,11 +52,11 @@ public class PersonController extends HttpServlet {
 
         Role r = roleService.getById(Long.parseLong(role));
         if (action.equals("add")) {
-            Person person = new Person(name, Date.valueOf(birthday), email, r);
+            Person person = new Person();
             service.add(person);
         } else {
             if (action.equals("update")) {
-                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), email, r);
+                Person person = new Person();
                 service.updateById(person);
             }
         }
@@ -72,7 +71,7 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/personAll", method = RequestMethod.GET)
-    public String getAll(HttpServletRequest request, Model model) {
+    public String getAll(Model model) {
         List<Person> personList = service.getAll();
         if (personList != null) {
             model.addAttribute("personList", personList);
@@ -96,7 +95,7 @@ public class PersonController extends HttpServlet {
     public String getPerson(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Person person = service.getById(Long.parseLong(id));
-        Role roleName = roleService.getById(person.getRole().getId());
+        Role roleName = roleService.getById(person.getRole());
         model.addAttribute("person", person);
         model.addAttribute("role", roleName);
         return "/getPerson";

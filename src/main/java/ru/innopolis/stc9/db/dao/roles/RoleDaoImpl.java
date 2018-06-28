@@ -3,7 +3,7 @@ package ru.innopolis.stc9.db.dao.roles;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.pojo.Role;
+import ru.innopolis.stc9.pojo.realisationJDBC.Role;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

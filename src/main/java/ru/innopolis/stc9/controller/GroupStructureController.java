@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.GroupStructure;
+import ru.innopolis.stc9.pojo.realisationJDBC.GroupStructure;
 import ru.innopolis.stc9.service.IGroupStructureService;
 
 import javax.servlet.http.HttpServletRequest;

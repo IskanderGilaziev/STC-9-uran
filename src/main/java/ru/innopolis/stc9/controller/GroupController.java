@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Program;
+import ru.innopolis.stc9.pojo.realisationJDBC.Group;
+import ru.innopolis.stc9.pojo.realisationJDBC.Program;
 import ru.innopolis.stc9.service.IGroupService;
 import ru.innopolis.stc9.service.IProgramService;
 

@@ -1,5 +1,6 @@
 package ru.innopolis.stc9.db.dao.subjects;
-import ru.innopolis.stc9.pojo.Subject;
+
+import ru.innopolis.stc9.pojo.realisationJDBC.Subject;
 
 import java.sql.SQLException;
 import java.util.List;

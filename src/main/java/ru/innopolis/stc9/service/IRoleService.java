@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.Role;
+import ru.innopolis.stc9.pojo.realisationJDBC.Role;
 
 import java.util.List;
 

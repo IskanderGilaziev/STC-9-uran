@@ -1,15 +1,13 @@
-package ru.innopolis.stc9.service;
+package ru.innopolis.stc9.service.hibernate.interfaces;
 
-import ru.innopolis.stc9.pojo.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 
 import java.util.List;
 
-public interface IPersonService {
+public interface PersonService {
     void updateById(Person person);
 
     Person getById(long id);
-
-    Person getByName(String name);
 
     void deleteById(long id);
 

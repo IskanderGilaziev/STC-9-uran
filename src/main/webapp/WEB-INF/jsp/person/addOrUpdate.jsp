@@ -40,7 +40,8 @@
                     <label for="role">Роль:</label>
                     <select id="role" name="role">
                         <c:forEach var="rol" items="${roleList}">
-                                  <option value="${rol.id}" <c:if test="${person.role eq rol.id}">selected</c:if>>${rol.name}</option>
+                            <option value="${rol.id}">${rol.name}</option>
+                            <%--<option value="${rol.id}" <c:if test="${person.role eq rol.id}">selected</c:if>>${rol.name}</option>--%>
                         </c:forEach>
                     </select>
                 </li>

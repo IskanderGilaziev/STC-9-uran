@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
 import ru.innopolis.stc9.db.dao.groups.GroupsDao;
 import ru.innopolis.stc9.db.dao.teacherSubject.TeacherSubjectDao;
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Schedule;
-import ru.innopolis.stc9.pojo.ScheduleItem;
+import ru.innopolis.stc9.pojo.realisationJDBC.Group;
+import ru.innopolis.stc9.pojo.realisationJDBC.Schedule;
+import ru.innopolis.stc9.pojo.realisationJDBC.ScheduleItem;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

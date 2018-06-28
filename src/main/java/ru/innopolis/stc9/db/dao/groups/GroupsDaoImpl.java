@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
 import ru.innopolis.stc9.db.dao.programs.ProgramsDao;
-import ru.innopolis.stc9.pojo.Group;
+import ru.innopolis.stc9.pojo.realisationJDBC.Group;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

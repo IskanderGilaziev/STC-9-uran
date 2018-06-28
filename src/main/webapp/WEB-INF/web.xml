@@ -12,7 +12,8 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/security-context.xml
-            /WEB-INF/database-config.xml
+            <!--/WEB-INF/database-config.xml-->
+            /WEB-INF/database-hibernate.xml
         </param-value>
     </context-param>
 

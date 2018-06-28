@@ -1,5 +1,6 @@
 package ru.innopolis.stc9.db.dao.roles;
-import ru.innopolis.stc9.pojo.Role;
+
+import ru.innopolis.stc9.pojo.realisationJDBC.Role;
 
 import java.sql.SQLException;
 import java.util.List;

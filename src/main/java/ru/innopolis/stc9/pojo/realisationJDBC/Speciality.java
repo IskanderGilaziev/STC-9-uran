@@ -1,4 +1,4 @@
-package ru.innopolis.stc9.pojo;
+package ru.innopolis.stc9.pojo.realisationJDBC;
 
 public class Speciality {
 

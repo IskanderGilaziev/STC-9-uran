@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.programs.ProgramsDao;
-import ru.innopolis.stc9.pojo.Program;
+import ru.innopolis.stc9.pojo.realisationJDBC.Program;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

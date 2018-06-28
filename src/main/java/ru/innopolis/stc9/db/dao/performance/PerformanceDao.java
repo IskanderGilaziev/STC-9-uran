@@ -1,5 +1,7 @@
 package ru.innopolis.stc9.db.dao.performance;
-import ru.innopolis.stc9.pojo.Performance;
+
+import ru.innopolis.stc9.pojo.realisationJDBC.Performance;
+
 import java.sql.SQLException;
 import java.util.List;
 

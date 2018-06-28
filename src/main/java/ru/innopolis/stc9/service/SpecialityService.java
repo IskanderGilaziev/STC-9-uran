@@ -2,10 +2,9 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.speciality.SpecialityDao;
-import ru.innopolis.stc9.pojo.Speciality;
+import ru.innopolis.stc9.pojo.realisationJDBC.Speciality;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

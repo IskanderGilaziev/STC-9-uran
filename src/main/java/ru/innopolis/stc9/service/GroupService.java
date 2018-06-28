@@ -3,7 +3,7 @@ package ru.innopolis.stc9.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.innopolis.stc9.db.dao.groups.GroupsDao;
-import ru.innopolis.stc9.pojo.Group;
+import ru.innopolis.stc9.pojo.realisationJDBC.Group;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

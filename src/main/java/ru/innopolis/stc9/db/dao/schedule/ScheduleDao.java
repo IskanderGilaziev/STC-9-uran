@@ -1,8 +1,8 @@
 package ru.innopolis.stc9.db.dao.schedule;
 
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Schedule;
-import ru.innopolis.stc9.pojo.ScheduleItem;
+import ru.innopolis.stc9.pojo.realisationJDBC.Group;
+import ru.innopolis.stc9.pojo.realisationJDBC.Schedule;
+import ru.innopolis.stc9.pojo.realisationJDBC.ScheduleItem;
 
 import java.sql.SQLException;
 import java.util.List;
