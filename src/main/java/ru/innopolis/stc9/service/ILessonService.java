@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.Lesson;
+import ru.innopolis.stc9.pojo.realisationJDBC.Lesson;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.GroupStructure;
+import ru.innopolis.stc9.pojo.realisationJDBC.GroupStructure;
 
 import java.util.List;
 

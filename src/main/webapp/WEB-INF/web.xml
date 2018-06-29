@@ -12,7 +12,8 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/security-context.xml
-            /WEB-INF/database-config.xml
+            <!--/WEB-INF/database-config.xml-->
+            /WEB-INF/database-hibernate.xml
         </param-value>
     </context-param>
 
@@ -59,16 +60,16 @@
         <url-pattern>/speciality/*</url-pattern>
     </servlet-mapping>
 
-    <display-name>role</display-name>
+    <display-name>status</display-name>
 
     <servlet>
-        <servlet-name>role</servlet-name>
+        <servlet-name>status</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>role</servlet-name>
-        <url-pattern>/role/*</url-pattern>
+        <servlet-name>status</servlet-name>
+        <url-pattern>/status/*</url-pattern>
     </servlet-mapping>
 
  <display-name>program</display-name>

@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.groups.GroupsDao;
 import ru.innopolis.stc9.db.dao.schedule.ScheduleDao;
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Schedule;
-import ru.innopolis.stc9.pojo.ScheduleItem;
-import ru.innopolis.stc9.pojo.Status;
+import ru.innopolis.stc9.pojo.realisationJDBC.Group;
+import ru.innopolis.stc9.pojo.realisationJDBC.Schedule;
+import ru.innopolis.stc9.pojo.realisationJDBC.ScheduleItem;
+import ru.innopolis.stc9.pojo.realisationJDBC.Status;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

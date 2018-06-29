@@ -1,5 +1,6 @@
 package ru.innopolis.stc9.db.dao.lesson;
-import ru.innopolis.stc9.pojo.Lesson;
+
+import ru.innopolis.stc9.pojo.realisationJDBC.Lesson;
 
 import java.sql.SQLException;
 import java.util.List;

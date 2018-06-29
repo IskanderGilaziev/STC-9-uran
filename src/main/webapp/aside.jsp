@@ -8,7 +8,7 @@
         <li><a href="/person/personAll">Список персон</a></li>
         <li><a href="/subject/subjectAll">Список предметов</a></li>
         <li><a href="/speciality/specialityAll">Список специальностей</a></li>
-        <li><a href="/role/roleAll">Список типов пользователей</a></li>
+        <li><a href="/status/roleAll">Список типов пользователей</a></li>
         <li><a href="/program/programAll">Список учебных программ</a></li>
         <li><a href="/teacherSubject/tlAll">Предмет-преподаватель</a></li>
         <li><a href="/scheduleItem/seeScheduleGroupsInProgress">Расписание</a></li>

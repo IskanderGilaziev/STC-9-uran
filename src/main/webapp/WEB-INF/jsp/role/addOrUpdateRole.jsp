@@ -2,10 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-        <form class="editForm" action="/role/addOrUpdateRole" method="post" name="editForm">
+<form class="editForm" action="/status/addOrUpdateRole" method="post" name="editForm">
 
             <c:if test="${action=='update'}">
-                <input type="hidden" name="id" value="${role.id}">
+                <input type="hidden" name="id" value="${status.id}">
             </c:if>
 
             <c:if test="${action=='add'}">
@@ -25,7 +25,7 @@
                 <li>
                     <label for="name">Название:</label>
                     <input type="text" placeholder="NEW_ROLE" required
-                           value="<c:if test="${action=='update'}">${role.name}</c:if>" name="name"/>
+                           value="<c:if test="${action=='update'}">${status.name}</c:if>" name="name"/>
                 </li>
 
                     <button class="submit" type="submit">OK</button>

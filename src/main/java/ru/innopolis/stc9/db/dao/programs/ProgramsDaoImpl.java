@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
 import ru.innopolis.stc9.db.dao.speciality.SpecialityDao;
 import ru.innopolis.stc9.db.dao.subjects.SubjectDao;
-import ru.innopolis.stc9.pojo.Program;
+import ru.innopolis.stc9.pojo.realisationJDBC.Program;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

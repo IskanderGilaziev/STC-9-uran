@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.Lesson;
+import ru.innopolis.stc9.pojo.realisationJDBC.Lesson;
 import ru.innopolis.stc9.service.LessonService;
 
 import javax.servlet.http.HttpServletRequest;

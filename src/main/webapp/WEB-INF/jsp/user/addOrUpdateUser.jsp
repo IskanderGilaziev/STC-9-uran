@@ -37,9 +37,9 @@
                     <span class="form_hint">Proper format "name@something.com"</span>
                 </li>
                 <li>
-                    <label for="role">Роль:</label>
-                    <input type="role" required value="<c:if test="${action=='update'}">${user.role}</c:if>"
-                           name="role"/>
+                    <label for="status">Роль:</label>
+                    <input type="status" required value="<c:if test="${action=='update'}">${user.status}</c:if>"
+                           name="status"/>
                 </li>
                 <li>
                     <button class="submit" type="submit">OK</button>

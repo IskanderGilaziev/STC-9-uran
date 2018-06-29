@@ -1,9 +1,9 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Schedule;
-import ru.innopolis.stc9.pojo.ScheduleItem;
-import ru.innopolis.stc9.pojo.Status;
+import ru.innopolis.stc9.pojo.realisationJDBC.Group;
+import ru.innopolis.stc9.pojo.realisationJDBC.Schedule;
+import ru.innopolis.stc9.pojo.realisationJDBC.ScheduleItem;
+import ru.innopolis.stc9.pojo.realisationJDBC.Status;
 
 import java.util.List;
 import java.util.Map;

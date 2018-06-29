@@ -3,7 +3,8 @@ package ru.innopolis.stc9.db.dao.lesson;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.pojo.Lesson;
+import ru.innopolis.stc9.pojo.realisationJDBC.Lesson;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

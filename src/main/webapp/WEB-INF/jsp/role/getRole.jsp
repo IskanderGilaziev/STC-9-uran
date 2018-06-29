@@ -2,6 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-        <h1>${role.name}</h1>
-        <p><b>Тип:</b> ${role.name}</p>
+<h1>${status.name}</h1>
+<p><b>Тип:</b> ${status.name}</p>
 <%@ include file="../../../footer.jsp" %>

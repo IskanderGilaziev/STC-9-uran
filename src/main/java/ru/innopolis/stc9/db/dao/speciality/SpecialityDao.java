@@ -1,5 +1,6 @@
 package ru.innopolis.stc9.db.dao.speciality;
-import ru.innopolis.stc9.pojo.Speciality;
+
+import ru.innopolis.stc9.pojo.realisationJDBC.Speciality;
 
 import java.sql.SQLException;
 import java.util.List;

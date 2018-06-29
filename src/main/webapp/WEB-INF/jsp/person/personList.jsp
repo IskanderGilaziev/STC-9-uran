@@ -10,18 +10,29 @@
         <thead>
         <tr>
             <th>№</th>
-            <th>Имя студента</th>
+            <th>Личные данные</th>
             <th></th>
             <th></th>
+            <th>Данные о регистрации</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="person" items="${personList}">
+        <c:forEach var="person" items="${personList}" varStatus="counter">
             <tr>
-                <td>${person.id}</td>
+                <td>${counter.count}</td>
                 <td><a href="/person/person?id=${person.id}">${person.name}</a></td>
                 <td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>
                 <td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>
+
+                <td>
+                    <c:if test="${person.status eq unknownStatus}">
+                        <a href="/person/moderation?id=${person.id}">требуется модерация пользователя</a>
+                    </c:if>
+
+                    <c:if test="${person.status ne unknownStatus}">
+                        <label><c:out value="${person.status.name()}"/></label>
+                    </c:if>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

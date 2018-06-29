@@ -7,12 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.TeacherSubject;
-import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.pojo.Subject;
-import ru.innopolis.stc9.service.ITeacherSubjectService;
-import ru.innopolis.stc9.service.IPersonService;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.realisationJDBC.Subject;
+import ru.innopolis.stc9.pojo.realisationJDBC.TeacherSubject;
 import ru.innopolis.stc9.service.ISubjectService;
+import ru.innopolis.stc9.service.ITeacherSubjectService;
+import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,7 +25,7 @@ public class TeacherSubjectController {
     private ITeacherSubjectService service;
 
     @Autowired
-    private IPersonService personService;
+    private PersonService personService;
 
     @Autowired
     private ISubjectService subjectService;

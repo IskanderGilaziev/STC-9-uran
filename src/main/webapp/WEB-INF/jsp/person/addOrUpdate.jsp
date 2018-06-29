@@ -3,6 +3,10 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
         <form class="editForm" action="/person/addOrUpdate" method="post" name="editForm">
+            <%--<c:if test="${person!=null}">--%>
+            <%--<label>Add</label>--%>
+            <%--</c:if>--%>
+
             <c:if test="${action=='update'}">
                 <input type="hidden" name="id" value="${person.id}">
             </c:if>
@@ -37,10 +41,12 @@
                     <span class="form_hint">Proper format "name@something.com"</span>
                 </li>
                 <li>
-                    <label for="role">Роль:</label>
-                    <select id="role" name="role">
-                        <c:forEach var="rol" items="${roleList}">
-                                  <option value="${rol.id}" <c:if test="${person.role eq rol.id}">selected</c:if>>${rol.name}</option>
+                    <label for="status">Роль:</label>
+                    <select id="status" name="status">
+                        <c:forEach var="rol" items="${statusList}">
+                            <%--<option value="${rol.ordinal()}">${rol.name()}</option>--%>
+                            <option value="${rol.ordinal()}"
+                                    <c:if test="${person.status eq rol}">selected</c:if>>${rol.name()}</option>
                         </c:forEach>
                     </select>
                 </li>

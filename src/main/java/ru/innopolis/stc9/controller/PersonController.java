@@ -7,10 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.pojo.Role;
-import ru.innopolis.stc9.service.IPersonService;
-import ru.innopolis.stc9.service.IRoleService;
+import org.springframework.web.bind.annotation.RequestParam;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Status;
+import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,61 +21,64 @@ import java.util.List;
 @Controller
 public class PersonController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(PersonController.class);
+    private final PersonService service;
 
     @Autowired
-    private IPersonService service;
+    public PersonController(PersonService service) {
+        this.service = service;
+    }
 
-    @Autowired
-    private IRoleService roleService;
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
-
     public String addOrUpdate(HttpServletRequest request, Model model) {
+        model.addAttribute("statusList", Status.values());
         if (model.containsAttribute("person")) {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
         } else {
             model.addAttribute("action", "add");
+            model.addAttribute("person", new Person());
         }
-        List<Role> roleList = roleService.getAll();
-        model.addAttribute("roleList",roleList);
         return "/addOrUpdate";
     }
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
-    public String addOrUpdatePerson(HttpServletRequest request,
-                                    @RequestAttribute String id,
+    public String addOrUpdatePerson(@RequestAttribute String id,
                                     @RequestAttribute String action,
                                     @RequestAttribute String name,
                                     @RequestAttribute String birthday,
                                     @RequestAttribute String email,
-                                    @RequestAttribute String role, Model model) {
+                                    @RequestAttribute String status, Model model) {
 
-        Role r = roleService.getById(Long.parseLong(role));
         if (action.equals("add")) {
-            Person person = new Person(name, Date.valueOf(birthday), email, r);
-            service.add(person);
+            Status s = Status.values()[Integer.parseInt(status)];
+            Person person = new Person(name, Date.valueOf(birthday), email, s);
+            service.addOrUpdate(person);
         } else {
             if (action.equals("update")) {
-                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), email, r);
-                service.updateById(person);
+                Person person = service.getById(Long.valueOf(id));
+                person.setName(name);
+                person.setBirthday(Date.valueOf(birthday));
+                person.setEmail(email);
+                person.setStatus(Status.values()[Integer.parseInt(status)]);
+                service.addOrUpdate(person);
             }
         }
         return "redirect:personAll";
     }
 
     @RequestMapping(value = "/deletePerson", method = RequestMethod.GET)
-    public String deletePerson(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
-        service.deleteById(Long.parseLong(id));
+    public String deletePerson(@RequestAttribute long id, Model model) {
+        service.deleteById(id);
         return ("redirect:personAll");
     }
 
     @RequestMapping(value = "/personAll", method = RequestMethod.GET)
-    public String getAll(HttpServletRequest request, Model model) {
+    public String getAll(Model model) {
         List<Person> personList = service.getAll();
         if (personList != null) {
             model.addAttribute("personList", personList);
+            model.addAttribute("unknownStatus", Status.unknown);
             return "/personList";
         } else {
             return "index";
@@ -83,10 +86,8 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
-    public String updatePerson(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
-        List<Role> roleList = roleService.getAll();
-        model.addAttribute("roleList",roleList);
+    public String updatePerson(@RequestAttribute String id, Model model) {
+        model.addAttribute("statusList", Status.values());
         model.addAttribute("person", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
         return ("/addOrUpdate");
@@ -96,9 +97,14 @@ public class PersonController extends HttpServlet {
     public String getPerson(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Person person = service.getById(Long.parseLong(id));
-        Role roleName = roleService.getById(person.getRole().getId());
         model.addAttribute("person", person);
-        model.addAttribute("role", roleName);
         return "/getPerson";
+    }
+
+    @RequestMapping(value = "/moderation", method = RequestMethod.GET)
+    public String moderateNewUsers(@RequestParam long id, Model model) {
+        logger.debug("Here");
+        // TODO: 29.06.2018 moderation page
+        return "moderationPage";
     }
 }
