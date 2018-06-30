@@ -85,7 +85,7 @@ public class UserDaoHibernate implements UserDao {
         if (user != null) {
             Session session = factory.openSession();
             session.beginTransaction();
-            session.update(user);
+            session.saveOrUpdate(user);
             session.getTransaction().commit();
             session.close();
             logger.info(logResult());

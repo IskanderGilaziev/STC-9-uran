@@ -13,7 +13,7 @@
     </c:if>
 </p>
 
-<p><b>Адрес:</b>
+<p><b>Электронная почта:</b>
     <c:if test="${person.email ne null}">
         ${person.email}
     </c:if>
@@ -22,7 +22,7 @@
     </c:if>
 </p>
 
-<p><b>Права:</b> ${person.status}</p>
+<p><b>Роль в учебном процессе:</b> ${person.status}</p>
 <c:if test="${person.user != null}">
     <p><b>Логин: </b>${person.user.login}</p>
     <p><b>Права в системе: </b>${person.user.role}</p>
@@ -34,6 +34,10 @@
             Запрещен
         </c:if>
     </p>
+    <p>
+        <a href="${pageContext.request.contextPath}/person/ban?id=${person.id}">Изменить доступ в систему</a>
+    </p>
+
 </c:if>
 <c:if test="${person.user eq null}">
     В системе не зарегистрирован

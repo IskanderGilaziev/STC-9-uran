@@ -5,7 +5,6 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import java.util.List;
 
 public interface PersonService {
-//    void updateById(Person person);
 
     Person getById(long id);
 
@@ -22,7 +21,7 @@ public interface PersonService {
      */
     List<Person> getAllegedPersonForModeration();
 
-    void refreshPersonsDataOnModeration(long oldId, long newId);
+    void refreshPersonsDataOnModeration(Person oldId, Person newId);
 
     List<Person> getTeachers();
 }

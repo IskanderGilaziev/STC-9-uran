@@ -86,7 +86,6 @@ public class Person {
         this.status = status;
     }
 
-    //    @JoinColumn(name="person_id")
     @OneToOne(optional = true, mappedBy = "person")
     public User getUser() {
         return user;

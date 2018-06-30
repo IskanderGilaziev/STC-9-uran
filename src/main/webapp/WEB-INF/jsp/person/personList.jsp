@@ -30,7 +30,17 @@
                     </c:if>
 
                     <c:if test="${person.status ne unknownStatus}">
-                        <label><c:out value="${person.status.name()}"/></label>
+                        <c:if test="${person.user eq null}">
+                            не зарегистрирован
+                        </c:if>
+                        <c:if test="${person.user ne null}">
+                            <c:if test="${person.user.enabled eq 1}">
+                                Зарегистрирован, вход разрешен
+                            </c:if>
+                            <c:if test="${person.user.enabled ne 1}">
+                                Зарегистрирован, вход запрещен
+                            </c:if>
+                        </c:if>
                     </c:if>
                 </td>
             </tr>

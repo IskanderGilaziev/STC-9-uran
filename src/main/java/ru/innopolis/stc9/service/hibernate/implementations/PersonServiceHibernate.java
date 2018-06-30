@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
-import ru.innopolis.stc9.db.hibernate.dao.interfaces.UserDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
@@ -19,20 +18,10 @@ public class PersonServiceHibernate implements PersonService {
 
     private final PersonDao personDao;
 
-    private final UserDao userDao;
-
     @Autowired
-    public PersonServiceHibernate(PersonDao personDao, UserDao userDao) {
+    public PersonServiceHibernate(PersonDao personDao) {
         this.personDao = personDao;
-        this.userDao = userDao;
     }
-
-    //    @Override
-//    public void updateById(Person person) {
-//        logger.info(this.getClass().getName() + " method updateById started, id = " + person.getId());
-//        personDao.addOrUpdatePerson(person);
-//        logger.info(this.getClass().getName() + " method updateById finished, id = " + person.getId());
-//    }
 
     @Override
     public Person getById(long id) {
@@ -90,6 +79,7 @@ public class PersonServiceHibernate implements PersonService {
             User user = listOfPerson.get(i).getUser();
             if (user != null) {
                 listOfPerson.remove(i);
+                i--;
             }
         }
     }
@@ -104,9 +94,7 @@ public class PersonServiceHibernate implements PersonService {
     }
 
     @Override
-    public void refreshPersonsDataOnModeration(long oldId, long newId) {
-        Person oldPerson = personDao.getById(oldId);
-        Person registeredPerson = personDao.getById(newId);
+    public void refreshPersonsDataOnModeration(Person oldPerson, Person registeredPerson) {
         if (oldPerson.getBirthday() == null && registeredPerson.getBirthday() != null) {
             oldPerson.setBirthday(registeredPerson.getBirthday());
         }

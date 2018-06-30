@@ -23,6 +23,10 @@ import java.util.List;
 @Controller
 public class PersonController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(PersonController.class);
+    private static final String ATTRIBUTE_PERSON = "person";
+    private static final String ATTRIBUTE_ACTION = "action";
+    private static final String ATTRIBUTE_UPDATE = "update";
+    private static final String REDIRECT_PERSON_ALL = "redirect:personAll";
     private final PersonService personService;
     private final UserService userService;
 
@@ -36,12 +40,12 @@ public class PersonController extends HttpServlet {
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
         model.addAttribute("statusList", Status.values());
-        if (model.containsAttribute("person")) {
-            model.addAttribute("action", "update");
+        if (model.containsAttribute(ATTRIBUTE_PERSON)) {
+            model.addAttribute(ATTRIBUTE_ACTION, ATTRIBUTE_UPDATE);
             model.addAttribute("id", request.getParameter("id"));
         } else {
-            model.addAttribute("action", "add");
-            model.addAttribute("person", new Person());
+            model.addAttribute(ATTRIBUTE_ACTION, "add");
+            model.addAttribute(ATTRIBUTE_PERSON, new Person());
         }
         return "/addOrUpdate";
     }
@@ -59,7 +63,7 @@ public class PersonController extends HttpServlet {
             Person person = new Person(name, Date.valueOf(birthday), email, s);
             personService.addOrUpdate(person);
         } else {
-            if (action.equals("update")) {
+            if (action.equals(ATTRIBUTE_UPDATE)) {
                 Person person = personService.getById(Long.valueOf(id));
                 person.setName(name);
                 person.setBirthday(Date.valueOf(birthday));
@@ -68,13 +72,13 @@ public class PersonController extends HttpServlet {
                 personService.addOrUpdate(person);
             }
         }
-        return "redirect:personAll";
+        return REDIRECT_PERSON_ALL;
     }
 
     @RequestMapping(value = "/deletePerson", method = RequestMethod.GET)
     public String deletePerson(@RequestAttribute long id, Model model) {
         personService.deleteById(id);
-        return ("redirect:personAll");
+        return (REDIRECT_PERSON_ALL);
     }
 
     @RequestMapping(value = "/personAll", method = RequestMethod.GET)
@@ -92,15 +96,15 @@ public class PersonController extends HttpServlet {
     @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
     public String updatePerson(@RequestAttribute String id, Model model) {
         model.addAttribute("statusList", Status.values());
-        model.addAttribute("person", personService.getById(Long.parseLong(id)));
-        model.addAttribute("action", "update");
+        model.addAttribute(ATTRIBUTE_PERSON, personService.getById(Long.parseLong(id)));
+        model.addAttribute(ATTRIBUTE_ACTION, ATTRIBUTE_UPDATE);
         return ("/addOrUpdate");
     }
 
     @RequestMapping(value = "/person", method = RequestMethod.GET)
-    public String getPerson(@RequestAttribute String id, Model model) {
-        Person person = personService.getById(Long.parseLong(id));
-        model.addAttribute("person", person);
+    public String getPerson(@RequestAttribute long id, Model model) {
+        Person person = personService.getById(id);
+        model.addAttribute(ATTRIBUTE_PERSON, person);
         return "/getPerson";
     }
 
@@ -122,22 +126,24 @@ public class PersonController extends HttpServlet {
                              @RequestAttribute long newPerson,
                              Model model) {
         logger.debug("moderation procedure of user");
-//        Person persOld = personService.getById(oldPerson);
-//        Person persNew = personService.getById(newPerson);
-//        personService.refreshPersonsDataOnModeration(persOld, persNew);
-//        User user = new User(persNew.getUser().getLogin(),persNew.getUser().getPassword());
-//        userService.deleteById(persNew.getUser());
-//        persOld.setUser(user);
-//        personService.addOrUpdate(persOld);
+        Person persOld = personService.getById(oldPerson);
+        Person persNew = personService.getById(newPerson);
+        personService.refreshPersonsDataOnModeration(persOld, persNew);
+        User user = new User(persNew.getUser().getLogin(), persNew.getUser().getPassword());
+        user.setPerson(persOld);
+        userService.deleteById(persNew.getUser());
+        persOld.setUser(user);
+        userService.setSecurityRole(persOld);
+        userService.changeEnable(persOld);
+        logger.debug("after moderation");
+        return REDIRECT_PERSON_ALL;
+    }
 
-//        Person unmoderatedPerson = personService.getById(id);
-//        User user = unmoderatedPerson.getUser();
-//        if (user!=null) {
-//            model.addAttribute("unmoderatedPerson", unmoderatedPerson);
-//        }
-//        List<Person> allegedPerson = personService.getAllegedPersonForModeration();
-//        model.addAttribute("allegedPerson", allegedPerson);
-        logger.debug("after");
-        return "redirect:personAll";
+    @RequestMapping(value = "/ban", method = RequestMethod.GET)
+    public String managerEnabled(@RequestParam long id, Model model) {
+        Person person = personService.getById(id);
+        userService.changeEnable(person);
+        model.addAttribute("id", id);
+        return "redirect:person";
     }
 }

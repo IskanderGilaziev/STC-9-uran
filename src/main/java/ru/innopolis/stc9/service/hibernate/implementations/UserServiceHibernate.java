@@ -39,17 +39,60 @@ public class UserServiceHibernate implements UserService {
         }
     }
 
+    @Override
+    public void saveOrUpdate(User user) {
+        if (user != null && user.getPerson() != null) {
+            userDao.addUser(user);
+        }
+    }
+
+    /**
+     * Set security role based on user status
+     *
+     * @param person
+     * @return
+     */
+    @Override
+    public void setSecurityRole(Person person) {
+        String security = securityRole(person.getStatus());
+        User user = person.getUser();
+        user.setRole(security);
+        userDao.updateUserData(user);
+        personDao.addOrUpdatePerson(person);
+    }
+
+    /**
+     * Return security role by person status
+     *
+     * @param status
+     * @return
+     */
+    private String securityRole(Status status) {
+        String result = null;
+        int index = 0;
+        switch (status) {
+            case unknown:
+            case student:
+                index = 1;
+        }
+        result = securityRoles[index];
+        return result;
+    }
+
     /**
      * Ban/unban the user
      *
-     * @param user
+     * @param person
      */
     @Override
-    public void changeEnable(User user) {
+    public void changeEnable(Person person) {
         logger.debug(DEBUG_BEFORE);
-        if (user != null) {
-            user.setEnabled(Math.abs(user.getEnabled() - 1));
+        if (person != null && person.getUser() != null) {
+            User user = person.getUser();
+            user.setEnabled(Math.abs(person.getUser().getEnabled() - 1));
             userDao.updateUserData(user);
+            person.setUser(user);
+            personDao.addOrUpdatePerson(person);
             logger.info("Enabled was changed");
         } else {
             logger.warn(WARN_NPE + "User.");
