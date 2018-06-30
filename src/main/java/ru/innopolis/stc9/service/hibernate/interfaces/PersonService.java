@@ -15,5 +15,14 @@ public interface PersonService {
 
     List<Person> getAll();
 
+    /**
+     * selects a list of persons from the database whose user field is null and status is not unknown
+     *
+     * @return
+     */
+    List<Person> getAllegedPersonForModeration();
+
+    void refreshPersonsDataOnModeration(long oldId, long newId);
+
     List<Person> getTeachers();
 }

@@ -38,6 +38,7 @@ public class PersonDaoHibernate implements PersonDao {
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM Person");
             personList = query.list();
+            session.close();
         }
         logger.info(logResult(!personList.isEmpty()) + personList.size());
         return personList;
@@ -88,6 +89,19 @@ public class PersonDaoHibernate implements PersonDao {
     }
 
     @Override
+    public List<Person> getPersonByRoleAndNullUser(Status status) {
+        logger.debug(DEBUG_BEFORE);
+        List<Person> personList;
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("FROM Person where status = :role");
+            query.setParameter("role", status);
+            personList = query.list();
+        }
+        logger.info(logResult(!personList.isEmpty()) + personList.size());
+        return personList;
+    }
+
+    @Override
     public Person getByName(String name) {
         Person person = null;
         if (name != null && !name.isEmpty()) {
@@ -100,6 +114,20 @@ public class PersonDaoHibernate implements PersonDao {
             }
         }
         return person;
+    }
+
+    @Override
+    public void toDetached(Person person) {
+        logger.debug(DEBUG_BEFORE);
+        if (person != null) {
+            Session session = factory.openSession();
+            session.beginTransaction();
+            session.evict(person);
+            session.getTransaction().commit();
+            session.close();
+        } else {
+            logger.warn(WARN_NPE);
+        }
     }
 
     private String logResult(boolean b) {

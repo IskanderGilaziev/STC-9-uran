@@ -32,6 +32,13 @@ public class UserServiceHibernate implements UserService {
         this.personDao = personDao;
     }
 
+    @Override
+    public void deleteById(User user) {
+        if (user != null && user.getId() > 0) {
+            userDao.deleteByUserId(user);
+        }
+    }
+
     /**
      * Ban/unban the user
      *

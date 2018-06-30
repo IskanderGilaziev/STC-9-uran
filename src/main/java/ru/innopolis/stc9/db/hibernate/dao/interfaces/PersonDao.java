@@ -1,6 +1,7 @@
 package ru.innopolis.stc9.db.hibernate.dao.interfaces;
 
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 
 import java.util.List;
 
@@ -15,5 +16,9 @@ public interface PersonDao {
 
     List<Person> getPersonByRole(int role);
 
+    List<Person> getPersonByRoleAndNullUser(Status status);
+
     Person getByName(String name);
+
+    void toDetached(Person person);
 }

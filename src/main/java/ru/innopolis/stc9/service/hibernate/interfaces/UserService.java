@@ -4,6 +4,8 @@ import ru.innopolis.stc9.pojo.hibernate.entities.User;
 
 public interface UserService {
 
+    void deleteById(User user);
+
     /**
      * Ban/unban the user
      *
