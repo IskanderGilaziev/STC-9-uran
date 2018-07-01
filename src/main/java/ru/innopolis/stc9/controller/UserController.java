@@ -24,19 +24,6 @@ public class UserController {
         this.personService = personService;
     }
 
-    /*@RequestMapping(value = "/addOrUpdateUser", method = RequestMethod.GET)
-    public String addOrUpdate(HttpServletRequest request, Model model) {
-        logger.debug(BEFORE);
-        if (model.containsAttribute("user")) {
-            model.addAttribute("action", "update");
-            model.addAttribute("id", request.getParameter("id"));
-        } else {
-            model.addAttribute("action", "add");
-        }
-        logger.debug(AFTER);
-        return "/addOrUpdateUser";
-    }*/
-
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String setRegistrationUser(@RequestAttribute String err, Model model) {
         logger.debug(BEFORE);

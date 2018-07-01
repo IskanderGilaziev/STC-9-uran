@@ -27,6 +27,12 @@ public class Person {
     @Column(nullable = true)
     private User user;
 
+    @Column(nullable = true)
+    private Teacher teacher;
+
+    @Column(nullable = true)
+    private Student student;
+
     public Person() {
     }
 
@@ -95,6 +101,24 @@ public class Person {
         this.user = user;
     }
 
+    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -107,7 +131,9 @@ public class Person {
         if (birthday != null ? !birthday.equals(person.birthday) : person.birthday != null) return false;
         if (email != null ? !email.equals(person.email) : person.email != null) return false;
         if (status != person.status) return false;
-        return user != null ? user.equals(person.user) : person.user == null;
+        if (user != null ? !user.equals(person.user) : person.user != null) return false;
+        if (teacher != null ? !teacher.equals(person.teacher) : person.teacher != null) return false;
+        return student != null ? student.equals(person.student) : person.student == null;
     }
 
     @Override
@@ -118,6 +144,8 @@ public class Person {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
+        result = 31 * result + (student != null ? student.hashCode() : 0);
         return result;
     }
 
@@ -128,8 +156,10 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", birthday=" + birthday +
                 ", email='" + email + '\'' +
-//                ", status=" + status +
-//                ", user=" + user +
+                ", status=" + status +
+                ", user=" + user +
+                ", teacher=" + teacher +
+                ", student=" + student +
                 '}';
     }
 }

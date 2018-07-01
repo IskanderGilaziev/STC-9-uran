@@ -38,6 +38,17 @@
         <url-pattern>/person/*</url-pattern>
     </servlet-mapping>
 
+    <display-name>team</display-name>
+    <servlet>
+        <servlet-name>team</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>team</servlet-name>
+        <url-pattern>/team/*</url-pattern>
+    </servlet-mapping>
+
     <display-name>subject</display-name>
     <servlet>
         <servlet-name>subject</servlet-name>
