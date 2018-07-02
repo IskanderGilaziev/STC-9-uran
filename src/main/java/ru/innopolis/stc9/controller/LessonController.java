@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.realisationJDBC.Lesson;
-import ru.innopolis.stc9.service.LessonService;
+import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
+import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -16,9 +16,13 @@ import java.util.List;
 
 @Controller
 public class LessonController {
-    private static final Logger logger = Logger.getLogger(LessonController.class);
+    private static final Logger logger = Logger.getLogger(PersonController.class);
+    private final LessonService lessonService;
+
     @Autowired
-    private LessonService service;
+    public LessonController(LessonService lessonService) {
+        this.lessonService = lessonService;
+    }
 
     @RequestMapping(value = "/addLesson", method = RequestMethod.GET)
     public String addLesson(HttpServletRequest request, Model model) {
@@ -35,7 +39,7 @@ public class LessonController {
 
                              Model model) {
         Lesson lesson = new Lesson(schedule_item,schedule_item,teacher_item, date, theme,homework );
-        service.add(lesson);
+        lessonService.addOrUpdateById(lesson);
         model.addAttribute("lesson", lesson);
         return "/getLesson";
     }
@@ -43,13 +47,13 @@ public class LessonController {
     @RequestMapping(value = "/deleteLesson", method = RequestMethod.GET)
     public String deleteLesson(HttpServletRequest request,
                                @RequestAttribute Lesson lesson, Model model) {
-        service.deleteById(lesson.getId());
+        lessonService.deleteById(lesson.getId());
         return "/lessonList";
     }
 
     @RequestMapping(value = "/lessonAll", method = RequestMethod.GET)
     public String getAll(HttpServletRequest request, Model model) {
-        List<Lesson> lessonList = service.getAll();
+        List<Lesson> lessonList = lessonService.getAll();
         if (lessonList != null) {
             model.addAttribute("lessonList", lessonList);
             return "/lessonList";
@@ -75,7 +79,7 @@ public class LessonController {
                                 @RequestAttribute String theme,
                                 @RequestAttribute String homework, Model model) {
         Lesson lesson = new Lesson(Long.parseLong(id), schedule_item, teacher_item, date , theme, homework);
-        service.updateById(lesson);
+        lessonService.addOrUpdateById(lesson);
         model.addAttribute("lesson", lesson);
         return "/getLesson";
     }
@@ -83,7 +87,7 @@ public class LessonController {
     @RequestMapping(value = "/lesson", method = RequestMethod.GET)
     public String getLesson(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
-        Lesson lesson = service.getById(Long.parseLong(id));
+        Lesson lesson = lessonService.getById(Long.parseLong(id));
         model.addAttribute("lesson", lesson);
         return "/getLesson";
     }
