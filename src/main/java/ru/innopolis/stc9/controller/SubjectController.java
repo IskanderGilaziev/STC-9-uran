@@ -64,7 +64,7 @@ public class SubjectController {
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.POST)
     public String addNewSubjectOrupdate(@RequestAttribute long id,
                                         @RequestAttribute String name,
-                                        @RequestAttribute long teacherItem,
+//                                        @RequestAttribute long teacherItem,
                                         Model model) {
         if (id >= 0 && name != null) {
             Subject subject = new Subject(name);

@@ -26,9 +26,8 @@
     <label for="teacherItem">Преподаватель:</label>
     <select id="teacherItem" name="teacher_item">
         <c:forEach var="teacher" items="${prospectiveTeachers}">
-            <c:set var="teacher_item" value="${prospectiveTeachers.id}"></c:set>
             <option value="${teacher_item}"
-                    <c:if test="${teacherprospectiveTeachers.teacherItem eq teacher_item}">selected</c:if>>${teacher.name}</option>
+                    <c:if test="${teacher.id eq teacher_item}">selected</c:if>>${teacher.name}</option>
         </c:forEach>
     </select>
 

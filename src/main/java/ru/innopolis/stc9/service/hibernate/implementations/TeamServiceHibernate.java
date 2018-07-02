@@ -45,7 +45,7 @@ public class TeamServiceHibernate implements TeamService {
                 shortName != null && !shortName.isEmpty() &&
                 yStart > 0 && yCurrent > 0 && yLast > 0 &&
                 yCurrent >= yStart && yCurrent <= yLast) {
-            Team team = new Team(fullName, shortName, yStart, yCurrent, yLast);
+            Team team = new Team(fullName, shortName, yCurrent, yStart, yLast);
             result = teamDao.saveOrUpdate(team);
         } else {
             logger.warn("Invalid form data");

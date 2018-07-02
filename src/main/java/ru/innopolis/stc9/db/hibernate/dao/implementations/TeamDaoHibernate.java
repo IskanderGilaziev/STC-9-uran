@@ -91,10 +91,10 @@ public class TeamDaoHibernate implements TeamDao {
         if (team != null) {
             Session session = factory.openSession();
             session.beginTransaction();
+            result = true;
             session.saveOrUpdate(team);
             session.getTransaction().commit();
             session.close();
-            result = true;
         } else {
             logger.warn(WARN_NPE);
         }

@@ -57,7 +57,9 @@ public class StudentDaoHibernate implements StudentDao {
         query.setParameter("param1", team);
         query.setParameter("param2", person);
         Student student = (Student) query.list().get(0);
+//        session.getTransaction();
         session.delete(student);
+//        session.getTransaction().commit();
         session.close();
         return true;
     }

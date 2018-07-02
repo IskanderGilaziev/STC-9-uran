@@ -54,8 +54,8 @@ public class TeamController {
                              @RequestAttribute int yLast,
                              Model model) {
         boolean b = teamService.createNewTeam(fullName, shortName, yStart, yCurrent, yLast);
-        String result = b ? "teamListAll" : "addNewTeam";
-        return result;
+//        String result = b ? "teamListAll" : "addNewTeam";
+        return "redirect:teamAll";
     }
 
     @RequestMapping(value = "/editOnlyTeam", method = RequestMethod.GET)

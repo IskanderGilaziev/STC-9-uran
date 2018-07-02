@@ -48,40 +48,7 @@ public class PersonServiceHibernate implements PersonService {
 
     @Override
     public void addOrUpdate(Person person) {
-        logger.debug(DEBUG_BEFORE);
-        if (person != null) {
-            if (person.getId() == 0) {
-                personDao.addOrUpdatePerson(person);
-                logger.info("Add new person");
-                Status requiredStatus = person.getStatus();
-                switch (requiredStatus) {
-                    case student:
-                        Student student = new Student(person, null);
-                        studentDao.addNewStudent(student);
-                        break;
-                    case teacher:
-                        Teacher teacher = new Teacher(person);
-                        teacherDao.addNewTeacher(teacher);
-                        break;
-                }
-                int u = 0;
-            } else {
-                if (person.getId() > 0) {
-                    logger.info("Update the existing object data.");
-                } else {
-                    logger.warn("negative id.");
-                }
-            }
-        } else {
-            logger.warn(WARN_NPE + "person.");
-        }
-        int u = 0;
-        Person persistPerson = personDao.getById(person.getId());
-
-        if (person.getStatus().equals(Status.student)) {
-            Student persistStudent = persistPerson.getStudent();
-            Student student = new Student();
-        }
+        logger.info(this.getClass().getName() + " method add started");
         personDao.addOrUpdatePerson(person);
         logger.info(this.getClass().getName() + " method add finished");
     }
