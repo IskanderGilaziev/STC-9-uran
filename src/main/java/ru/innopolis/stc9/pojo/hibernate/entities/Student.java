@@ -38,7 +38,7 @@ public class Student {
         this.id = id;
     }
 
-    @OneToOne(optional = false, mappedBy = "student")
+    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Person getPerson() {
         return person;
     }
@@ -47,7 +47,7 @@ public class Student {
         this.person = person;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Team getTeam() {
         return team;
     }

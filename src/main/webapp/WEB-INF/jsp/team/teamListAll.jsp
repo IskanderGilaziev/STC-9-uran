@@ -3,49 +3,32 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
 
-<h1>Список персон</h1>
-<p><b><a href="/team/addNewTeam">Добавить новую персону</a></b></p>
-<%--<div class="table-responsive">--%>
-<%--<table class="table table-striped">--%>
-<%--<thead>--%>
-<%--<tr>--%>
-<%--<th>№</th>--%>
-<%--<th>Личные данные</th>--%>
-<%--<th></th>--%>
-<%--<th></th>--%>
-<%--<th>Данные о регистрации</th>--%>
-<%--</tr>--%>
-<%--</thead>--%>
-<%--<tbody>--%>
-<%--<c:forEach var="person" items="${personList}" varStatus="counter">--%>
-<%--<tr>--%>
-<%--<td>${counter.count}</td>--%>
-<%--<td><a href="/person/person?id=${person.id}">${person.name}</a></td>--%>
-<%--<td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>--%>
-<%--<td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>--%>
+<h1>Список групп</h1>
+<p><b><a href="/team/getNewTeam">Добавить новую учебную группу</a></b></p>
 
-<%--<td>--%>
-<%--<c:if test="${person.status eq unknownStatus}">--%>
-<%--<a href="/person/moderation?id=${person.id}">требуется модерация пользователя</a>--%>
-<%--</c:if>--%>
-
-<%--<c:if test="${person.status ne unknownStatus}">--%>
-<%--<c:if test="${person.user eq null}">--%>
-<%--не зарегистрирован--%>
-<%--</c:if>--%>
-<%--<c:if test="${person.user ne null}">--%>
-<%--<c:if test="${person.user.enabled eq 1}">--%>
-<%--Зарегистрирован, вход разрешен--%>
-<%--</c:if>--%>
-<%--<c:if test="${person.user.enabled ne 1}">--%>
-<%--Зарегистрирован, вход запрещен--%>
-<%--</c:if>--%>
-<%--</c:if>--%>
-<%--</c:if>--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--</c:forEach>--%>
-<%--</tbody>--%>
-<%--</table>--%>
-<%--</div>--%>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Полное название группы</th>
+            <th>Курс обучения</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="team" items="${teams}" varStatus="counter">
+            <tr>
+                <td>${counter.count}</td>
+                <td><a href="/team/getTeam?id=${team.id}">${team.fullName}</a></td>
+                <td>${team.yearCurrent-team.yearStart+1}</td>
+                <td><a href="/team/editOnlyTeam?id=${team.id}">редактировать данные группы</a></td>
+                <td><a href="/team/deleteWholeTeam?id=${team.id}">удалить всю группу</a></td>
+                <td><a href="/team/editTeamInner?id=${team.id}">управление группой</a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 <%@ include file="../../../footer.jsp" %>

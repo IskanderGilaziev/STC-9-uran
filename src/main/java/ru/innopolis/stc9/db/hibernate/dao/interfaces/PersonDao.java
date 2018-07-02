@@ -14,11 +14,14 @@ public interface PersonDao {
 
     void deleteByPersonId(long id);
 
-    List<Person> getPersonByRole(int role);
-
-    List<Person> getPersonByRoleAndNullUser(Status status);
+    List<Person> getPersonByRole(Status status);
 
     Person getByName(String name);
 
     void toDetached(Person person);
+
+    /**
+     * Person with status Student and without Group
+     */
+    List<Person> getAllPersonsInAllTeams();
 }

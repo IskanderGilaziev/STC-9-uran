@@ -38,7 +38,7 @@ public class Teacher {
         this.id = id;
     }
 
-    @OneToOne(optional = false, mappedBy = "teacher")
+    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Person getPerson() {
         return person;
     }

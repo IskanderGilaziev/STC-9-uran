@@ -101,7 +101,7 @@ public class Person {
         this.user = user;
     }
 
-    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(optional = true, mappedBy = "person")
     public Teacher getTeacher() {
         return teacher;
     }
@@ -110,7 +110,7 @@ public class Person {
         this.teacher = teacher;
     }
 
-    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(optional = true, mappedBy = "person")
     public Student getStudent() {
         return student;
     }

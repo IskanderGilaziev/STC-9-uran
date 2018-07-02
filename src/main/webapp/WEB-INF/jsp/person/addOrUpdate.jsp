@@ -3,9 +3,6 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
         <form class="editForm" action="/person/addOrUpdate" method="post" name="editForm">
-            <%--<c:if test="${person!=null}">--%>
-            <%--<label>Add</label>--%>
-            <%--</c:if>--%>
 
             <c:if test="${action=='update'}">
                 <input type="hidden" name="id" value="${person.id}">
@@ -16,10 +13,10 @@
             <input type="hidden" name="action" value="${action}">
 
                     <c:if test="${action=='update'}">
-                        <h2>Редактирование</h2>
+                        <h2>Редактирование персональных данных</h2>
                     </c:if>
                     <c:if test="${action=='add'}">
-                        <h2>Добавление нового персонажа</h2>
+                        <h2>Добавление новых персональных данных</h2>
                     </c:if>
             <ul>
                 <li>

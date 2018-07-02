@@ -3,7 +3,7 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
 <h1>Список предметов</h1>
-<p><b><a href="/subject/addOrUpdateSubject">Добавить новый предмет</a></b></p>
+<p><b><a href="/subject/addSubject">Добавить новый предмет</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>

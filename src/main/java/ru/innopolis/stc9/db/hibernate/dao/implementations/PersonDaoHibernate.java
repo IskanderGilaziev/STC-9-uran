@@ -10,6 +10,7 @@ import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -75,28 +76,21 @@ public class PersonDaoHibernate implements PersonDao {
         logger.debug(DEBUC_AFTER);
     }
 
-    @Override
-    public List<Person> getPersonByRole(int role) {
-        logger.debug(DEBUG_BEFORE);
-        List<Person> personList;
-        try (Session session = factory.openSession()) {
-            Query query = session.createQuery("FROM Person where status = :role");
-            query.setParameter("param", Status.values()[role]);
-            personList = query.list();
-        }
-        logger.info(logResult(!personList.isEmpty()) + personList.size());
-        return personList;
-    }
 
     @Override
-    public List<Person> getPersonByRoleAndNullUser(Status status) {
+    public List<Person> getPersonByRole(Status status) {
         logger.debug(DEBUG_BEFORE);
         List<Person> personList;
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM Person where status = :role");
             query.setParameter("role", status);
             personList = query.list();
+            for (Person p : personList) {
+                p.getTeacher();
+                p.getStudent();
+            }
         }
+
         logger.info(logResult(!personList.isEmpty()) + personList.size());
         return personList;
     }
@@ -128,6 +122,23 @@ public class PersonDaoHibernate implements PersonDao {
         } else {
             logger.warn(WARN_NPE);
         }
+    }
+
+    /**
+     * Person with status Student and without Group
+     */
+    @Override
+    public List<Person> getAllPersonsInAllTeams() {
+        logger.debug(DEBUG_BEFORE);
+        List<Person> personList = new ArrayList<>();
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("FROM Person p WHERE p.student.id>0 AND p.status = :param");
+            query.setParameter("param", Status.student);
+            personList.addAll(query.list());
+            session.close();
+        }
+        logger.info(personList.size());
+        return personList;
     }
 
     private String logResult(boolean b) {

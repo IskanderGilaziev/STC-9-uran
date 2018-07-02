@@ -14,6 +14,8 @@ public interface PersonService {
 
     List<Person> getAll();
 
+    List<Person> getAllStudents();
+
     /**
      * selects a list of persons from the database whose user field is null and status is not unknown
      *
