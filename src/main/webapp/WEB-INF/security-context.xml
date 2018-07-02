@@ -39,7 +39,7 @@
         <beans:property name="url"
                         value="jdbc:postgresql://localhost:5432/h_school"/>
         <beans:property name="username" value="postgres"/>
-        <beans:property name="password" value="postgres"/>
+        <beans:property name="password" value="poetry"/>
     </beans:bean>
 
 
@@ -47,12 +47,9 @@
         <authentication-provider>
             <password-encoder ref="bcryptEncoder"/>
             <jdbc-user-service data-source-ref="dataSource"
-
                                users-by-username-query="SELECT login,password,enabled FROM users WHERE login = ? "
                                authorities-by-username-query=
                                        "SELECT  login, role FROM users WHERE login = ?"/>
-
         </authentication-provider>
     </authentication-manager>
-
 </beans:beans>
