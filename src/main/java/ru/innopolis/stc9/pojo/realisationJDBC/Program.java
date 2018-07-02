@@ -1,6 +1,9 @@
 package ru.innopolis.stc9.pojo.realisationJDBC;
 
 
+import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
+
 public class Program {
 
   private long id;

@@ -6,51 +6,51 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
-import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-
+import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
 
 @Repository
-public class SpecialityDaoHibernate implements SpecialityDao {
-    private static final Logger logger = Logger.getLogger(Speciality.class);
+public class SubjectDaoHibernate implements SubjectDao {
+    private static final Logger logger = Logger.getLogger(Subject.class);
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
-    private static final String WARN_NPE = "Null objest : speciality";
+    private static final String WARN_NPE = "Null objest : subject";
     private static final String DEBUC_AFTER = "Before exit.";
+   
     @Autowired
     private SessionFactory factory;
 
     @Override
-    public Speciality getById(long id) {
+    public Subject getById(long id) {
         logger.debug(DEBUG_BEFORE + id);
         Session session = factory.openSession();
-        Speciality speciality = (Speciality) session.get(Speciality.class, id);
+        Subject subject = (Subject) session.get(Subject.class, id);
         session.close();
-        logger.info(logResult(speciality != null));
-        return speciality;
+        logger.info(logResult(subject != null));
+        return subject;
     }
 
     @Override
-    public List<Speciality> getAllSpecialitys() {
+    public List<Subject> getAllSubjects() {
         logger.debug(DEBUG_BEFORE);
-        List<Speciality> specialityList = null;
+        List<Subject> subjectList = null;
         try (Session session = factory.openSession()) {
-            Query query = session.createQuery("FROM Speciality");
-            specialityList = query.list();
+            Query query = session.createQuery("FROM Subject");
+            subjectList = query.list();
             session.close();
         }
-        logger.info(logResult(!specialityList.isEmpty()) + specialityList.size());
-        return specialityList;
+        logger.info(logResult(!subjectList.isEmpty()) + subjectList.size());
+        return subjectList;
     }
 
     @Override
-    public void addOrUpdateSpeciality(Speciality speciality) {
+    public void addOrUpdateSubject(Subject subject) {
         logger.debug(DEBUG_BEFORE);
-        if (speciality != null) {
+        if (subject != null) {
             Session session = factory.openSession();
             session.beginTransaction();
-            session.saveOrUpdate(speciality);
+            session.saveOrUpdate(subject);
             session.getTransaction().commit();
             session.close();
         } else {
@@ -59,13 +59,13 @@ public class SpecialityDaoHibernate implements SpecialityDao {
     }
 
     @Override
-    public void deleteBySpecialityId(long id) {
+    public void deleteBySubjectId(long id) {
         logger.debug(DEBUG_BEFORE);
         if (id != 0) {
-            Speciality speciality = getById(id);
+            Subject subject = getById(id);
             Session session = factory.openSession();
             session.beginTransaction();
-            session.delete(speciality);
+            session.delete(subject);
             session.getTransaction().commit();
             session.close();
             logger.info(logResult());
@@ -77,27 +77,27 @@ public class SpecialityDaoHibernate implements SpecialityDao {
 
 
     @Override
-    public Speciality getByName(String name) {
-        Speciality speciality = null;
+    public Subject getByName(String name) {
+        Subject subject = null;
         if (name != null && !name.isEmpty()) {
             try (Session session = factory.openSession()) {
-                Query query = session.createQuery("FROM Speciality WHERE name = :param");
+                Query query = session.createQuery("FROM Subject WHERE name = :param");
                 query.setParameter("param", name);
                 if (query.list() != null && !query.list().isEmpty()) {
-                    speciality = (Speciality) query.list().get(0);
+                    subject = (Subject) query.list().get(0);
                 }
             }
         }
-        return speciality;
+        return subject;
     }
 
     @Override
-    public void toDetached(Speciality speciality) {
+    public void toDetached(Subject subject) {
         logger.debug(DEBUG_BEFORE);
-        if (speciality != null) {
+        if (subject != null) {
             Session session = factory.openSession();
             session.beginTransaction();
-            session.evict(speciality);
+            session.evict(subject);
             session.getTransaction().commit();
             session.close();
         } else {
@@ -112,4 +112,5 @@ public class SpecialityDaoHibernate implements SpecialityDao {
     private String logResult() {
         return "Unknown result of operation";
     }
+    
 }

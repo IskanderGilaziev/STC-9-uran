@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.realisationJDBC.TeacherSubject;
-import ru.innopolis.stc9.service.ISubjectService;
+import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;
 import ru.innopolis.stc9.service.ITeacherSubjectService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 

@@ -7,7 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.service.ISpecialityService;
+import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
+import ru.innopolis.stc9.service.hibernate.interfaces.ISpecialityService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,11 +44,11 @@ public class SpecialityController extends HttpServlet {
 
         if (action.equals("add")) {
               Speciality speciality = new Speciality(name, Integer.parseInt(semesterCount));
-            service.add(speciality);
+            service.addOrUpdate(speciality);
         } else {
             if (action.equals("update")) {
                 Speciality speciality = new Speciality(Long.parseLong(id), name, Long.parseLong(semesterCount));
-                service.updateById(speciality);
+                service.addOrUpdate(speciality);
             }
         }
         return "redirect:specialityAll";

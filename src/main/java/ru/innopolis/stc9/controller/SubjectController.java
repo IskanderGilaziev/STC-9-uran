@@ -7,7 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.service.ISubjectService;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
+import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +40,11 @@ public class SubjectController extends HttpServlet{
 
         if (action.equals("add")) {
             Subject subject = new Subject(name);
-            service.add(subject);
+            service.addOrUpdate(subject);
         } else {
             if (action.equals("update")) {
                 Subject subject = new Subject(Long.parseLong(id), name);
-                service.update(subject);
+                service.addOrUpdate(subject);
             }
         }
         return "redirect:subjectAll";

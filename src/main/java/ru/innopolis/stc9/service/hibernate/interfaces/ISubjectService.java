@@ -1,15 +1,16 @@
-package ru.innopolis.stc9.service;
+package ru.innopolis.stc9.service.hibernate.interfaces;
+
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
 
 public interface ISubjectService {
-    void update(Subject subject);
 
     Subject getById(long id);
 
     void deleteById(long id);
 
-    void add(Subject subject);
+    void addOrUpdate(Subject subject);
 
     List<Subject> getAll();
 }

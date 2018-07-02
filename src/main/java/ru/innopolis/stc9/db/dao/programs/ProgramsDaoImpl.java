@@ -4,8 +4,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.db.dao.speciality.SpecialityDao;
-import ru.innopolis.stc9.db.dao.subjects.SubjectDao;
+
+import ru.innopolis.stc9.db.hibernate.dao.implementations.SpecialityDaoHibernate;
+import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
+import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
 import ru.innopolis.stc9.pojo.realisationJDBC.Program;
 
 import java.sql.Connection;
@@ -22,6 +24,7 @@ public class ProgramsDaoImpl implements ProgramsDao {
 
     @Autowired
     SpecialityDao spdi;
+
     @Autowired
     SubjectDao sjdi;
 
