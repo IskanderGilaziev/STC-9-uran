@@ -1,18 +1,17 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
-@Component
 @Entity
-@Table(name = "subject")
+@Table(name = "subjects")
 public class Subject {
 
     private long id;
-
-    @Column(nullable = false)
     private String name;
+    private Set<Program> programs = new HashSet<Program>();
 
     public Subject() {
     }
@@ -46,22 +45,30 @@ public class Subject {
         this.name = name;
     }
 
+    @OneToMany(mappedBy = "program", fetch = FetchType.LAZY)
+    public Set<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(Set<Program> programs) {
+        this.programs = programs;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Subject subject = (Subject) o;
+        Subject that = (Subject) o;
 
-        if (id != subject.id) return false;
-        return name != null ? name.equals(subject.name) : subject.name == null;
+        return id == that.id &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(programs, that.programs);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return Objects.hash(id, name, programs);
     }
 
     @Override

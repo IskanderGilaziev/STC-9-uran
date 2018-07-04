@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.hibernate.entities.Program;
-import ru.innopolis.stc9.service.IProgramService;
 import ru.innopolis.stc9.service.hibernate.interfaces.ISpecialityService;
 import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;
+import ru.innopolis.stc9.service.hibernate.interfaces.ProgramService;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @Controller
-public class ProgramController extends HttpServlet {
+public class ProgramController {
     private static final Logger logger = Logger.getLogger(ProgramController.class);
 
     @Autowired
-    private IProgramService progService;
+    private ProgramService progService;
 
     @Autowired
     private ISpecialityService specService;
@@ -63,7 +63,7 @@ public class ProgramController extends HttpServlet {
                                         , Integer.parseInt(semester)
                                         , subjService.getById(Integer.parseInt(subject))
                                         , Integer.parseInt(hours));
-            progService.add(program);
+            progService.addOrUpdate(program);
         }
         else {
             if (action.equals("update")) {
@@ -73,7 +73,7 @@ public class ProgramController extends HttpServlet {
                                              , Integer.parseInt(semester)
                                              , subjService.getById(Integer.parseInt(subject))
                                              , Integer.parseInt(hours));
-                progService.update(program);
+                progService.addOrUpdate(program);
             }
         }
         return "redirect:programAll";

@@ -7,36 +7,40 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Component
 @Entity
-@Table(name = "speciality")
+@Table(name = "specialities")
 public class Speciality {
 
     private long id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private long semesterCount;
-
-    @Column(nullable = false)
     private Set<Program> programs = new HashSet<Program>();
 
     public Speciality() {
     }
 
-
-    public Speciality(long id, String name, long semesterCount, Program program) {
+    public Speciality(long id, String name, long semesterCount) {
         this.id = id;
         this.name = name;
         this.semesterCount = semesterCount;
     }
 
-
-    public Speciality(String name, long semesterCount, Program program) {
+    public Speciality(String name, long semesterCount) {
         this.name = name;
         this.semesterCount = semesterCount;
+    }
+
+    public Speciality(long id, String name, long semesterCount, Set<Program> programs) {
+        this.id = id;
+        this.name = name;
+        this.semesterCount = semesterCount;
+        this.programs = programs;
+    }
+
+    public Speciality(String name, long semesterCount, Set<Program> programs) {
+        this.name = name;
+        this.semesterCount = semesterCount;
+        this.programs = programs;
     }
 
     @Id
@@ -65,6 +69,7 @@ public class Speciality {
     public void setSemesterCount(long semesterCount) {
         this.semesterCount = semesterCount;
     }
+
     @OneToMany(mappedBy = "programs", fetch = FetchType.LAZY)
     public Set<Program> getPrograms() {
         return programs;
@@ -85,7 +90,6 @@ public class Speciality {
                 Objects.equals(name, that.name) &&
                 semesterCount == that.semesterCount &&
                 Objects.equals(programs, that.programs);
-
     }
 
     @Override

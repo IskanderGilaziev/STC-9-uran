@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.realisationJDBC.Group;
 import ru.innopolis.stc9.pojo.hibernate.entities.Program;
 import ru.innopolis.stc9.service.IGroupService;
-import ru.innopolis.stc9.service.IProgramService;
+import ru.innopolis.stc9.service.hibernate.interfaces.ProgramService;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class GroupController {
     @Autowired
     private IGroupService service;
     @Autowired
-    private IProgramService programService;
+    private ProgramService programService;
 
     @RequestMapping(value = "/addGroup", method = RequestMethod.GET)
     public String addGroup(Model model) {

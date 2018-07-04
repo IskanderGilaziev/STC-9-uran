@@ -1,33 +1,30 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 
-@Component
 @Entity
 @Table(name = "programs")
 public class Program {
 
-  public Program() {
-  }
-
   private long id;
-  private Speciality specialty;
+  private Speciality speciality;
   private long semester;
   private Subject subject;
   private long hours;
 
-  public Program(long id, Speciality specialty, long semester, Subject subject, long hours) {
+    public Program() {
+    }
+
+  public Program(long id, Speciality speciality, long semester, Subject subject, long hours) {
     this.id = id;
-    this.specialty = specialty;
+    this.speciality = speciality;
     this.semester = semester;
     this.subject = subject;
     this.hours = hours;
   }
 
-  public Program(Speciality specialty, long semester, Subject subject, long hours) {
-    this.specialty = specialty;
+  public Program(Speciality speciality, long semester, Subject subject, long hours) {
+    this.speciality = speciality;
     this.semester = semester;
     this.subject = subject;
     this.hours = hours;
@@ -45,13 +42,13 @@ public class Program {
     this.id = id;
   }
 
-  @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   public Speciality getSpecialty() {
-    return specialty;
+    return speciality;
   }
 
-  public void setSpecialty(Speciality specialty) {
-    this.specialty = specialty;
+  public void setSpecialty(Speciality speciality) {
+    this.speciality = speciality;
   }
 
   public long getSemester() {
@@ -62,6 +59,7 @@ public class Program {
     this.semester = semester;
   }
 
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   public Subject getSubject() {
     return subject;
   }
@@ -88,14 +86,14 @@ public class Program {
     if (id != program.id) return false;
     if (semester != program.semester) return false;
     if (hours != program.hours) return false;
-    if (specialty != null ? !specialty.equals(program.specialty) : program.specialty != null) return false;
+    if (speciality != null ? !speciality.equals(program.speciality) : program.speciality != null) return false;
     return subject != null ? subject.equals(program.subject) : program.subject == null;
   }
 
   @Override
   public int hashCode() {
     int result = (int) (id ^ (id >>> 32));
-    result = 31 * result + (specialty != null ? specialty.hashCode() : 0);
+    result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
     result = 31 * result + (int) (semester ^ (semester >>> 32));
     result = 31 * result + (subject != null ? subject.hashCode() : 0);
     result = 31 * result + (int) (hours ^ (hours >>> 32));
@@ -106,7 +104,7 @@ public class Program {
   public String toString() {
     return "Program{" +
             "id=" + id +
-            ", specialty=" + specialty +
+            ", speciality=" + speciality +
             ", semester=" + semester +
             ", subject=" + subject +
             ", hours=" + hours +

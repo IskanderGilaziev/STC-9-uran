@@ -4,8 +4,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.db.dao.programs.ProgramsDao;
+import ru.innopolis.stc9.db.hibernate.dao.interfaces.ProgramDao;
 import ru.innopolis.stc9.pojo.realisationJDBC.Group;
+import ru.innopolis.stc9.service.hibernate.interfaces.ProgramService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @Component
 public class GroupsDaoImpl implements GroupsDao {
     private static final Logger logger = Logger.getLogger(GroupsDaoImpl.class);
@@ -22,7 +24,7 @@ public class GroupsDaoImpl implements GroupsDao {
     public  final String ClassName= this.getClass().getName();
 
     @Autowired
-    private ProgramsDao programsDao;
+    private ProgramDao programDao;
     
     @Override
     public Group getById(long id) throws SQLException {
@@ -102,7 +104,7 @@ public class GroupsDaoImpl implements GroupsDao {
         return new Group(
                 resultSet.getLong("id")
                 , resultSet.getLong("cur_semester_education")
-                , programsDao.getById(resultSet.getLong("program")));
+                , programDao.getById(resultSet.getLong("program")));
     }
 
     @Override
@@ -111,11 +113,11 @@ public class GroupsDaoImpl implements GroupsDao {
 
         String sql = "INSERT INTO groups (cur_semester_education, program) VALUES (?,?)";
 
-        execureStatement(group, sql);
+        executeStatement(group, sql);
         logger.info("Class "+ClassName+" method add finished");
     }
 
-    private void execureStatement(Group group, String sql) throws SQLException {
+    private void executeStatement(Group group, String sql) throws SQLException {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, group.getCurSemesterEducation());
@@ -132,7 +134,7 @@ public class GroupsDaoImpl implements GroupsDao {
 
         String sql = "UPDATE groups SET cur_semester_education = ?, program = ? WHERE id = "+group.getId()+"";
 
-        execureStatement(group, sql);
+        executeStatement(group, sql);
         logger.info("Class "+ClassName+" method update finished, id = " + group.getId());
     }
 
