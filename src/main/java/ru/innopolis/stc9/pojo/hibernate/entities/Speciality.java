@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "specialities")
+@Table(name = "speciality")
 public class Speciality {
 
     private long id;
@@ -19,32 +19,33 @@ public class Speciality {
     public Speciality() {
     }
 
-    public Speciality(long id, String name, long semesterCount) {
-        this.id = id;
-        this.name = name;
-        this.semesterCount = semesterCount;
-    }
-
-    public Speciality(String name, long semesterCount) {
-        this.name = name;
-        this.semesterCount = semesterCount;
-    }
-
-    public Speciality(long id, String name, long semesterCount, Set<Program> programs) {
-        this.id = id;
-        this.name = name;
-        this.semesterCount = semesterCount;
-        this.programs = programs;
-    }
-
-    public Speciality(String name, long semesterCount, Set<Program> programs) {
-        this.name = name;
-        this.semesterCount = semesterCount;
-        this.programs = programs;
-    }
+//    public Speciality(long id, String name, long semesterCount) {
+//        this.id = id;
+//        this.name = name;
+//        this.semesterCount = semesterCount;
+//    }
+//
+//    public Speciality(String name, long semesterCount) {
+//        this.name = name;
+//        this.semesterCount = semesterCount;
+//    }
+//
+//    public Speciality(long id, String name, long semesterCount, Set<Program> programs) {
+//        this.id = id;
+//        this.name = name;
+//        this.semesterCount = semesterCount;
+//        this.programs = programs;
+//    }
+//
+//    public Speciality(String name, long semesterCount, Set<Program> programs) {
+//        this.name = name;
+//        this.semesterCount = semesterCount;
+//        this.programs = programs;
+//    }
 
     @Id
-    @SequenceGenerator(name = "specialitySeq", sequenceName = "speciality_SEQUENCE", allocationSize = 1)
+    @SequenceGenerator(name = "specialitySeq", sequenceName = "speciality_SEQUENCE")
+//    , allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "specialitySeq")
     public long getId() {
         return id;
@@ -70,7 +71,8 @@ public class Speciality {
         this.semesterCount = semesterCount;
     }
 
-    @OneToMany(mappedBy = "programs", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "speciality", fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY)
     public Set<Program> getPrograms() {
         return programs;
     }

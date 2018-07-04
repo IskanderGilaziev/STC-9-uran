@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "subjects")
+@Table(name = "subject")
 public class Subject {
 
     private long id;
@@ -26,7 +26,8 @@ public class Subject {
     }
 
     @Id
-    @SequenceGenerator(name = "subjectSeq", sequenceName = "subject_SEQUENCE", allocationSize = 1)
+    @SequenceGenerator(name = "subjectSeq", sequenceName = "subject_SEQUENCE")
+//    , allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectSeq")
     public long getId() {
         return id;
@@ -36,7 +37,6 @@ public class Subject {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
@@ -45,7 +45,10 @@ public class Subject {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "program", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "program_subject",
+            joinColumns = @JoinColumn(name = "program_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
     public Set<Program> getPrograms() {
         return programs;
     }

@@ -59,21 +59,22 @@ public class ProgramController {
                                     @RequestAttribute String hours, Model model) {
 
         if (action.equals("add")) {
-            Program program = new Program(specService.getById(Integer.parseInt(specialty))
-                                        , Integer.parseInt(semester)
-                                        , subjService.getById(Integer.parseInt(subject))
-                                        , Integer.parseInt(hours));
-            progService.addOrUpdate(program);
+            // TODO: 04.07.2018 Here
+//            Program program = new Program(specService.getById(Integer.parseInt(specialty))
+//                                        , Integer.parseInt(semester)
+//                                        , subjService.getById(Integer.parseInt(subject))
+//                                        , Integer.parseInt(hours));
+//            progService.addOrUpdate(program);
         }
         else {
             if (action.equals("update")) {
-
-                Program program = new Program( Integer.parseInt(id)
-                                             , specService.getById(Integer.parseInt(specialty))
-                                             , Integer.parseInt(semester)
-                                             , subjService.getById(Integer.parseInt(subject))
-                                             , Integer.parseInt(hours));
-                progService.addOrUpdate(program);
+// TODO: 04.07.2018 here
+//                Program program = new Program( Integer.parseInt(id)
+//                                             , specService.getById(Integer.parseInt(specialty))
+//                                             , Integer.parseInt(semester)
+//                                             , subjService.getById(Integer.parseInt(subject))
+//                                             , Integer.parseInt(hours));
+//                progService.addOrUpdate(program);
             }
         }
         return "redirect:programAll";
@@ -118,15 +119,15 @@ public class ProgramController {
                             @RequestAttribute String id, Model model) {
         Program program = progService.getById(Long.parseLong(id));
 
-        String specName = program.getSpecialty().getName();
-        String subjName = program.getSubject().getName();
+        String specName = program.getSpeciality().getName();
+        // TODO: 04.07.2018      String subjName = program.getSubject().getName();
         String semCount = String.valueOf(program.getSemester());
         String hourCount = String.valueOf(program.getHours());
 
         model.addAttribute("program", program);
         model.addAttribute("specialty", specName);
         model.addAttribute("semester", semCount);
-        model.addAttribute("subject", subjName);
+        // TODO: 04.07.2018        model.addAttribute("subject", subjName);
         model.addAttribute("hours", hourCount);
 
         return "/getProgram";

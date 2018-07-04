@@ -1,15 +1,17 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "programs")
+@Table(name = "program")
 public class Program {
 
   private long id;
   private Speciality speciality;
   private long semester;
-  private Subject subject;
+  private Set<Subject> subjects = new HashSet<>();
   private long hours;
 
     public Program() {
@@ -19,14 +21,14 @@ public class Program {
     this.id = id;
     this.speciality = speciality;
     this.semester = semester;
-    this.subject = subject;
+//    this.subject = subject;
     this.hours = hours;
   }
-
+//
   public Program(Speciality speciality, long semester, Subject subject, long hours) {
     this.speciality = speciality;
     this.semester = semester;
-    this.subject = subject;
+//    this.subject = subject;
     this.hours = hours;
   }
 
@@ -42,14 +44,27 @@ public class Program {
     this.id = id;
   }
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  public Speciality getSpecialty() {
+  @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  public Speciality getSpeciality() {
     return speciality;
   }
 
-  public void setSpecialty(Speciality speciality) {
+  public void setSubjects(Set<Subject> subjects) {
+    this.subjects = subjects;
+  }
+
+  public void setSpeciality(Speciality speciality) {
     this.speciality = speciality;
   }
+
+
+//  public Speciality getSpecialty() {
+//    return speciality;
+//  }
+//
+//  public void setSpecialty(Speciality speciality) {
+//    this.speciality = speciality;
+//  }
 
   public long getSemester() {
     return semester;
@@ -59,14 +74,25 @@ public class Program {
     this.semester = semester;
   }
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  public Subject getSubject() {
-    return subject;
+  @ManyToMany //(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinTable(name = "program_subject",
+          joinColumns = @JoinColumn(name = "program_id"),
+          inverseJoinColumns = @JoinColumn(name = "subject_id"))
+  public Set<Subject> getSubjects() {
+    return subjects;
   }
 
-  public void setSubject( Subject subject ) {
-    this.subject = subject;
+  public void setSubject(Set<Subject> subjects) {
+    this.subjects = subjects;
   }
+
+//  public Subject getSubject() {
+//    return subject;
+//  }
+//
+//  public void setSubject( Subject subject ) {
+//    this.subject = subject;
+//  }
 
   public long getHours() {
     return hours;
@@ -87,7 +113,7 @@ public class Program {
     if (semester != program.semester) return false;
     if (hours != program.hours) return false;
     if (speciality != null ? !speciality.equals(program.speciality) : program.speciality != null) return false;
-    return subject != null ? subject.equals(program.subject) : program.subject == null;
+    return subjects != null ? subjects.equals(program.subjects) : program.subjects == null;
   }
 
   @Override
@@ -95,7 +121,7 @@ public class Program {
     int result = (int) (id ^ (id >>> 32));
     result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
     result = 31 * result + (int) (semester ^ (semester >>> 32));
-    result = 31 * result + (subject != null ? subject.hashCode() : 0);
+    result = 31 * result + (subjects != null ? subjects.hashCode() : 0);
     result = 31 * result + (int) (hours ^ (hours >>> 32));
     return result;
   }
@@ -106,7 +132,7 @@ public class Program {
             "id=" + id +
             ", speciality=" + speciality +
             ", semester=" + semester +
-            ", subject=" + subject +
+            ", subjects=" + subjects +
             ", hours=" + hours +
             '}';
   }

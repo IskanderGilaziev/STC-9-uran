@@ -81,8 +81,8 @@ public class Group {
      */
     public String generateGroupName() {
         StringBuffer str = new StringBuffer();
-        if (program != null && program.getSpecialty() != null && program.getSpecialty().getName() != null) {
-            str.append(program.getSpecialty().getName().substring(0, 5));
+        if (program != null && program.getSpeciality() != null && program.getSpeciality().getName() != null) {
+            str.append(program.getSpeciality().getName().substring(0, 5));
         }
         str.append("-");
         if (curSemesterEducation >= 0) {
