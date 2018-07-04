@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
-import ru.innopolis.stc9.pojo.realisationJDBC.Program;
+import ru.innopolis.stc9.pojo.hibernate.entities.Program;
 import ru.innopolis.stc9.service.IProgramService;
 import ru.innopolis.stc9.service.hibernate.interfaces.ISpecialityService;
 import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;

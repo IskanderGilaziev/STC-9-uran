@@ -1,5 +1,7 @@
 package ru.innopolis.stc9.pojo.realisationJDBC;
 
+import ru.innopolis.stc9.pojo.hibernate.entities.Program;
+
 public class Group {
 
   private long id;

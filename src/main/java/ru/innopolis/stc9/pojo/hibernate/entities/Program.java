@@ -1,10 +1,16 @@
-package ru.innopolis.stc9.pojo.realisationJDBC;
+package ru.innopolis.stc9.pojo.hibernate.entities;
 
+import org.springframework.stereotype.Component;
 
-import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
+import javax.persistence.*;
 
+@Component
+@Entity
+@Table(name = "programs")
 public class Program {
+
+  public Program() {
+  }
 
   private long id;
   private Speciality specialty;
@@ -27,6 +33,10 @@ public class Program {
     this.hours = hours;
   }
 
+  @Id
+  @Column(unique = true)
+  @SequenceGenerator(name = "programSeq", sequenceName = "PROGRAM_SEQUENCE")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "programSeq")
   public long getId() {
     return id;
   }
@@ -35,6 +45,7 @@ public class Program {
     this.id = id;
   }
 
+  @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   public Speciality getSpecialty() {
     return specialty;
   }
@@ -55,7 +66,7 @@ public class Program {
     return subject;
   }
 
-  public void setSubject(Subject subject) {
+  public void setSubject( Subject subject ) {
     this.subject = subject;
   }
 

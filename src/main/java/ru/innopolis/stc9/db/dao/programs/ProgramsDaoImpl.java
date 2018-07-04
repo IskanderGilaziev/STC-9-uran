@@ -5,10 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
 
-import ru.innopolis.stc9.db.hibernate.dao.implementations.SpecialityDaoHibernate;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
-import ru.innopolis.stc9.pojo.realisationJDBC.Program;
+import ru.innopolis.stc9.pojo.hibernate.entities.Program;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

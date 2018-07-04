@@ -3,6 +3,9 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Component
 @Entity
@@ -10,21 +13,28 @@ import javax.persistence.*;
 public class Speciality {
 
     private long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private long semesterCount;
+
+    @Column(nullable = false)
+    private Set<Program> programs = new HashSet<Program>();
 
     public Speciality() {
     }
 
-    public Speciality(long id, String name, long semesterCount) {
+
+    public Speciality(long id, String name, long semesterCount, Program program) {
         this.id = id;
         this.name = name;
         this.semesterCount = semesterCount;
     }
 
-    public Speciality(String name, long semesterCount) {
+
+    public Speciality(String name, long semesterCount, Program program) {
         this.name = name;
         this.semesterCount = semesterCount;
     }
@@ -55,6 +65,14 @@ public class Speciality {
     public void setSemesterCount(long semesterCount) {
         this.semesterCount = semesterCount;
     }
+    @OneToMany(mappedBy = "programs", fetch = FetchType.LAZY)
+    public Set<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(Set<Program> programs) {
+        this.programs = programs;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -63,17 +81,16 @@ public class Speciality {
 
         Speciality that = (Speciality) o;
 
-        if (id != that.id) return false;
-        if (semesterCount != that.semesterCount) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
+        return id == that.id &&
+                Objects.equals(name, that.name) &&
+                semesterCount == that.semesterCount &&
+                Objects.equals(programs, that.programs);
+
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) (semesterCount ^ (semesterCount >>> 32));
-        return result;
+        return Objects.hash(id, name, semesterCount, programs);
     }
 
     @Override
@@ -82,6 +99,7 @@ public class Speciality {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", semesterCount=" + semesterCount +
+                ", Program=" + programs.toString() +
                 '}';
     }
 }
