@@ -76,12 +76,12 @@ public class PersonDaoHibernate implements PersonDao {
     }
 
     @Override
-    public List<Person> getPersonByRole(int role) {
+    public List<Person> getPersonByRole(Status status) {
         logger.debug(DEBUG_BEFORE);
         List<Person> personList;
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM Person where status = :role");
-            query.setParameter("param", Status.values()[role]);
+            query.setParameter("role", status);
             personList = query.list();
         }
         logger.info(logResult(!personList.isEmpty()) + personList.size());

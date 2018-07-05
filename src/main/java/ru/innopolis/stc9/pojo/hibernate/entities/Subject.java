@@ -3,6 +3,10 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -13,6 +17,8 @@ public class Subject {
 
     @Column(nullable = false)
     private String name;
+
+    private Set<Lesson> lessonList = new HashSet<Lesson>();
 
     public Subject() {
     }
@@ -44,6 +50,15 @@ public class Subject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    public Set<Lesson> getLessonList() {
+        return lessonList;
+    }
+
+    public void setLessonList(Set<Lesson> lessonList) {
+        this.lessonList = lessonList;
     }
 
     @Override

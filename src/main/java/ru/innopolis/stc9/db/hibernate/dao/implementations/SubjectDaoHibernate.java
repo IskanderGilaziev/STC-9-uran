@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;

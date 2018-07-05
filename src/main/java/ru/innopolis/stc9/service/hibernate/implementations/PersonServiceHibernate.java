@@ -88,7 +88,7 @@ public class PersonServiceHibernate implements PersonService {
     public List<Person> getTeachers() {
         logger.info(this.getClass().getName() + " method getTeachers started");
         List<Person> teacherList;
-        teacherList = personDao.getPersonByRole(3);
+        teacherList = personDao.getPersonByRole(Status.teacher);
         logger.info(this.getClass().getName() + " method getTeachers finished");
         return teacherList;
     }

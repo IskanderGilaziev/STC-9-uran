@@ -14,7 +14,7 @@ public interface PersonDao {
 
     void deleteByPersonId(long id);
 
-    List<Person> getPersonByRole(int role);
+    List<Person> getPersonByRole(Status status);
 
     List<Person> getPersonByRoleAndNullUser(Status status);
 
