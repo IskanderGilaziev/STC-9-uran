@@ -3,12 +3,14 @@ package ru.innopolis.stc9.service.hibernate.implementations;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.service.hibernate.interfaces.ISpecialityService;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class SpecialityService implements ISpecialityService {
     private static final Logger logger = Logger.getLogger(SpecialityService.class);

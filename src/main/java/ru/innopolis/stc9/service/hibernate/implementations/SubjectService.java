@@ -7,8 +7,10 @@ import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Service
 public class SubjectService implements ISubjectService {
     private static final Logger logger = Logger.getLogger(SubjectService.class);

@@ -7,8 +7,10 @@ import ru.innopolis.stc9.db.hibernate.dao.interfaces.ProgramDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Program;
 import ru.innopolis.stc9.service.hibernate.interfaces.ProgramService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Service
 public class ProgramServiceHibernate implements ProgramService {
 

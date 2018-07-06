@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.UserDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
@@ -11,6 +12,7 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
 import ru.innopolis.stc9.service.hibernate.interfaces.UserService;
 
+@Transactional
 @Service
 public class UserServiceHibernate implements UserService {
     private static final Logger logger = Logger.getLogger(UserServiceHibernate.class);
