@@ -103,7 +103,7 @@ public class Person {
         this.user = user;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Team getTeam() {
         return team;
     }
