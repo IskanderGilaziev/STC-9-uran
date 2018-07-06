@@ -9,7 +9,6 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.util.List;
 
 @Transactional
@@ -42,9 +41,11 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public Lesson add(Subject subject, String teacher_item, String date, String theme, String homework) {
-        Lesson lesson = new Lesson(subject, Integer.parseInt(teacher_item), Date.valueOf(date), theme, homework);
+        // TODO: 06.07.2018
+        /*Lesson lesson = new Lesson(subject, Integer.parseInt(teacher_item), Date.valueOf(date), theme, homework);
         addOrUpdateById(lesson);
-        return lesson;
+        return lesson;*/
+        return null;
     }
 
     @Override

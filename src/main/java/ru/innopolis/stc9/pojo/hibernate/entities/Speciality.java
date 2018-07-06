@@ -3,6 +3,9 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Component
 @Entity
@@ -10,10 +13,14 @@ import javax.persistence.*;
 public class Speciality {
 
     private long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private long semesterCount;
+
+    private Set<Program> programs = new HashSet<Program>();
 
     public Speciality() {
     }
@@ -56,24 +63,30 @@ public class Speciality {
         this.semesterCount = semesterCount;
     }
 
+    @OneToMany(mappedBy = "speciality", fetch = FetchType.LAZY)
+    public Set<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(Set<Program> programs) {
+        this.programs = programs;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Speciality that = (Speciality) o;
-
-        if (id != that.id) return false;
-        if (semesterCount != that.semesterCount) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
+        return id == that.id &&
+                semesterCount == that.semesterCount &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(programs, that.programs);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) (semesterCount ^ (semesterCount >>> 32));
-        return result;
+
+        return Objects.hash(id, name, semesterCount, programs);
     }
 
     @Override
@@ -82,6 +95,7 @@ public class Speciality {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", semesterCount=" + semesterCount +
+                ", programs=" + programs +
                 '}';
     }
 }

@@ -5,9 +5,9 @@
 
     <bean id="datasourceLocal" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/h_school"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="poetry"/>
+        <property name="url" value="jdbc:postgresql://192.168.1.65:5432/h_school"/>
+        <property name="username" value="postgreadmin"/>
+        <property name="password" value="postgres"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

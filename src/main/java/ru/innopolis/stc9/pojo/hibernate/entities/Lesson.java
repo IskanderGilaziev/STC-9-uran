@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Objects;
 
 @Component
 @Entity
@@ -12,7 +13,7 @@ public class Lesson {
     private long id;
 
     @Column(nullable = false)
-    private long teacherItem;
+    private Person person;
 
     @Column(nullable = false)
     private Date date;
@@ -26,32 +27,12 @@ public class Lesson {
     @JoinColumn(name = "subjectId", nullable = false)
     private Subject subject;
 
+    @Column(nullable = false)
+    private Team team;
+
     public Lesson() {
     }
 
-    public Lesson(Subject subject, long teacherItem, Date date, String theme, String homework) {
-        this.subject = subject;
-        this.teacherItem = teacherItem;
-        this.date = date;
-        this.theme = theme;
-        this.homework = homework;
-    }
-
-    public Lesson(Subject subject, long teacherItem, Date date, String theme) {
-        this.subject = subject;
-        this.teacherItem = teacherItem;
-        this.date = date;
-        this.theme = theme;
-    }
-
-    public Lesson(long id, Subject subject, long teacherItem, Date date, String theme, String homework) {
-        this.id = id;
-        this.subject = subject;
-        this.teacherItem = teacherItem;
-        this.date = date;
-        this.theme = theme;
-        this.homework = homework;
-    }
 
     @Id
     @Column(unique = true)
@@ -63,14 +44,6 @@ public class Lesson {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getTeacherItem() {
-        return teacherItem;
-    }
-
-    public void setTeacherItem(long teacherItem) {
-        this.teacherItem = teacherItem;
     }
 
     public Date getDate() {
@@ -106,14 +79,54 @@ public class Lesson {
         this.subject = subject;
     }
 
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lesson lesson = (Lesson) o;
+        return id == lesson.id &&
+                Objects.equals(person, lesson.person) &&
+                Objects.equals(date, lesson.date) &&
+                Objects.equals(theme, lesson.theme) &&
+                Objects.equals(homework, lesson.homework) &&
+                Objects.equals(subject, lesson.subject) &&
+                Objects.equals(team, lesson.team);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, person, date, theme, homework, subject, team);
+    }
+
     @Override
     public String toString() {
         return "Lesson{" +
                 "id=" + id +
-                ", teacherItem=" + teacherItem +
+                ", person=" + person +
                 ", date=" + date +
                 ", theme='" + theme + '\'' +
                 ", homework='" + homework + '\'' +
+                ", subject=" + subject +
+                ", team=" + team +
                 '}';
     }
 }

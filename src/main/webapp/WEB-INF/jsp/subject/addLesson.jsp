@@ -12,8 +12,8 @@
     <ul>
         <li><label for="teacherItem">Выберите преподавателя: </label>
             <select id="teacherItem" name="teacherItem">
-                <c:forEach var="teacher" items="${teacherList}">
-                    <option value="${teacher.id}">${teacher.name}</option>
+                <c:forEach var="person" items="${teacherList}">
+                    <option value="${person.id}">${person.name}</option>
                 </c:forEach>
             </select></li>
         <li><label for="date">Дата проведения:</label>

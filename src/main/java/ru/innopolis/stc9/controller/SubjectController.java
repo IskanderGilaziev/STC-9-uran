@@ -14,7 +14,6 @@ import ru.innopolis.stc9.service.hibernate.implementations.SubjectService;
 import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -147,11 +146,12 @@ public class SubjectController extends HttpServlet{
                                 @RequestAttribute Date date,
                                 @RequestAttribute String theme,
                                 @RequestAttribute String homework, Model model) {
-        Lesson lesson = new Lesson(Long.parseLong(id),
+        // TODO: 06.07.2018
+        /*Lesson lesson = new Lesson(Long.parseLong(id),
                 service.getById(Long.parseLong(subjectId)),
                 teacher_item, date , theme, homework);
         lessonService.addOrUpdateById(lesson);
-        model.addAttribute("lesson", lesson);
+        model.addAttribute("lesson", lesson);*/
         model.addAttribute("id", subjectId);
         return "redirect:subject";
     }

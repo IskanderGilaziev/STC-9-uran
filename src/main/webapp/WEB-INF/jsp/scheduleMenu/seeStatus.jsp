@@ -85,7 +85,7 @@
             <%}%>
         </tr>
 
-        <%--row with teacher's names--%>
+        <%--row with person's names--%>
         <tr>
             <%
                 for (Group group : groups) {

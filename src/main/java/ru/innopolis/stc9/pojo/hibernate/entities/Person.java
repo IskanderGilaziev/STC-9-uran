@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Component
 @Entity
@@ -26,6 +29,11 @@ public class Person {
 
     @Column(nullable = true)
     private User user;
+
+    @Column(nullable = true)
+    private Team team;
+
+    private Set<Lesson> lessonSet = new HashSet<>();
 
     public Person() {
     }
@@ -95,30 +103,43 @@ public class Person {
         this.user = user;
     }
 
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    public Set<Lesson> getLessonSet() {
+        return lessonSet;
+    }
+
+    public void setLessonSet(Set<Lesson> lessonSet) {
+        this.lessonSet = lessonSet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Person person = (Person) o;
-
-        if (id != person.id) return false;
-        if (name != null ? !name.equals(person.name) : person.name != null) return false;
-        if (birthday != null ? !birthday.equals(person.birthday) : person.birthday != null) return false;
-        if (email != null ? !email.equals(person.email) : person.email != null) return false;
-        if (status != person.status) return false;
-        return user != null ? user.equals(person.user) : person.user == null;
+        return id == person.id &&
+                Objects.equals(name, person.name) &&
+                Objects.equals(birthday, person.birthday) &&
+                Objects.equals(email, person.email) &&
+                status == person.status &&
+                Objects.equals(user, person.user) &&
+                Objects.equals(team, person.team) &&
+                Objects.equals(lessonSet, person.lessonSet);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, name, birthday, email, status, user, team, lessonSet);
     }
 
     @Override
@@ -128,8 +149,10 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", birthday=" + birthday +
                 ", email='" + email + '\'' +
-//                ", status=" + status +
-//                ", user=" + user +
+                ", status=" + status +
+                ", user=" + user +
+                ", team=" + team +
+                ", lessonSet=" + lessonSet +
                 '}';
     }
 }

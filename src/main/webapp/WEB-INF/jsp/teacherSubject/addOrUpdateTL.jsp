@@ -21,10 +21,10 @@
         <li>
             <label for="teacherItem">Преподаватель:</label>
             <select id="teacherItem" name="teacher_item">
-                <c:forEach var="teacher" items="${teacherList}">
-                    <c:set var="teacher_item" value="${teacher.id}"></c:set>
+                <c:forEach var="person" items="${teacherList}">
+                    <c:set var="teacher_item" value="${person.id}"></c:set>
                     <option value="${teacher_item}"
-                            <c:if test="${teacherSubject.teacherItem eq teacher_item}">selected</c:if>>${teacher.name}</option>
+                            <c:if test="${teacherSubject.teacherItem eq teacher_item}">selected</c:if>>${person.name}</option>
                 </c:forEach>
             </select>
         </li>

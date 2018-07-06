@@ -3,9 +3,8 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Component
@@ -17,6 +16,8 @@ public class Subject {
 
     @Column(nullable = false)
     private String name;
+
+    private Set<Program> programSet = new HashSet<Program>();
 
     private Set<Lesson> lessonList = new HashSet<Lesson>();
 
@@ -52,6 +53,18 @@ public class Subject {
         this.name = name;
     }
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "program_subject",
+            joinColumns = @JoinColumn(name = "program_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    public Set<Program> getProgramSet() {
+        return programSet;
+    }
+
+    public void setProgramSet(Set<Program> programSet) {
+        this.programSet = programSet;
+    }
+
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
     public Set<Lesson> getLessonList() {
         return lessonList;
@@ -65,18 +78,17 @@ public class Subject {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Subject subject = (Subject) o;
-
-        if (id != subject.id) return false;
-        return name != null ? name.equals(subject.name) : subject.name == null;
+        return id == subject.id &&
+                Objects.equals(name, subject.name) &&
+                Objects.equals(programSet, subject.programSet) &&
+                Objects.equals(lessonList, subject.lessonList);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, name, programSet, lessonList);
     }
 
     @Override
@@ -84,6 +96,8 @@ public class Subject {
         return "Subject{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", programSet=" + programSet +
+                ", lessonList=" + lessonList +
                 '}';
     }
 }
