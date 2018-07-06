@@ -90,9 +90,9 @@ public class Program {
 //    return subject;
 //  }
 //
-//  public void setSubject( Subject subject ) {
-//    this.subject = subject;
-//  }
+  public void setSubject( Subject subject ) {
+    this.subjects.add(subject);
+  }
 
   public long getHours() {
     return hours;

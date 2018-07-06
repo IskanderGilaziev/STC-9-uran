@@ -43,14 +43,18 @@ public class SpecialityController extends HttpServlet {
                                     @RequestAttribute String semesterCount, Model model) {
 
         if (action.equals("add")) {
-            // TODO: 04.07.2018 here
-//              Speciality speciality = new Speciality(name, Integer.parseInt(semesterCount));
-//            service.addOrUpdate(speciality);
+
+              Speciality speciality = new Speciality();
+              speciality.setName(name);
+              speciality.setSemesterCount(Integer.parseInt(semesterCount));
+            service.addOrUpdate(speciality);
         } else {
             if (action.equals("update")) {
-                // TODO: 04.07.2018 here
-//                Speciality speciality = new Speciality(Long.parseLong(id), name, Long.parseLong(semesterCount));
-//                service.addOrUpdate(speciality);
+
+                Speciality speciality = service.getById(Long.parseLong(id));
+                speciality.setName(name);
+                speciality.setSemesterCount(Integer.parseInt(semesterCount));
+                service.addOrUpdate(speciality);
             }
         }
         return "redirect:specialityAll";

@@ -16,6 +16,7 @@ import ru.innopolis.stc9.service.hibernate.interfaces.ProgramService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("ALL")
 @Controller
@@ -59,22 +60,23 @@ public class ProgramController {
                                     @RequestAttribute String hours, Model model) {
 
         if (action.equals("add")) {
-            // TODO: 04.07.2018 Here
-//            Program program = new Program(specService.getById(Integer.parseInt(specialty))
-//                                        , Integer.parseInt(semester)
-//                                        , subjService.getById(Integer.parseInt(subject))
-//                                        , Integer.parseInt(hours));
-//            progService.addOrUpdate(program);
+
+            Program program = new Program();
+            program.setSpeciality(specService.getById(Integer.parseInt(specialty)));
+            program.setSemester(Integer.parseInt(semester));
+            program.setSubject(subjService.getById(Integer.parseInt(subject)));
+            program.setHours(Integer.parseInt(hours));
+            progService.addOrUpdate(program);
         }
         else {
             if (action.equals("update")) {
-// TODO: 04.07.2018 here
-//                Program program = new Program( Integer.parseInt(id)
-//                                             , specService.getById(Integer.parseInt(specialty))
-//                                             , Integer.parseInt(semester)
-//                                             , subjService.getById(Integer.parseInt(subject))
-//                                             , Integer.parseInt(hours));
-//                progService.addOrUpdate(program);
+
+                Program program = progService.getById(Integer.parseInt(id));
+                program.setSpeciality(specService.getById(Integer.parseInt(specialty)));
+                program.setSemester(Integer.parseInt(semester));
+                program.setSubject(subjService.getById(Integer.parseInt(subject)));
+                program.setHours(Integer.parseInt(hours));
+                progService.addOrUpdate(program);
             }
         }
         return "redirect:programAll";
@@ -120,14 +122,14 @@ public class ProgramController {
         Program program = progService.getById(Long.parseLong(id));
 
         String specName = program.getSpeciality().getName();
-        // TODO: 04.07.2018      String subjName = program.getSubject().getName();
+        String subjName = program.getSubjects().toString();
         String semCount = String.valueOf(program.getSemester());
         String hourCount = String.valueOf(program.getHours());
 
         model.addAttribute("program", program);
         model.addAttribute("specialty", specName);
         model.addAttribute("semester", semCount);
-        // TODO: 04.07.2018        model.addAttribute("subject", subjName);
+        model.addAttribute("subject", subjName);
         model.addAttribute("hours", hourCount);
 
         return "/getProgram";

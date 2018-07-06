@@ -2,15 +2,14 @@ package ru.innopolis.stc9.service.hibernate.implementations;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.ProgramDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Program;
-import ru.innopolis.stc9.pojo.hibernate.entities.Status;
-import ru.innopolis.stc9.pojo.hibernate.entities.User;
 import ru.innopolis.stc9.service.hibernate.interfaces.ProgramService;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ProgramServiceHibernate implements ProgramService {
 
     private static final Logger logger = Logger.getLogger(ProgramServiceHibernate.class);

@@ -5,17 +5,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.ProgramDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Program;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 
 import java.util.List;
 
+@Repository
 public class ProgramDaoHibernate implements ProgramDao {
     private static final Logger logger = Logger.getLogger(Program.class);
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
     private static final String WARN_NPE = "Null object : program";
     private static final String DEBUC_AFTER = "Before exit.";
+
     @Autowired
     private SessionFactory factory;
 

@@ -19,30 +19,6 @@ public class Speciality {
     public Speciality() {
     }
 
-//    public Speciality(long id, String name, long semesterCount) {
-//        this.id = id;
-//        this.name = name;
-//        this.semesterCount = semesterCount;
-//    }
-//
-//    public Speciality(String name, long semesterCount) {
-//        this.name = name;
-//        this.semesterCount = semesterCount;
-//    }
-//
-//    public Speciality(long id, String name, long semesterCount, Set<Program> programs) {
-//        this.id = id;
-//        this.name = name;
-//        this.semesterCount = semesterCount;
-//        this.programs = programs;
-//    }
-//
-//    public Speciality(String name, long semesterCount, Set<Program> programs) {
-//        this.name = name;
-//        this.semesterCount = semesterCount;
-//        this.programs = programs;
-//    }
-
     @Id
     @SequenceGenerator(name = "specialitySeq", sequenceName = "speciality_SEQUENCE")
 //    , allocationSize = 1)
@@ -72,7 +48,6 @@ public class Speciality {
     }
 
     @OneToMany(mappedBy = "speciality", fetch = FetchType.LAZY)
-//    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY)
     public Set<Program> getPrograms() {
         return programs;
     }
