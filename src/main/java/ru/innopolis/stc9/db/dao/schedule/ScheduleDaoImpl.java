@@ -128,7 +128,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
-    public void add(ScheduleItem scheduleItem) throws SQLException {
+    public boolean add(ScheduleItem scheduleItem) throws SQLException {
         logger.info("Class PerformanceDaoImpl method add started");
 
         String sql = "INSERT INTO schedules (  day_of_week" +
@@ -140,10 +140,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
         sqlStatementExecute(scheduleItem, sql);
         logger.info("Class PerformanceDaoImpl method add finished");
+        return true;
     }
 
     @Override
-    public void update(ScheduleItem scheduleItem) throws SQLException {
+    public boolean update(ScheduleItem scheduleItem) throws SQLException {
         logger.info("Class PerformanceDaoImpl method update started, id = " + scheduleItem.getId());
 
         String sql = "UPDATE schedules SET  day_of_week = ?" +
@@ -155,6 +156,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
         sqlStatementExecute(scheduleItem, sql);
         logger.info("Class PerformanceDaoImpl method update finished, id = " + scheduleItem.getId());
+        return true;
     }
 
     private void sqlStatementExecute(ScheduleItem scheduleItem, String sql) throws SQLException {
@@ -171,7 +173,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
-    public void deleteById(long id) throws SQLException {
+    public boolean deleteById(long id) throws SQLException {
         logger.info("Class PerformanceDaoImpl method deleteById started, id = " + id);
         String sql = "DELETE FROM schedules WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
@@ -180,11 +182,13 @@ public class ScheduleDaoImpl implements ScheduleDao {
                 statement.executeUpdate();
             }
         }
+
         logger.info("Class PerformanceDaoImpl method deleteById finished, id = " + id);
+        return true;
     }
 
     public Schedule getByGroup(Group group) throws SQLException {
-        // TODO: 17.06.2018 реализовать потоковый select 
+        // TODO: 17.06.2018 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ select 
         return null;
     }
 

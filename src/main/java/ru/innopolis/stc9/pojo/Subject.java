@@ -10,7 +10,8 @@ public class Subject {
     this.name = name;
   }
 
-  public Subject(String name) {
+
+    public Subject(String name) {
     this.name = name;
   }
 

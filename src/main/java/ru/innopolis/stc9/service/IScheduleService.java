@@ -10,13 +10,13 @@ import java.util.Map;
 
 public interface IScheduleService {
 
-    void updateById(ScheduleItem scheduleItem);
+    boolean updateById(ScheduleItem scheduleItem);
 
     ScheduleItem getById(long id);
 
-    void deleteById(long id);
+    boolean deleteById(long id);
 
-    void add(ScheduleItem scheduleItem);
+    boolean add(ScheduleItem scheduleItem);
 
     List<ScheduleItem> getAll();
 

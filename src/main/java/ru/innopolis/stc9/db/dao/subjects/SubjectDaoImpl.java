@@ -17,116 +17,141 @@ public class SubjectDaoImpl implements SubjectDao {
     private static final Logger logger = Logger.getLogger(SubjectDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
     @Override
-    public Subject getById(long id) throws SQLException {
+    public Subject getById(long id) {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
         Subject subject = null;
     
         int iid = (int)id;
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM subjects WHERE id= ?")) {
-                preparedStatement.setInt(1, iid);
-                try (ResultSet  resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        subject = new Subject(
-                                resultSet.getLong("id")
-                                , resultSet.getString("name"));
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM subjects WHERE id= ?")) {
+                    preparedStatement.setInt(1, iid);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            subject = new Subject(
+                                    resultSet.getLong("id")
+                                    , resultSet.getString("name"));
+                        }
                     }
-                }                
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
-
         logger.info("Class  "+ClassName+ " method getById finished, id = " + id);
         return subject;
     }
 
     @Override
-    public Subject getByName(String name) throws SQLException {
-        Subject result = null;        
+    public Subject getByName(String name) {
+        Subject result = null;
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM subjects WHERE name= ?")) {
-                preparedStatement.setString(1, name);
-                try ( ResultSet resultSet = preparedStatement.executeQuery()) {
-                   
-                    while (resultSet.next()) {
-                        Subject subject = new Subject(
-                                resultSet.getLong("id")
-                                , resultSet.getString("name"));
-                        result = subject;
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM subjects WHERE name= ?")) {
+                    preparedStatement.setString(1, name);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                        while (resultSet.next()) {
+                            Subject subject = new Subject(
+                                    resultSet.getLong("id")
+                                    , resultSet.getString("name"));
+                            result = subject;
+                        }
                     }
-                } 
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         return result;
     }
 
     @Override
-    public List<Subject> getAll() throws SQLException {
+    public List<Subject> getAll() {
         ArrayList<Subject> result = new ArrayList<>();
-      
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM subjects")) {
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        Subject subject = new Subject(
-                                resultSet.getLong("id")
-                                , resultSet.getString("name"));
-                        result.add(subject);
-                    } 
-                }                   
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM subjects")) {
+
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        while (resultSet.next()) {
+                            Subject subject = new Subject(
+                                    resultSet.getLong("id")
+                                    , resultSet.getString("name"));
+                            result.add(subject);
+                        }
+                    }
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
-
         return result;
     }
 
     @Override
-    public void add(Subject subject) throws SQLException {
+    public boolean add(Subject subject) {
         logger.info("Class "+ClassName+" method add started");
 
         String sql = "INSERT INTO subjects (name) VALUES (?)";
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                         statement.setString(1, subject.getName());
-                statement.executeUpdate();
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setString(1, subject.getName());
+                    statement.executeUpdate();
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         logger.info("Class "+ClassName+" method add finished");
+        return true;
     }
 
 
     @Override
-    public void update(Subject subject) throws SQLException {
+    public boolean update(Subject subject) {
         logger.info("Class "+ClassName+" method update started, id = " + subject.getId());
 
         String sql = "UPDATE subjects SET name = ? WHERE id = ?";
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(2, subject.getId());
-                statement.setString(1, subject.getName());
-                statement.executeUpdate();
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setLong(2, subject.getId());
+                    statement.setString(1, subject.getName());
+                    statement.executeUpdate();
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         logger.info("Class "+ClassName+" method update finished, id = " + subject.getId());
+        return true;
     }
 
     @Override
-    public void deleteById(long id) throws SQLException {
+    public boolean deleteById(long id) {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
         String sql = "DELETE FROM subjects WHERE id=?";
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, id);
-                statement.executeUpdate();
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setLong(1, id);
+                    statement.executeUpdate();
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         logger.info("Class "+ClassName+" method deleteById finished, id = " + id);
+        return true;
     }
 }

@@ -16,11 +16,11 @@ public interface ScheduleDao {
 
     List<ScheduleItem> getAll() throws SQLException;
 
-    void add(ScheduleItem shedule) throws SQLException;
+    boolean add(ScheduleItem shedule) throws SQLException;
 
-    void update(ScheduleItem shedule) throws SQLException;
+    boolean update(ScheduleItem shedule) throws SQLException;
 
-    void deleteById(long id) throws SQLException;
+    boolean deleteById(long id) throws SQLException;
 
     Schedule getByGroup(Group group) throws SQLException;
 

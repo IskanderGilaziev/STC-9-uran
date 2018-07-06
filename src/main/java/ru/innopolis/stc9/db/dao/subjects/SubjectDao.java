@@ -1,19 +1,19 @@
 package ru.innopolis.stc9.db.dao.subjects;
+
 import ru.innopolis.stc9.pojo.Subject;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface SubjectDao {
-    Subject getById(long id) throws SQLException;
+    Subject getById(long id);
 
-    Subject getByName(String name) throws SQLException;
+    Subject getByName(String name);
 
-    List<Subject> getAll() throws SQLException;
+    List<Subject> getAll();
 
-    void add(Subject subject) throws SQLException;
+    boolean add(Subject subject);
 
-    void update(Subject subject) throws SQLException;
+    boolean update(Subject subject);
 
-    void deleteById(long id) throws SQLException;
+    boolean deleteById(long id);
 }

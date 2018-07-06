@@ -8,7 +8,10 @@ public class TeacherSubject {
   private String teacherName;
   private String subjectName;
 
-  public TeacherSubject(long id, long teacherItem, long subjectItem) {
+    public TeacherSubject() {
+    }
+
+    public TeacherSubject(long id, long teacherItem, long subjectItem) {
     this.id = id;
     this.subjectItem = subjectItem;
     this.teacherItem = teacherItem;

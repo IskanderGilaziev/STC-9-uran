@@ -25,26 +25,30 @@ public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
     private SubjectDao subjectDao;
 
     @Override
-    public TeacherSubject getById(long id) throws SQLException {
+    public TeacherSubject getById(long id) {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
         TeacherSubject teacherSubject = null;
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "select tl.id, tl.teacher_item, p.name as teacher, tl.subject_item, s2.name as subject from teacher_subject tl   inner join persons p on tl.teacher_item = p.id inner join subjects s2 on tl.subject_item = s2.id where tl.id = ?;")) {
-                preparedStatement.setLong(1, id);
-                try (ResultSet  resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        teacherSubject = new TeacherSubject(
-                                resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getString("teacher")
-                                , resultSet.getLong("subject_item")
-                                , resultSet.getString("subject")
-                        );
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT tl.id, tl.teacher_item, p.name AS teacher, tl.subject_item, s2.name AS subject FROM teacher_subject tl   INNER JOIN persons p ON tl.teacher_item = p.id INNER JOIN subjects s2 ON tl.subject_item = s2.id WHERE tl.id = ?;")) {
+                    preparedStatement.setLong(1, id);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            teacherSubject = new TeacherSubject(
+                                    resultSet.getLong("id")
+                                    , resultSet.getLong("teacher_item")
+                                    , resultSet.getString("teacher")
+                                    , resultSet.getLong("subject_item")
+                                    , resultSet.getString("subject")
+                            );
+                        }
                     }
                 }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
 
         logger.info("Class "+ClassName+" method getById finished, id = " + id);
@@ -52,96 +56,117 @@ public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
     }
 
     @Override
-    public TeacherSubject getByName(String name) throws SQLException {
+    public TeacherSubject getByName(String name) {
         TeacherSubject result = null;
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_subject WHERE name= ?")) {
-                preparedStatement.setString(1, name);
-                try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM teacher_subject WHERE name= ?")) {
+                    preparedStatement.setString(1, name);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
-                    while (resultSet.next()) {
-                        TeacherSubject teacherSubject = new TeacherSubject(
-                                resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
-                        result = teacherSubject;
+                        while (resultSet.next()) {
+                            TeacherSubject teacherSubject = new TeacherSubject(
+                                    resultSet.getLong("id")
+                                    , resultSet.getLong("teacher_item")
+                                    , resultSet.getLong("subject_item"));
+                            result = teacherSubject;
+                        }
                     }
                 }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         return result;
     }
 
     @Override
-    public List<TeacherSubject> getAll() throws SQLException {
+    public List<TeacherSubject> getAll() {
         ArrayList<TeacherSubject> result = new ArrayList<>();
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT teacher_subject.id, persons.name as persName, subjects.name as subjName \n" +
-                            "FROM teacher_subject\n" +
-                            "  LEFT JOIN persons\n" +
-                            "    on teacher_subject.teacher_item = persons.id\n" +
-                            "  LEFT JOIN subjects\n" +
-                            "    on teacher_subject.subject_item = subjects.id ORDER BY subjects.name")) {
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT teacher_subject.id, persons.name as persName, subjects.name as subjName \n" +
+                                "FROM teacher_subject\n" +
+                                "  LEFT JOIN persons\n" +
+                                "    on teacher_subject.teacher_item = persons.id\n" +
+                                "  LEFT JOIN subjects\n" +
+                                "    on teacher_subject.subject_item = subjects.id ORDER BY subjects.name")) {
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        TeacherSubject teacherSubject = new TeacherSubject(
-                                resultSet.getLong("id")
-                                , resultSet.getString("persName")
-                                , resultSet.getString("subjName"));
-                        result.add(teacherSubject);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        while (resultSet.next()) {
+                            TeacherSubject teacherSubject = new TeacherSubject(
+                                    resultSet.getLong("id")
+                                    , resultSet.getString("persName")
+                                    , resultSet.getString("subjName"));
+                            result.add(teacherSubject);
+                        }
                     }
                 }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         return result;
     }
 
     @Override
-    public void add(TeacherSubject teacherSubject) throws SQLException {
+    public boolean add(TeacherSubject teacherSubject) {
         logger.info("Class "+ClassName+" method add started");
 
         String sql = "INSERT INTO teacher_subject (teacher_item, subject_item) VALUES (?,?)";
 
         executeStatement(teacherSubject, sql);
+
         logger.info("Class " + ClassName + " method add finished");
+        return true;
     }
 
-    private void executeStatement(TeacherSubject teacherSubject, String sql) throws SQLException {
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, teacherSubject.getTeacherItem());
-                statement.setLong(2, teacherSubject.getSubjectItem());
+    private void executeStatement(TeacherSubject teacherSubject, String sql) {
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setLong(1, teacherSubject.getTeacherItem());
+                    statement.setLong(2, teacherSubject.getSubjectItem());
 
-                statement.executeUpdate();
+                    statement.executeUpdate();
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
+
         }
     }
 
     @Override
-    public void update(TeacherSubject teacherSubject) throws SQLException {
+    public boolean update(TeacherSubject teacherSubject) {
         logger.info("Class "+ClassName+" method update started, id = " + teacherSubject.getId());
 
         String sql = "UPDATE teacher_subject SET teacher_item = ?, subject_item = ? WHERE id = "+ teacherSubject.getId()+"";
 
         executeStatement(teacherSubject, sql);
         logger.info("Class "+ClassName+" method update finished, id = " + teacherSubject.getId());
+        return true;
     }
 
     @Override
-    public void deleteById(long id) throws SQLException {
+    public boolean deleteById(long id) {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
         String sql = "DELETE FROM teacher_subject WHERE id=?";
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, id);
-                statement.executeUpdate();
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setLong(1, id);
+                    statement.executeUpdate();
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         logger.info("Class "+ClassName+" method deleteById finished, id = " + id);
+        return true;
     }
 }

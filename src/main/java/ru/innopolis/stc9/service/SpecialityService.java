@@ -2,12 +2,11 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.speciality.SpecialityDao;
+import ru.innopolis.stc9.db.dao.speciality.SpecialityDaoImpl;
 import ru.innopolis.stc9.pojo.Speciality;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 @Service
@@ -18,61 +17,49 @@ public class SpecialityService implements ISpecialityService {
     @Autowired
     private SpecialityDao specialityDao;
 
+    public SpecialityService(SpecialityDaoImpl mockDao) {
+    }
+
     @Override
-    public void updateById(Speciality speciality) {
+    public boolean updateById(Speciality speciality) {
         logger.info(this.getClass().getName() + " method update started, id = " + speciality.getId());
-        try {
+
             specialityDao.update(speciality);
-        } catch (SQLException e) {
-            loggerError.error("Error at method update, id = " + speciality.getId(), e);
-        }
+
         logger.info(this.getClass().getName() + " method update finished, id = " + speciality.getId());
+        return true;
     }
 
     @Override
     public Speciality getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
         Speciality speciality = null;
-        try {
             speciality = specialityDao.getById(id);
-        } catch (SQLException e) {
-            loggerError.error("Error at method getById, id = " + id, e);
-        }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return speciality;
     }
 
     @Override
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
-        try {
             specialityDao.deleteById(id);
-        } catch (SQLException e) {
-            loggerError.error("Error at method deleteById, id = " + id, e);
-        }
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
+        return true;
     }
 
     @Override
-    public void add(Speciality speciality) {
+    public boolean add(Speciality speciality) {
         logger.info(this.getClass().getName() + " method add started");
-        try {
             specialityDao.add(speciality);
-        } catch (SQLException e) {
-            loggerError.error("Error at method add", e);
-        }
         logger.info(this.getClass().getName() + " method add finished");
+        return true;
     }
 
     @Override
     public List<Speciality> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
         List<Speciality> specialityList = new ArrayList<>();
-        try {
             specialityList = specialityDao.getAll();
-        } catch (SQLException e) {
-            loggerError.error("Error at method getAll", e);
-        }
         logger.info(this.getClass().getName() + " method getAll finished");
         return specialityList;
     }

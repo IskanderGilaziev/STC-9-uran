@@ -6,6 +6,16 @@ public class User {
   private String login;
   private String password;
   private long personId;
+    private String role;
+
+    public User() {
+    }
+
+    public User(String login, String password, String role) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
 
   public User(long id, String login, String password, long personId) {
     this.id = id;
@@ -55,4 +65,11 @@ public class User {
     this.personId = personId;
   }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

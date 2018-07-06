@@ -5,13 +5,13 @@ import ru.innopolis.stc9.pojo.Speciality;
 import java.util.List;
 
 public interface ISpecialityService {
-    void updateById(Speciality speciality);
+    boolean updateById(Speciality speciality);
 
     Speciality getById(long id);
 
-    void deleteById(long id);
+    boolean deleteById(long id);
 
-    void add(Speciality speciality);
+    boolean add(Speciality speciality);
 
     List<Speciality> getAll();
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.groups.GroupsDao;
 import ru.innopolis.stc9.db.dao.schedule.ScheduleDao;
+import ru.innopolis.stc9.db.dao.schedule.ScheduleDaoImpl;
 import ru.innopolis.stc9.pojo.Group;
 import ru.innopolis.stc9.pojo.Schedule;
 import ru.innopolis.stc9.pojo.ScheduleItem;
@@ -22,15 +23,18 @@ public class ScheduleService implements IScheduleService {
     private static final Logger logger = Logger.getLogger(ScheduleService.class);
     private static final String BEFORE = "First  line of method.";
     private static final String AFTER = "Before exit.";
-    private static final String LINK_SEE = "посмотреть расписание";
-    private static final String LINK_EDIT = "редактировать расписание";
-    private static final String LINK_CREATE = "создать расписание";
+    private static final String LINK_SEE = "See";//"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    private static final String LINK_EDIT = "Edit"; //"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    private static final String LINK_CREATE = "Create"; //"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
 
     @Autowired
     private ScheduleDao scheduleDao;
     @Autowired
     private GroupsDao groupsDao;
+
+    public ScheduleService(ScheduleDaoImpl mockDaoSchedule) {
+    }
 
     /**
      * Select list of groups depended on required status.
@@ -64,7 +68,7 @@ public class ScheduleService implements IScheduleService {
     }
 
     @Override
-    public void updateById(ScheduleItem scheduleItem) {
+    public boolean updateById(ScheduleItem scheduleItem) {
         logger.info(this.getClass().getName() + " method updateById started, id = " + scheduleItem.getId());
         try {
             scheduleDao.update(scheduleItem);
@@ -72,6 +76,7 @@ public class ScheduleService implements IScheduleService {
             logger.error("Error at method updateById, id = " + scheduleItem.getId(), e);
         }
         logger.info(this.getClass().getName() + " method updateById finished, id = " + scheduleItem.getId());
+        return true;
     }
 
     @Override
@@ -88,7 +93,7 @@ public class ScheduleService implements IScheduleService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
             scheduleDao.deleteById(id);
@@ -96,10 +101,11 @@ public class ScheduleService implements IScheduleService {
             logger.error("Error at method deleteById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
+        return true;
     }
 
     @Override
-    public void add(ScheduleItem scheduleItem) {
+    public boolean add(ScheduleItem scheduleItem) {
         logger.info(this.getClass().getName() + " method add started");
         try {
             scheduleDao.add(scheduleItem);
@@ -107,6 +113,7 @@ public class ScheduleService implements IScheduleService {
             logger.error("Error at method add", e);
         }
         logger.info(this.getClass().getName() + " method add finished");
+        return true;
     }
 
     @Override

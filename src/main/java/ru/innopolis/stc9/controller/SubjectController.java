@@ -18,8 +18,13 @@ import java.util.List;
 public class SubjectController extends HttpServlet{
     private static final Logger logger = Logger.getLogger(SubjectController.class);
 
-    @Autowired
+
     private ISubjectService service;
+
+    @Autowired
+    public SubjectController(ISubjectService service) {
+        this.service = service;
+    }
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
@@ -33,10 +38,10 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.POST)
-    public String addOrUpdate(HttpServletRequest request,
-                                    @RequestAttribute String id,
-                                     @RequestAttribute String action,
-                                    @RequestAttribute String name, Model model) {
+    public String addOrUpdate(@RequestAttribute String id,
+                              @RequestAttribute String action,
+                              @RequestAttribute String name,
+                              Model model) {
 
         if (action.equals("add")) {
             Subject subject = new Subject(name);
@@ -51,8 +56,7 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/deleteSubject", method = RequestMethod.GET)
-    public String delete(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
+    public String delete(@RequestAttribute String id, Model model) {
         service.deleteById(Long.parseLong(id));
         return ("redirect:subjectAll");
     }
@@ -70,16 +74,14 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/updateSubject", method = RequestMethod.GET)
-    public String update(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
+    public String update(@RequestAttribute String id, Model model) {
         model.addAttribute("subject", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
         return ("/addOrUpdateSubject");
     }
 
     @RequestMapping(value = "/subject", method = RequestMethod.GET)
-    public String get(HttpServletRequest request,
-                            @RequestAttribute String id, Model model) {
+    public String get(@RequestAttribute String id, Model model) {
         Subject subject = service.getById(Long.parseLong(id));
         model.addAttribute("subject", subject);
         return "/getSubject";

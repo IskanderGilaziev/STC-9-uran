@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.subjects.SubjectDao;
 import ru.innopolis.stc9.pojo.Subject;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,61 +17,47 @@ public class SubjectService implements ISubjectService {
     @Autowired
     private SubjectDao subjectDao;
 
+    public SubjectService(SubjectDao SubjectDao) {
+    }
+
     @Override
-    public void update(Subject subject) {
+    public boolean update(Subject subject) {
         logger.info(this.getClass().getName() + " method update started, id = " + subject.getId());
-        try {
             subjectDao.update(subject);
-        } catch (SQLException e) {
-            loggerError.error("Error at method update, id = " + subject.getId(), e);
-        }
         logger.info(this.getClass().getName() + " method update finished, id = " + subject.getId());
+        return true;
     }
 
     @Override
     public Subject getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
         Subject subject = null;
-        try {
             subject = subjectDao.getById(id);
-        } catch (SQLException e) {
-            loggerError.error("Error at method getById, id = " + id, e);
-        }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return subject;
     }
 
     @Override
-    public void deleteById(long id) {
+    public boolean deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
-        try {
             subjectDao.deleteById(id);
-        } catch (SQLException e) {
-            loggerError.error("Error at method deleteById, id = " + id, e);
-        }
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
+        return true;
     }
 
     @Override
-    public void add(Subject subject) {
+    public boolean add(Subject subject) {
         logger.info(this.getClass().getName() + " method add started");
-        try {
             subjectDao.add(subject);
-        } catch (SQLException e) {
-            loggerError.error("Error at method add", e);
-        }
         logger.info(this.getClass().getName() + " method add finished");
+        return true;
     }
 
     @Override
     public List<Subject> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
         List<Subject> subjectList = new ArrayList<>();
-        try {
             subjectList = subjectDao.getAll();
-        } catch (SQLException e) {
-            loggerError.error("Error at method getAll", e);
-        }
         logger.info(this.getClass().getName() + " method getAll finished");
         return subjectList;
     }

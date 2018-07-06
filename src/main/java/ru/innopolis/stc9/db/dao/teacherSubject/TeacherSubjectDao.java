@@ -1,19 +1,19 @@
 package ru.innopolis.stc9.db.dao.teacherSubject;
+
 import ru.innopolis.stc9.pojo.TeacherSubject;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface TeacherSubjectDao {
-    TeacherSubject getById(long id) throws SQLException;
+    TeacherSubject getById(long id);
 
-    TeacherSubject getByName(String name) throws SQLException;
+    TeacherSubject getByName(String name);
 
-    List<TeacherSubject> getAll() throws SQLException;
+    List<TeacherSubject> getAll();
 
-    void add(TeacherSubject teacherSubject) throws SQLException;
+    boolean add(TeacherSubject teacherSubject);
 
-    void update(TeacherSubject teacherSubject) throws SQLException;
+    boolean update(TeacherSubject teacherSubject);
 
-    void deleteById(long id) throws SQLException;
+    boolean deleteById(long id);
 }

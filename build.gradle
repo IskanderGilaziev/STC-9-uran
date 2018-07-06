@@ -20,4 +20,10 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.6.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '4.2.6.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.6.RELEASE'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.3'
+    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.7.4'
+    testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.17.RELEASE'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
 }

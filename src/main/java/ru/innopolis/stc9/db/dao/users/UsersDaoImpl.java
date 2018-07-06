@@ -18,26 +18,30 @@ public class UsersDaoImpl implements UsersDao {
     public  final String ClassName= this.getClass().getName();
     
     @Override
-    public User getById(long id) throws SQLException {
+    public User getById(long id) {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
         User user = null;
     
         int iid = (int)id;
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM user WHERE id= ?")) {
-                preparedStatement.setInt(1, iid);
-                try (ResultSet  resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        user = new User(
-                                  resultSet.getLong("id")
-                                , resultSet.getString("login")
-                                , resultSet.getString("password")
-                                , resultSet.getLong("person_id"));
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM user WHERE id= ?")) {
+                    preparedStatement.setInt(1, iid);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            user = new User(
+                                    resultSet.getLong("id")
+                                    , resultSet.getString("login")
+                                    , resultSet.getString("password")
+                                    , resultSet.getLong("person_id"));
+                        }
                     }
-                }                
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
 
         logger.info("Class "+ClassName+" method getById finished, id = " + id);
@@ -45,55 +49,63 @@ public class UsersDaoImpl implements UsersDao {
     }
 
     @Override
-    public User getByName(String name) throws SQLException {
-        User result = null;        
+    public User getByName(String name) {
+        User result = null;
 
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM user WHERE name= ?")) {
-                preparedStatement.setString(1, name);
-                try ( ResultSet resultSet = preparedStatement.executeQuery()) {
-                   
-                    while (resultSet.next()) {
-                        User user = new User(
-                                resultSet.getLong("id")
-                                , resultSet.getString("login")
-                                , resultSet.getString("password")
-                                , resultSet.getLong("person_id"));
-                        result = user;
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM user WHERE name= ?")) {
+                    preparedStatement.setString(1, name);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                        while (resultSet.next()) {
+                            User user = new User(
+                                    resultSet.getLong("id")
+                                    , resultSet.getString("login")
+                                    , resultSet.getString("password")
+                                    , resultSet.getLong("person_id"));
+                            result = user;
+                        }
                     }
-                } 
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         return result;
     }
 
     @Override
-    public List<User> getAll() throws SQLException {
+    public List<User> getAll() {
         ArrayList<User> result = new ArrayList<>();
-      
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM users")) {
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        User user = new User(
-                                resultSet.getLong("id")
-                                , resultSet.getString("login")
-                                , resultSet.getString("password")
-                                , resultSet.getLong("person_id"));
-                        result.add(user);
-                    } 
-                }                   
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM users")) {
+
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        while (resultSet.next()) {
+                            User user = new User(
+                                    resultSet.getLong("id")
+                                    , resultSet.getString("login")
+                                    , resultSet.getString("password")
+                                    , resultSet.getLong("person_id"));
+                            result.add(user);
+                        }
+                    }
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
 
         return result;
     }
 
     @Override
-    public void add(User user) throws SQLException {
+    public void add(User user) {
         logger.info("Class "+ClassName+" method add started");
 
         String sql = "INSERT INTO user (user_item, subject_item) VALUES (?,?)";
@@ -102,19 +114,23 @@ public class UsersDaoImpl implements UsersDao {
         logger.info("Class "+ClassName+" method add finished");
     }
 
-    private void execureStatement(User user, String sql) throws SQLException {
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, user.getLogin());
-                statement.setString(2, user.getPassword());
-                statement.setLong(3, user.getPersonId());
-                statement.executeUpdate();
+    private void execureStatement(User user, String sql) {
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setString(1, user.getLogin());
+                    statement.setString(2, user.getPassword());
+                    statement.setLong(3, user.getPersonId());
+                    statement.executeUpdate();
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
     }
 
     @Override
-    public void update(User user) throws SQLException {
+    public void update(User user) {
         logger.info("Class "+ClassName+" method update started, id = " + user.getId());
 
         String sql = "UPDATE user SET login = ?, password = ?, person_id= ? WHERE id = "+user.getId()+"";
@@ -124,14 +140,18 @@ public class UsersDaoImpl implements UsersDao {
     }
 
     @Override
-    public void deleteById(long id) throws SQLException {
+    public void deleteById(long id) {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
         String sql = "DELETE FROM users WHERE id=?";
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, id);
-                statement.executeUpdate();
+        try {
+            try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setLong(1, id);
+                    statement.executeUpdate();
+                }
             }
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getMessage());
         }
         logger.info("Class "+ClassName+" method deleteById finished, id = " + id);
     }
@@ -154,7 +174,6 @@ public class UsersDaoImpl implements UsersDao {
 
         } catch (SQLException e) {
             logger.error("Error: " + e.getMessage());
-            e.printStackTrace();
         }
         logger.info("add users finish");
     }

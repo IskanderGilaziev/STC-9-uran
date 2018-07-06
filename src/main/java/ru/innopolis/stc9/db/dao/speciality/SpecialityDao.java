@@ -1,19 +1,19 @@
 package ru.innopolis.stc9.db.dao.speciality;
+
 import ru.innopolis.stc9.pojo.Speciality;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface SpecialityDao {
-    Speciality getById(long id) throws SQLException;
+    Speciality getById(long id);
 
-    Speciality getByName(String name) throws SQLException;
+    Speciality getByName(String name);
 
-    List<Speciality> getAll() throws SQLException;
+    List<Speciality> getAll();
 
-    void add(Speciality speciality) throws SQLException;
+    boolean add(Speciality speciality);
 
-    void update(Speciality speciality) throws SQLException;
+    boolean update(Speciality speciality);
 
-    void deleteById(long id) throws SQLException;
+    boolean deleteById(long id);
 }

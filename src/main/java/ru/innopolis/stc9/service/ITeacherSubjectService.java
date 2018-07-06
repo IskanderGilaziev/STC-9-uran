@@ -5,13 +5,13 @@ import ru.innopolis.stc9.pojo.TeacherSubject;
 import java.util.List;
 
 public interface ITeacherSubjectService {
-    void update(TeacherSubject teacherSubject);
+    boolean update(TeacherSubject teacherSubject);
 
     TeacherSubject getById(long id);
 
-    void deleteById(long id);
+    boolean deleteById(long id);
 
-    void add(TeacherSubject teacherSubject);
+    boolean add(TeacherSubject teacherSubject);
 
     List<TeacherSubject> getAll();
 }
