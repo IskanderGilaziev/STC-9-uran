@@ -7,7 +7,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
-import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class SubjectDaoHibernate implements SubjectDao {
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
     private static final String WARN_NPE = "Null objest : subject";
     private static final String DEBUC_AFTER = "Before exit.";
-   
+
     @Autowired
     private SessionFactory factory;
 
@@ -35,45 +34,57 @@ public class SubjectDaoHibernate implements SubjectDao {
     @Override
     public List<Subject> getAllSubjects() {
         logger.debug(DEBUG_BEFORE);
-        List<Subject> subjectList = null;
+        List<Subject> subjectList;
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM Subject");
             subjectList = query.list();
             session.close();
         }
-        logger.info(logResult(!subjectList.isEmpty()) + subjectList.size());
+        logger.info((subjectList == null) ? "bad qwery" : "found " + subjectList.size() + " subject(s)");
         return subjectList;
     }
 
     @Override
-    public void addOrUpdateSubject(Subject subject) {
+    public boolean addOrUpdateSubject(Subject subject) {
+        boolean result = false;
         logger.debug(DEBUG_BEFORE);
         if (subject != null) {
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.saveOrUpdate(subject);
-            session.getTransaction().commit();
-            session.close();
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                session.saveOrUpdate(subject);
+                session.getTransaction().commit();
+                session.close();
+                result = true;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         } else {
             logger.warn(WARN_NPE);
         }
+        return result;
     }
 
     @Override
-    public void deleteBySubjectId(long id) {
+    public boolean deleteSubjectFull(Subject subject) {
+        boolean result;
         logger.debug(DEBUG_BEFORE);
-        if (id != 0) {
-            Subject subject = getById(id);
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.delete(subject);
-            session.getTransaction().commit();
-            session.close();
+        if (subject != null) {
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                session.delete(subject);
+                session.getTransaction().commit();
+                session.close();
+                result = true;
+            } catch (Exception e) {
+                result = false;
+            }
             logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
+            result = false;
         }
         logger.debug(DEBUC_AFTER);
+        return result;
     }
 
 
@@ -113,5 +124,5 @@ public class SubjectDaoHibernate implements SubjectDao {
     private String logResult() {
         return "Unknown result of operation";
     }
-    
+
 }
