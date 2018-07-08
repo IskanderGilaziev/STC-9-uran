@@ -4,7 +4,7 @@
 <%@ include file="../../../aside.jsp" %>
 
 <h1>Список персон</h1>
-<p><b><a href="/person/addOrUpdate">Добавить новую персону</a></b></p>
+<p><b><a href="/teacher/addOrUpdate">Добавить новую персону</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -17,27 +17,27 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="person" items="${personList}" varStatus="counter">
+        <c:forEach var="teacher" items="${personList}" varStatus="counter">
             <tr>
                 <td>${counter.count}</td>
-                <td><a href="/person/person?id=${person.id}">${person.name}</a></td>
-                <td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>
-                <td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>
+                <td><a href="/teacher/teacher?id=${teacher.id}">${teacher.name}</a></td>
+                <td><a href="/teacher/updatePerson?id=${teacher.id}">редактировать</a></td>
+                <td><a href="/teacher/deletePerson?id=${teacher.id}">удалить</a></td>
 
                 <td>
-                    <c:if test="${person.status eq unknownStatus}">
-                        <a href="/person/moderation?id=${person.id}">требуется модерация пользователя</a>
+                    <c:if test="${teacher.status eq unknownStatus}">
+                        <a href="/teacher/moderation?id=${teacher.id}">требуется модерация пользователя</a>
                     </c:if>
 
-                    <c:if test="${person.status ne unknownStatus}">
-                        <c:if test="${person.user eq null}">
+                    <c:if test="${teacher.status ne unknownStatus}">
+                        <c:if test="${teacher.user eq null}">
                             не зарегистрирован
                         </c:if>
-                        <c:if test="${person.user ne null}">
-                            <c:if test="${person.user.enabled eq 1}">
+                        <c:if test="${teacher.user ne null}">
+                            <c:if test="${teacher.user.enabled eq 1}">
                                 Зарегистрирован, вход разрешен
                             </c:if>
-                            <c:if test="${person.user.enabled ne 1}">
+                            <c:if test="${teacher.user.enabled ne 1}">
                                 Зарегистрирован, вход запрещен
                             </c:if>
                         </c:if>

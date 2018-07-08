@@ -3,7 +3,7 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
 <h1>Список студентов</h1>
-<p><b><a href="/person/addPerson">Добавить нового студента</a></b></p>
+<p><b><a href="/teacher/addPerson">Добавить нового студента</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -12,11 +12,11 @@
             <th>Имя студента</th>
             <th>Действие</th>
         </tr>
-        <c:forEach var="person" items="${personList}">
+        <c:forEach var="teacher" items="${personList}">
         <tr>
-            <td>${person.id}</td>
-            <td><a href="/person/person?id=${person.id}">${person.name}</a></td>
-            <td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>
+            <td>${teacher.id}</td>
+            <td><a href="/teacher/teacher?id=${teacher.id}">${teacher.name}</a></td>
+            <td><a href="/teacher/deletePerson?id=${teacher.id}">удалить</a></td>
         </tr>
         </c:forEach>
     </table>

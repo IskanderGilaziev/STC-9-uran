@@ -3,9 +3,7 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -18,7 +16,9 @@ public class Subject {
     @Column(nullable = false)
     private String name;
 
-    private Set<Lesson> lessonList = new HashSet<Lesson>();
+    private Set<Speciality> specialtySet = new HashSet<>();
+
+    private Set<Lesson> lessonSet = new HashSet<Lesson>();
 
     public Subject() {
     }
@@ -52,38 +52,24 @@ public class Subject {
         this.name = name;
     }
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "specialty_subject",
+            joinColumns = @JoinColumn(name = "specialty_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    public Set<Speciality> getSpecialtySet() {
+        return specialtySet;
+    }
+
+    public void setSpecialtySet(Set<Speciality> specialtySet) {
+        this.specialtySet = specialtySet;
+    }
+
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
-    public Set<Lesson> getLessonList() {
-        return lessonList;
+    public Set<Lesson> getLessonSet() {
+        return lessonSet;
     }
 
-    public void setLessonList(Set<Lesson> lessonList) {
-        this.lessonList = lessonList;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Subject subject = (Subject) o;
-
-        if (id != subject.id) return false;
-        return name != null ? name.equals(subject.name) : subject.name == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public void setLessonSet(Set<Lesson> lessonSet) {
+        this.lessonSet = lessonSet;
     }
 }

@@ -25,9 +25,9 @@
                 </li>
 
                 <li>
-                    <label for="semesterCount">Кол-во семестров:</label>
+                    <label for="yTotal">Кол-во семестров:</label>
                     <input type="text" placeholder="семестры" required
-                           value="<c:if test="${action=='update'}">${speciality.semesterCount}</c:if>" name="semesterCount"/>
+                           value="<c:if test="${action=='update'}">${speciality.yTotal}</c:if>" name="yTotal"/>
                 </li>
 
                 <li>

@@ -2,9 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-<form class="editForm" action="/person/addOrUpdate" method="post" name="editForm">
+<form class="editForm" action="/teacher/addOrUpdate" method="post" name="editForm">
     <c:if test="${action=='update'}">
-        <input type="hidden" name="id" value="${person.id}">
+        <input type="hidden" name="id" value="${teacher.id}">
     </c:if>
     <c:if test="${action=='add'}">
         <input type="hidden" name="id" value="0">
@@ -21,19 +21,19 @@
         <li>
             <label for="name">Имя:</label>
             <input id="name" type="text" placeholder="Иван Иванов" required
-                   value="<c:if test="${action=='update'}">${person.name}</c:if>" name="name"/>
+                   value="<c:if test="${action=='update'}">${teacher.name}</c:if>" name="name"/>
         </li>
 
         <li>
             <label for="birthday">День рождения:</label>
             <input id="birthday" type="text" placeholder="1970-01-01" required
-                   value="<c:if test="${action=='update'}">${person.birthday}</c:if>" name="birthday"/>
+                   value="<c:if test="${action=='update'}">${teacher.birthday}</c:if>" name="birthday"/>
         </li>
 
         <li>
             <label for="email">Email:</label>
             <input id="email" type="email" placeholder="ivan@example.ru" required
-                   value="<c:if test="${action=='update'}">${person.email}</c:if>" name="email"/>
+                   value="<c:if test="${action=='update'}">${teacher.email}</c:if>" name="email"/>
             <span class="form_hint">Proper format "name@something.com"</span>
         </li>
         <li>
@@ -42,7 +42,7 @@
                 <c:forEach var="rol" items="${statusList}">
                     <%--<option value="${rol.ordinal()}">${rol.name()}</option>--%>
                     <option value="${rol.ordinal()}"
-                            <c:if test="${person.status eq rol}">selected</c:if>>${rol.name()}</option>
+                            <c:if test="${teacher.status eq rol}">selected</c:if>>${rol.name()}</option>
                 </c:forEach>
             </select>
         </li>

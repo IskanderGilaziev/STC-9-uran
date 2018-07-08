@@ -7,12 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.realisationJDBC.Program;
 import ru.innopolis.stc9.service.IProgramService;
-import ru.innopolis.stc9.service.hibernate.interfaces.ISpecialityService;
-import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;
+import ru.innopolis.stc9.service.hibernate.interfaces.SpecialityService;
+import ru.innopolis.stc9.service.hibernate.interfaces.SubjectService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +24,15 @@ public class ProgramController extends HttpServlet {
     private IProgramService progService;
 
     @Autowired
-    private ISpecialityService specService;
+    private SpecialityService specService;
 
     @Autowired
-    private ISubjectService subjService;
+    private SubjectService subjService;
 
     @RequestMapping(value = "/addOrUpdateProgram", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
 
-        if (model.containsAttribute("program")) {
+        /*if (model.containsAttribute("program")) {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
         } else {
@@ -45,7 +43,7 @@ public class ProgramController extends HttpServlet {
         model.addAttribute("specList", specList);
 
         List<Subject> subjList = subjService.getAll();
-        model.addAttribute("subjList", subjList);
+        model.addAttribute("subjList", subjList);*/
         return "/addOrUpdateProgram";
     }
 
@@ -58,7 +56,7 @@ public class ProgramController extends HttpServlet {
                                     @RequestAttribute String subject,
                                     @RequestAttribute String hours, Model model) {
 
-        if (action.equals("add")) {
+        /*if (action.equals("add")) {
             Program program = new Program(specService.getById(Integer.parseInt(specialty))
                                         , Integer.parseInt(semester)
                                         , subjService.getById(Integer.parseInt(subject))
@@ -75,7 +73,7 @@ public class ProgramController extends HttpServlet {
                                              , Integer.parseInt(hours));
                 progService.update(program);
             }
-        }
+        }*/
         return "redirect:programAll";
     }
 
@@ -102,14 +100,14 @@ public class ProgramController extends HttpServlet {
     @RequestMapping(value = "/updateProgram", method = RequestMethod.GET)
     public String updateProgram(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
-        List<Speciality> specList = specService.getAll();
+        /*List<Speciality> specList = specService.getAll();
         List<Subject> subjList = subjService.getAll();
 
         model.addAttribute("specList", specList);
         model.addAttribute("subjList", subjList);
 
         model.addAttribute("program", progService.getById(Long.parseLong(id)));
-        model.addAttribute("action", "update");
+        model.addAttribute("action", "update");*/
         return ("/addOrUpdateProgram");
     }
 

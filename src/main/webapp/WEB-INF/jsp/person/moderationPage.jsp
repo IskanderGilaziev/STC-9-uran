@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-<form class="editForm" action="/person/moderation" method="post" name="editForm">
+<form class="editForm" action="/teacher/moderation" method="post" name="editForm">
     <h1>Пользователь с данными:</h1>
     <h3>${unmoderatedPerson.name}</h3>
 
@@ -43,37 +43,37 @@
     <%--************************************************--%>
     <p><input type="hidden" name="newPerson" value="${unmoderatedPerson.id}"></p>
     <table class="table table-striped">
-        <c:forEach var="person" items="${allegedPerson}">
+        <c:forEach var="teacher" items="${allegedPerson}">
             <tr>
-                <td><input type="radio" name="oldPerson" value="${person.id}"></td>
+                <td><input type="radio" name="oldPerson" value="${teacher.id}"></td>
                 <td>
-                    <c:if test="${person.name ne null}">
-                        ${person.name}
+                    <c:if test="${teacher.name ne null}">
+                        ${teacher.name}
                     </c:if>
-                    <c:if test="${person.name eq null}">
+                    <c:if test="${teacher.name eq null}">
                         -
                     </c:if>
                 </td>
 
                 <td>
-                    <c:if test="${person.birthday ne null}">
-                        ${person.birthday}
+                    <c:if test="${teacher.birthday ne null}">
+                        ${teacher.birthday}
                     </c:if>
-                    <c:if test="${person.birthday eq null}">
+                    <c:if test="${teacher.birthday eq null}">
                         -
                     </c:if>
                 </td>
 
                 <td>
-                    <c:if test="${person.email ne null}">
-                        ${person.email}
+                    <c:if test="${teacher.email ne null}">
+                        ${teacher.email}
                     </c:if>
-                    <c:if test="${person.email eq null}">
+                    <c:if test="${teacher.email eq null}">
                         -
                     </c:if>
                 </td>
 
-                <td>${person.status}</td>
+                <td>${teacher.status}</td>
             </tr>
 
         </c:forEach>

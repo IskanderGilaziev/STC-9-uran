@@ -4,50 +4,54 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Entity
 @Table(name = "lesson")
 public class Lesson {
     private long id;
-
+    /**
+     * Преподаватель, что провел урок
+     */
     @Column(nullable = false)
-    private long teacherItem;
-
+    private Person teacher;
+    /**
+     * Дата проведения урока
+     */
     @Column(nullable = false)
     private Date date;
-
+    /**
+     * Тема урока
+     */
     @Column(nullable = false)
     private String theme;
-
+    /**
+     * Домашнее задание, что задано на уроке
+     */
     @Column(nullable = true)
     private String homework;
-
-    @JoinColumn(name = "subjectId", nullable = false)
+    /**
+     * По какой дисциплине проводился урок
+     */
+    @Column(nullable = false)
     private Subject subject;
+
+    /**
+     * У какой группы проводился урок
+     */
+    @Column(nullable = false)
+    private Team team;
+    /**
+     * Список оценок, которые были выставлены на данном уроке
+     */
+    private Set<Mark> markSet = new HashSet<>();
 
     public Lesson() {
     }
 
-    public Lesson(Subject subject, long teacherItem, Date date, String theme, String homework) {
-        this.subject = subject;
-        this.teacherItem = teacherItem;
-        this.date = date;
-        this.theme = theme;
-        this.homework = homework;
-    }
-
-    public Lesson(Subject subject, long teacherItem, Date date, String theme) {
-        this.subject = subject;
-        this.teacherItem = teacherItem;
-        this.date = date;
-        this.theme = theme;
-    }
-
-    public Lesson(long id, Subject subject, long teacherItem, Date date, String theme, String homework) {
-        this.id = id;
-        this.subject = subject;
-        this.teacherItem = teacherItem;
+    public Lesson(Date date, String theme, String homework) {
         this.date = date;
         this.theme = theme;
         this.homework = homework;
@@ -63,14 +67,6 @@ public class Lesson {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getTeacherItem() {
-        return teacherItem;
-    }
-
-    public void setTeacherItem(long teacherItem) {
-        this.teacherItem = teacherItem;
     }
 
     public Date getDate() {
@@ -106,14 +102,31 @@ public class Lesson {
         this.subject = subject;
     }
 
-    @Override
-    public String toString() {
-        return "Lesson{" +
-                "id=" + id +
-                ", teacherItem=" + teacherItem +
-                ", date=" + date +
-                ", theme='" + theme + '\'' +
-                ", homework='" + homework + '\'' +
-                '}';
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Person getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Person teacher) {
+        this.teacher = teacher;
+    }
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    //    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "mark", fetch = FetchType.LAZY)
+    public Set<Mark> getMarkSet() {
+        return markSet;
+    }
+
+    public void setMarkSet(Set<Mark> markSet) {
+        this.markSet = markSet;
     }
 }

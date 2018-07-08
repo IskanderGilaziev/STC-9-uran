@@ -15,12 +15,12 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="person" items="${personList}" varStatus="сounter">
+        <c:forEach var="teacher" items="${personList}" varStatus="сounter">
             <tr>
                 <td>${сounter.id}</td>
-                <td><a href="/person/person?id=${person.id}">${person.name}</a></td>
-                <td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>
-                <td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>
+                <td><a href="/teacher/teacher?id=${teacher.id}">${teacher.name}</a></td>
+                <td><a href="/teacher/updatePerson?id=${teacher.id}">редактировать</a></td>
+                <td><a href="/teacher/deletePerson?id=${teacher.id}">удалить</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -30,7 +30,7 @@
 <%--<div class="container">--%>
 <%--<main class="content">--%>
 <%--<h1>Список студентов</h1>--%>
-<%--<p><b><a href="/person/addOrUpdate">Добавить нового студента</a></b></p>--%>
+<%--<p><b><a href="/teacher/addOrUpdate">Добавить нового студента</a></b></p>--%>
 <%--<table border="1">--%>
 <%--<tr>--%>
 <%--<th>№</th>--%>
@@ -38,12 +38,12 @@
 <%--<th></th>--%>
 <%--<th></th>--%>
 <%--</tr>--%>
-<%--<c:forEach var="person" items="${personList}">--%>
+<%--<c:forEach var="teacher" items="${personList}">--%>
 <%--<tr>--%>
-<%--<td>${person.id}</td>--%>
-<%--<td><a href="/person/person?id=${person.id}">${person.name}</a></td>--%>
-<%--<td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>--%>
-<%--<td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>--%>
+<%--<td>${teacher.id}</td>--%>
+<%--<td><a href="/teacher/teacher?id=${teacher.id}">${teacher.name}</a></td>--%>
+<%--<td><a href="/teacher/updatePerson?id=${teacher.id}">редактировать</a></td>--%>
+<%--<td><a href="/teacher/deletePerson?id=${teacher.id}">удалить</a></td>--%>
 <%--</tr>--%>
 <%--</c:forEach>--%>
 <%--</table>--%>

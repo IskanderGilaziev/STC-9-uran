@@ -1,4 +1,5 @@
 package ru.innopolis.stc9.service.hibernate.interfaces;
 
-public interface LessonService {
+public interface SpecialityService {
+
 }

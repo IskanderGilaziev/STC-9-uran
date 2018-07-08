@@ -7,12 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-import ru.innopolis.stc9.service.hibernate.interfaces.ISpecialityService;
+import ru.innopolis.stc9.service.hibernate.interfaces.SpecialityService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class SpecialityController extends HttpServlet {
@@ -20,7 +18,7 @@ public class SpecialityController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(SpecialityController.class);
 
     @Autowired
-    private ISpecialityService service;
+    private SpecialityService service;
 
     @RequestMapping(value = "/addOrUpdateSpeciality", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
@@ -42,7 +40,7 @@ public class SpecialityController extends HttpServlet {
                                     @RequestAttribute String name,
                                     @RequestAttribute String semesterCount, Model model) {
 
-        if (action.equals("add")) {
+        /*if (action.equals("add")) {
               Speciality speciality = new Speciality(name, Integer.parseInt(semesterCount));
             service.addOrUpdate(speciality);
         } else {
@@ -50,42 +48,43 @@ public class SpecialityController extends HttpServlet {
                 Speciality speciality = new Speciality(Long.parseLong(id), name, Long.parseLong(semesterCount));
                 service.addOrUpdate(speciality);
             }
-        }
+        }*/
         return "redirect:specialityAll";
     }
 
     @RequestMapping(value = "/deleteSpeciality", method = RequestMethod.GET)
     public String delete(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
-        service.deleteById(Long.parseLong(id));
+        /*service.deleteById(Long.parseLong(id));*/
         return ("redirect:specialityAll");
     }
 
     @RequestMapping(value = "/specialityAll", method = RequestMethod.GET)
     public String getAll(HttpServletRequest request, Model model) {
-        List<Speciality> specialityList = service.getAll();
+        /*List<Speciality> specialityList = service.getAll();
         if (specialityList != null) {
             model.addAttribute("specialityList", specialityList);
             return "/specialityList";
         }
         else {
             return "index";
-        }
+        }*/
+        return null;
     }
 
     @RequestMapping(value = "/updateSpeciality", method = RequestMethod.GET)
     public String update(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
-        model.addAttribute("speciality", service.getById(Long.parseLong(id)));
-        model.addAttribute("action", "update");
+        /*model.addAttribute("speciality", service.getById(Long.parseLong(id)));
+        model.addAttribute("action", "update");*/
         return ("/addOrUpdateSpeciality");
     }
 
     @RequestMapping(value = "/speciality", method = RequestMethod.GET)
     public String get(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
-        Speciality speciality = service.getById(Long.parseLong(id));
-        model.addAttribute("speciality", speciality);
+        /*Speciality speciality = service.getById(Long.parseLong(id));
+        model.addAttribute("speciality", speciality);*/
         return "/getSpeciality";
     }
 }

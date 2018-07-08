@@ -3,6 +3,8 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Entity
@@ -10,23 +12,48 @@ import javax.persistence.*;
 public class Speciality {
 
     private long id;
+    /**
+     * Название специальности, по которой могут обучаться группы
+     */
     @Column(nullable = false)
     private String name;
+
+    /**
+     * Общее время обучения в годах
+     */
     @Column(nullable = false)
-    private long semesterCount;
+    private int yTotal;
+
+    /**
+     * Отметка, что данная специальность с набором свойственных ей предметов еще актуальна.
+     * Соответственно, при создании новых групп ее можно будет использовать.
+     * Если значение составить false, то эта специальность
+     * может быть использована только для уже существующих групп для окончания обучения.
+     */
+    @Column(nullable = false)
+    private boolean isActive;
+    /**
+     * Список дисципли, которые должны изучить студенты за время обучения
+     */
+    private Set<Subject> subjectSet = new HashSet<>();
+    /**
+     * Список учебных групп, которые обучаются по заданной специальности
+     */
+    private Set<Team> teamSet = new HashSet<>();
 
     public Speciality() {
     }
 
-    public Speciality(long id, String name, long semesterCount) {
-        this.id = id;
+    /**
+     * Создает новую действующую специальность обучения
+     *
+     * @param name
+     * @param yTotal
+     */
+    public Speciality(String name, int yTotal) {
         this.name = name;
-        this.semesterCount = semesterCount;
-    }
-
-    public Speciality(String name, long semesterCount) {
-        this.name = name;
-        this.semesterCount = semesterCount;
+        this.yTotal = yTotal;
+        isActive = true;
     }
 
     @Id
@@ -48,40 +75,40 @@ public class Speciality {
         this.name = name;
     }
 
-    public long getSemesterCount() {
-        return semesterCount;
+    public int getyTotal() {
+        return yTotal;
     }
 
-    public void setSemesterCount(long semesterCount) {
-        this.semesterCount = semesterCount;
+    public void setyTotal(int yTotal) {
+        this.yTotal = yTotal;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Speciality that = (Speciality) o;
-
-        if (id != that.id) return false;
-        if (semesterCount != that.semesterCount) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
+    public boolean isActive() {
+        return isActive;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) (semesterCount ^ (semesterCount >>> 32));
-        return result;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
-    @Override
-    public String toString() {
-        return "Speciality{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", semesterCount=" + semesterCount +
-                '}';
+    @ManyToMany
+    @JoinTable(name = "specialty_subject",
+            joinColumns = @JoinColumn(name = "specialty_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    public Set<Subject> getSubjectSet() {
+        return subjectSet;
+    }
+
+    public void setSubjectSet(Set<Subject> subjectSet) {
+        this.subjectSet = subjectSet;
+    }
+
+    @OneToMany(mappedBy = "speciality", fetch = FetchType.LAZY)
+    public Set<Team> getTeamSet() {
+        return teamSet;
+    }
+
+    public void setTeamSet(Set<Team> teamSet) {
+        this.teamSet = teamSet;
     }
 }
