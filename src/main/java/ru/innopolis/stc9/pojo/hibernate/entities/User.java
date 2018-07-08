@@ -3,6 +3,7 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Contains the necessary data to describe the user of the system
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Component
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     private long id;
     private String login;

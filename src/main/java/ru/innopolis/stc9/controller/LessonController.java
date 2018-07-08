@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.service.hibernate.implementations.SubjectService;
+import ru.innopolis.stc9.service.hibernate.implementations.SubjectServiceHibernate;
 import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
@@ -20,7 +20,7 @@ public class LessonController {
     @Autowired
     private LessonService service;
     @Autowired
-    private SubjectService subjectService;
+    private SubjectServiceHibernate subjectService;
     @Autowired
     private PersonService personService;
 

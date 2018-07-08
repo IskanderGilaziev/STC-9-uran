@@ -2,6 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-        <h1>${speciality.name}</h1>
-        <p><b>Название специальности:</b> ${speciality.name}</p>
+
+<h1>Произошла какая-то ошибка</h1>
+<div class="table-responsive">
+    <p>${msg}</p>
+</div>
 <%@ include file="../../../footer.jsp" %>

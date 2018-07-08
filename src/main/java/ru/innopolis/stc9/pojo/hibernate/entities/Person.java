@@ -3,6 +3,7 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Component
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements Serializable {
 
     private long id;
 
@@ -129,5 +130,52 @@ public class Person {
 
     public void setMarkSet(Set<Mark> markSet) {
         this.markSet = markSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (id != person.id) return false;
+        if (name != null ? !name.equals(person.name) : person.name != null) return false;
+        if (birthday != null ? !birthday.equals(person.birthday) : person.birthday != null) return false;
+        if (email != null ? !email.equals(person.email) : person.email != null) return false;
+        if (status != person.status) return false;
+        if (user != null ? !user.equals(person.user) : person.user != null) return false;
+        if (team != null ? !team.equals(person.team) : person.team != null) return false;
+        if (lessonSet != null ? !lessonSet.equals(person.lessonSet) : person.lessonSet != null) return false;
+        return markSet != null ? markSet.equals(person.markSet) : person.markSet == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (team != null ? team.hashCode() : 0);
+        result = 31 * result + (lessonSet != null ? lessonSet.hashCode() : 0);
+        result = 31 * result + (markSet != null ? markSet.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthday=" + birthday +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                ", user=" + user +
+                ", team=" + team +
+                ", lessonSet=" + lessonSet +
+                ", markSet=" + markSet +
+                '}';
     }
 }

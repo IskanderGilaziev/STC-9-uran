@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
 
@@ -32,77 +32,98 @@ public class SpecialityDaoHibernate implements SpecialityDao {
     }
 
     @Override
-    public List<Speciality> getAllSpecialitys() {
+    public List<Speciality> getAllSpeciality() {
         logger.debug(DEBUG_BEFORE);
         List<Speciality> specialityList = null;
-        try (Session session = factory.openSession()) {
+//        try (Session session = factory.openSession()) {
+        try {
+            Session session = factory.openSession();
             Query query = session.createQuery("FROM Speciality");
             specialityList = query.list();
             session.close();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
         logger.info(logResult(!specialityList.isEmpty()) + specialityList.size());
         return specialityList;
     }
 
     @Override
-    public void addOrUpdateSpeciality(Speciality speciality) {
+    public boolean addOrUpdateSpeciality(Speciality speciality) {
+        boolean result = false;
         logger.debug(DEBUG_BEFORE);
         if (speciality != null) {
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.saveOrUpdate(speciality);
-            session.getTransaction().commit();
-            session.close();
+            try (Session session = factory.openSession();) {
+                session.beginTransaction();
+                session.saveOrUpdate(speciality);
+                session.getTransaction().commit();
+                session.close();
+                result = true;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         } else {
             logger.warn(WARN_NPE);
         }
+        return result;
     }
 
+    /**
+     * Добавить учебную дисциплину к программе
+     *
+     * @param specialityId
+     * @param subject
+     * @return
+     */
     @Override
-    public void deleteBySpecialityId(long id) {
+    public boolean addNewSubject(long specialityId, Subject subject) {
+        boolean result = false;
         logger.debug(DEBUG_BEFORE);
-        if (id != 0) {
-            Speciality speciality = getById(id);
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.delete(speciality);
-            session.getTransaction().commit();
-            session.close();
+        if (specialityId > 0) {
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                Speciality speciality = (Speciality) session.get(Speciality.class, specialityId);
+                speciality.getSubjectSet().add(subject);
+                session.saveOrUpdate(speciality);
+                session.getTransaction().commit();
+                session.close();
+                result = true;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        } else {
+            logger.warn(WARN_NPE);
+        }
+        return result;
+    }
+
+    /**
+     * Удалить данныек безвозвратно
+     *
+     * @param speciality
+     * @return
+     */
+    @Override
+    public boolean deleteSpecialityFull(Speciality speciality) {
+        boolean result;
+        logger.debug(DEBUG_BEFORE);
+        if (speciality != null) {
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                session.delete(speciality);
+                session.getTransaction().commit();
+                session.close();
+                result = true;
+            } catch (Exception e) {
+                result = false;
+            }
             logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
+            result = false;
         }
         logger.debug(DEBUC_AFTER);
-    }
-
-
-    @Override
-    public Speciality getByName(String name) {
-        Speciality speciality = null;
-        if (name != null && !name.isEmpty()) {
-            try (Session session = factory.openSession()) {
-                Query query = session.createQuery("FROM Speciality WHERE name = :param");
-                query.setParameter("param", name);
-                if (query.list() != null && !query.list().isEmpty()) {
-                    speciality = (Speciality) query.list().get(0);
-                }
-            }
-        }
-        return speciality;
-    }
-
-    @Override
-    public void toDetached(Speciality speciality) {
-        logger.debug(DEBUG_BEFORE);
-        if (speciality != null) {
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.evict(speciality);
-            session.getTransaction().commit();
-            session.close();
-        } else {
-            logger.warn(WARN_NPE);
-        }
+        return result;
     }
 
     private String logResult(boolean b) {

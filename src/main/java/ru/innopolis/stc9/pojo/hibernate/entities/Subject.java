@@ -3,13 +3,14 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
 @Entity
 @Table(name = "subject")
-public class Subject {
+public class Subject implements Serializable {
 
     private long id;
 
@@ -54,8 +55,8 @@ public class Subject {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "specialty_subject",
-            joinColumns = @JoinColumn(name = "specialty_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "specialty_id"))
     public Set<Speciality> getSpecialtySet() {
         return specialtySet;
     }
@@ -71,5 +72,36 @@ public class Subject {
 
     public void setLessonSet(Set<Lesson> lessonSet) {
         this.lessonSet = lessonSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Subject subject = (Subject) o;
+
+        if (id != subject.id) return false;
+        if (name != null ? !name.equals(subject.name) : subject.name != null) return false;
+        if (specialtySet != null ? !specialtySet.equals(subject.specialtySet) : subject.specialtySet != null)
+            return false;
+        return lessonSet != null ? lessonSet.equals(subject.lessonSet) : subject.lessonSet == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (specialtySet != null ? specialtySet.hashCode() : 0);
+        result = 31 * result + (lessonSet != null ? lessonSet.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        String r = "Subject{" +
+                "id=" + id +
+                ", name='" + name + '\'';
+        return r;
     }
 }

@@ -3,6 +3,7 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Component
 @Entity
 @Table(name = "lesson")
-public class Lesson {
+public class Lesson implements Serializable {
     private long id;
     /**
      * Преподаватель, что провел урок
@@ -128,5 +129,49 @@ public class Lesson {
 
     public void setMarkSet(Set<Mark> markSet) {
         this.markSet = markSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Lesson lesson = (Lesson) o;
+
+        if (id != lesson.id) return false;
+        if (teacher != null ? !teacher.equals(lesson.teacher) : lesson.teacher != null) return false;
+        if (date != null ? !date.equals(lesson.date) : lesson.date != null) return false;
+        if (theme != null ? !theme.equals(lesson.theme) : lesson.theme != null) return false;
+        if (homework != null ? !homework.equals(lesson.homework) : lesson.homework != null) return false;
+        if (subject != null ? !subject.equals(lesson.subject) : lesson.subject != null) return false;
+        if (team != null ? !team.equals(lesson.team) : lesson.team != null) return false;
+        return markSet != null ? markSet.equals(lesson.markSet) : lesson.markSet == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (theme != null ? theme.hashCode() : 0);
+        result = 31 * result + (homework != null ? homework.hashCode() : 0);
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
+        result = 31 * result + (team != null ? team.hashCode() : 0);
+        result = 31 * result + (markSet != null ? markSet.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Lesson{" +
+                "id=" + id +
+                ", teacher=" + teacher +
+                ", date=" + date +
+                ", theme='" + theme + '\'' +
+                ", homework='" + homework + '\'' +
+                ", subject=" + subject +
+                ", team=" + team +
+                ", markSet=" + markSet +
+                '}';
     }
 }

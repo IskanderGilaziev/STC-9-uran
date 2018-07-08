@@ -1,8 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
+<%--<fmt:requestEncoding value="utf-8"/>--%>
+
 <h1>Список дисциплин</h1>
 <form class="editForm" name="editForm">
     <c:if test="${fn:length(subjectList) gt 0}">
@@ -40,12 +43,6 @@
                                 formaction="removeSubject" method="post">Удалить
                         </button>
                     </td>
-                        <%--<td>--%>
-                        <%--<button class="submit" type="submit" name="subjectId" value="${subject.id}"--%>
-                        <%--formaction="editSubject" method="post">Редактировать--%>
-                        <%--</button>--%>
-                        <%--</td>--%>
-
                     <td>
                         <c:if test="${subject.id eq theSubject.id}">
                             <button class="submit" type="submit" name="subjectId" value="${subject.id}"
@@ -67,7 +64,7 @@
 </form>
 <form class="editForm" name="editForm">
     <p>Добавить новый предмет:</p>
-    <p><input type="text" placeholder="Предмет" name="name"/>
+    <p><input type="text" placeholder="Предмет" <fmt:requestEncoding value="utf-8"/> name="name"/>
         <button class="submit" type="submit" formaction="addSubject" method="post">Добавить новый предмет</button>
     </p>
 </form>

@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
@@ -89,32 +90,25 @@ public class SubjectDaoHibernate implements SubjectDao {
 
 
     @Override
-    public Subject getByName(String name) {
-        Subject subject = null;
-        if (name != null && !name.isEmpty()) {
-            try (Session session = factory.openSession()) {
-                Query query = session.createQuery("FROM Subject WHERE name = :param");
-                query.setParameter("param", name);
-                if (query.list() != null && !query.list().isEmpty()) {
-                    subject = (Subject) query.list().get(0);
-                }
-            }
-        }
-        return subject;
-    }
-
-    @Override
-    public void toDetached(Subject subject) {
+    public boolean addNewSpecialty(long subjectId, Speciality speciality) {
+        boolean result = false;
         logger.debug(DEBUG_BEFORE);
-        if (subject != null) {
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.evict(subject);
-            session.getTransaction().commit();
-            session.close();
+        if (subjectId > 0) {
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                Subject subject = (Subject) session.get(Subject.class, subjectId);
+                subject.getSpecialtySet().add(speciality);
+                session.saveOrUpdate(subject);
+                session.getTransaction().commit();
+                session.close();
+                result = true;
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         } else {
             logger.warn(WARN_NPE);
         }
+        return result;
     }
 
     private String logResult(boolean b) {

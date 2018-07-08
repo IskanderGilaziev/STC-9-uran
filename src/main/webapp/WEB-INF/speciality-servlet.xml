@@ -9,7 +9,7 @@
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
-            <value>/WEB-INF/jsp/speciality</value>
+            <value>/WEB-INF/jsp/speciality/</value>
         </property>
 
         <property name="suffix">

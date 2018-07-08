@@ -1,20 +1,32 @@
 package ru.innopolis.stc9.db.hibernate.dao.interfaces;
 
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-import ru.innopolis.stc9.pojo.hibernate.entities.Status;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
 
 public interface SpecialityDao {
     Speciality getById(long id);
 
-    List<Speciality> getAllSpecialitys();
+    List<Speciality> getAllSpeciality();
 
-    void addOrUpdateSpeciality(Speciality speciality);
+    boolean addOrUpdateSpeciality(Speciality speciality);
 
-    void deleteBySpecialityId(long id);
+    /**
+     * Добавить учебную дисциплину к программе
+     *
+     * @param specialityId
+     * @param subject
+     * @return
+     */
+    boolean addNewSubject(long specialityId, Subject subject);
 
-    Speciality getByName(String name);
+    /**
+     * Удалить данныек безвозвратно
+     *
+     * @param speciality
+     * @return
+     */
+    boolean deleteSpecialityFull(Speciality speciality);
 
-    void toDetached(Speciality speciality);
 }

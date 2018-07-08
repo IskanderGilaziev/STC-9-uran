@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
-import ru.innopolis.stc9.service.hibernate.implementations.SubjectService;
+import ru.innopolis.stc9.service.hibernate.interfaces.SubjectService;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class SubjectController {
     private static final String DEBUG_AFTER = "exit with result: ";
     private static final String WARN = "error in request";
     private static final String ERROR_PAGE = "error";
-    private static final String REDIRECT_MAIN = "redirect:main";
+    private static final String REDIRECT_MAIN = "redirect:mainSubject";
     @Autowired
     private SubjectService subjectService;
 
@@ -29,7 +29,7 @@ public class SubjectController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    @RequestMapping(value = "/mainSubject", method = RequestMethod.GET)
     public String subjectMain(Model model) {
         logger.debug(DEBUG_BEFORE);
         String resultPage = null;
