@@ -79,7 +79,6 @@ public class SubjectDaoHibernate implements SubjectDao {
             } catch (Exception e) {
                 result = false;
             }
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
             result = false;
@@ -113,10 +112,6 @@ public class SubjectDaoHibernate implements SubjectDao {
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
-    }
-
-    private String logResult() {
-        return "Unknown result of operation";
     }
 
 }

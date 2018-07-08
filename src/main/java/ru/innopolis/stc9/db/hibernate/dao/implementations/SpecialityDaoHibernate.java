@@ -35,7 +35,6 @@ public class SpecialityDaoHibernate implements SpecialityDao {
     public List<Speciality> getAllSpeciality() {
         logger.debug(DEBUG_BEFORE);
         List<Speciality> specialityList = null;
-//        try (Session session = factory.openSession()) {
         try {
             Session session = factory.openSession();
             Query query = session.createQuery("FROM Speciality");
@@ -44,7 +43,7 @@ public class SpecialityDaoHibernate implements SpecialityDao {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        logger.info(logResult(!specialityList.isEmpty()) + specialityList.size());
+        logger.info(logResult(specialityList != null && !specialityList.isEmpty()));
         return specialityList;
     }
 
@@ -117,7 +116,6 @@ public class SpecialityDaoHibernate implements SpecialityDao {
             } catch (Exception e) {
                 result = false;
             }
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
             result = false;
@@ -128,9 +126,5 @@ public class SpecialityDaoHibernate implements SpecialityDao {
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
-    }
-
-    private String logResult() {
-        return "Unknown result of operation";
     }
 }

@@ -28,8 +28,7 @@ public class SpecialityServiceHibernate implements SpecialityService {
 
     @Override
     public List<Speciality> getAllSpecialty() {
-        List<Speciality> list = specialityDao.getAllSpeciality();
-        return list;
+        return specialityDao.getAllSpeciality();
     }
 
     /**

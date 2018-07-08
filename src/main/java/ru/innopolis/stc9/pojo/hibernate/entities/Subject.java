@@ -19,7 +19,7 @@ public class Subject implements Serializable {
 
     private Set<Speciality> specialtySet = new HashSet<>();
 
-    private Set<Lesson> lessonSet = new HashSet<Lesson>();
+    private Set<Lesson> lessonSet = new HashSet<>();
 
     public Subject() {
     }
@@ -99,9 +99,9 @@ public class Subject implements Serializable {
 
     @Override
     public String toString() {
-        String r = "Subject{" +
+        return "Subject{" +
                 "id=" + id +
-                ", name='" + name + '\'';
-        return r;
+                ", name='" + name + '\'' +
+                '}';
     }
 }

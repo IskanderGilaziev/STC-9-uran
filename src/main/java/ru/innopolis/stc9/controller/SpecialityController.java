@@ -92,7 +92,6 @@ public class SpecialityController {
         logger.debug(DEBUG_BEFORE);
         String resultPage = REDIRECT_MAIN;
         boolean isSuccess = specialityService.updateSpecialty(specialityId, newName, newYTotal);
-        ;
         if (!isSuccess) {
             model.addAttribute("err", "Error while update operation");
             resultPage = ERROR_PAGE;
@@ -135,7 +134,6 @@ public class SpecialityController {
         logger.debug(DEBUG_BEFORE);
         String resultPage = REDIRECT_MAIN;
         boolean isSuccess = specialityService.delete(specialityId);
-//                subjectService.delete(specialityId);
         if (!isSuccess) {
             model.addAttribute("err", "Error while delete operation");
             resultPage = ERROR_PAGE;
