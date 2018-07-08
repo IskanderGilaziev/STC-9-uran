@@ -1,11 +1,9 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.sql.Date;
 
-@Component
+
 @Entity
 @Table(name = "lesson")
 public class Lesson {

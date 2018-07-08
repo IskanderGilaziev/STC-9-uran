@@ -25,7 +25,7 @@ public class PersonDaoHibernate implements PersonDao {
     public Person getById(long id) {
         logger.debug(DEBUG_BEFORE + id);
         Session session = factory.openSession();
-        Person person = (Person) session.get(Person.class, id);
+        Person person = session.get(Person.class, id);
         session.close();
         logger.info(logResult(person != null));
         return person;

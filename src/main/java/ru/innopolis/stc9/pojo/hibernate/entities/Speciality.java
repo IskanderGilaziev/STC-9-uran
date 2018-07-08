@@ -1,10 +1,8 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 
-@Component
+
 @Entity
 @Table(name = "speciality")
 public class Speciality {
@@ -30,7 +28,7 @@ public class Speciality {
     }
 
     @Id
-    @SequenceGenerator(name = "specialitySeq", sequenceName = "speciality_SEQUENCE", allocationSize = 1)
+    @SequenceGenerator(name = "specialitySeq", sequenceName = "speciality_SEQUENCE", allocationSize = 0)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "specialitySeq")
     public long getId() {
         return id;

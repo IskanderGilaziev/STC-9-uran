@@ -1,23 +1,22 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.sql.Date;
 
-@Component
+
 @Entity
 @Table(name = "person")
 public class Person {
 
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "person_name")
     private String name;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "b_day")
     private Date birthday;
 
+    @Column(name = "email")
     private String email;
 
     @Column(nullable = false)
@@ -44,7 +43,7 @@ public class Person {
 
     @Id
     @Column(unique = true)
-    @SequenceGenerator(name = "personSeq", sequenceName = "PERSON_SEQUENCE")
+    @SequenceGenerator(name = "personSeq", sequenceName = "PERSON_SEQUENCE", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personSeq")
     public long getId() {
         return id;

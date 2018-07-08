@@ -24,7 +24,7 @@ public class UserDaoHibernate implements UserDao {
     public User getById(long id) {
         logger.debug(DEBUG_BEFORE + id);
         Session session = factory.openSession();
-        User user = (User) session.get(User.class, id);
+        User user = session.get(User.class, id);
         session.close();
         logger.info(logResult(user != null));
         return user;

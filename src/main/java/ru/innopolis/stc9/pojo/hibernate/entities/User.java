@@ -1,13 +1,11 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 
 /**
  * Contains the necessary data to describe the user of the system
  */
-@Component
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -31,8 +29,8 @@ public class User {
     }
 
     @Id
-    @Column(unique = true)
-    @SequenceGenerator(name = "userSeq", sequenceName = "USER_SEQUENCE")
+    @Column(unique = true, name = "user_id")
+    @SequenceGenerator(name = "userSeq", sequenceName = "USER_SEQUENCE", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
     public long getId() {
         return id;
@@ -42,6 +40,7 @@ public class User {
         this.id = id;
     }
 
+    @Column(name = "login")
     public String getLogin() {
         return login;
     }
@@ -50,6 +49,7 @@ public class User {
         this.login = login;
     }
 
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -58,6 +58,7 @@ public class User {
         this.password = password;
     }
 
+    @Column(name = "role")
     public String getRole() {
         return role;
     }
@@ -66,6 +67,7 @@ public class User {
         this.role = role;
     }
 
+    @Column(name = "enabled")
     public Integer getEnabled() {
         return enabled;
     }
