@@ -48,7 +48,7 @@ public class Subject {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "program_subject",
             joinColumns = @JoinColumn(name = "program_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    inverseJoinColumns = @JoinColumn(name = "subject_id"))
     public Set<Program> getPrograms() {
         return programs;
     }

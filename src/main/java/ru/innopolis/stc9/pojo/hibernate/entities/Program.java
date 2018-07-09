@@ -44,7 +44,7 @@ public class Program {
     this.id = id;
   }
 
-  @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   public Speciality getSpeciality() {
     return speciality;
   }
@@ -128,12 +128,6 @@ public class Program {
 
   @Override
   public String toString() {
-    return "Program{" +
-            "id=" + id +
-            ", speciality=" + speciality +
-            ", semester=" + semester +
-            ", subjects=" + subjects +
-            ", hours=" + hours +
-            '}';
+    return " ";
   }
 }

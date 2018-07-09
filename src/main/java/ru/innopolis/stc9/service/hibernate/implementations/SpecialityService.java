@@ -24,10 +24,10 @@ public class SpecialityService implements ISpecialityService {
 
     @Override
     public Speciality getById(long id) {
-        logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Speciality speciality = null;
-        speciality = specialityDao.getById(id);
-        logger.info(this.getClass().getName() + " method getById finished, id = " + id);
+        //logger.info(this.getClass().getName() + " method getById started, id = " + id);
+        Speciality speciality = specialityDao.getById(id);
+
+        //logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return speciality;
     }
 
