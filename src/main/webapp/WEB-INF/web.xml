@@ -117,6 +117,17 @@
         <servlet-name>scheduleItem</servlet-name>
         <url-pattern>/scheduleItem/*</url-pattern>
     </servlet-mapping>
+
+    <display-name>perfomance</display-name>
+    <servlet>
+        <servlet-name>perfomance</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>perfomance</servlet-name>
+        <url-pattern>/perfomance/*</url-pattern>
+    </servlet-mapping>
   
     <servlet-mapping>
         <servlet-name>default</servlet-name>

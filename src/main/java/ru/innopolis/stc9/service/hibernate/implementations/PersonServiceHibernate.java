@@ -26,8 +26,7 @@ public class PersonServiceHibernate implements PersonService {
     @Override
     public Person getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Person person = null;
-        person = personDao.getById(id);
+        Person person = personDao.getById(id);
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return person;
     }
@@ -85,12 +84,12 @@ public class PersonServiceHibernate implements PersonService {
     }
 
     @Override
-    public List<Person> getTeachers() {
-        logger.info(this.getClass().getName() + " method getTeachers started");
-        List<Person> teacherList;
-        teacherList = personDao.getPersonByRole(Status.teacher);
-        logger.info(this.getClass().getName() + " method getTeachers finished");
-        return teacherList;
+    public List<Person> getPersonByRoleAndNullUser(Status status) {
+        logger.info(this.getClass().getName() + " method getPersonByRoleAndNullUser started");
+        List<Person> personList;
+        personList = personDao.getPersonByRole(status);
+        logger.info(this.getClass().getName() + " method getPersonByRoleAndNullUser finished");
+        return personList;
     }
 
     @Override
@@ -103,4 +102,15 @@ public class PersonServiceHibernate implements PersonService {
         }
         personDao.addOrUpdatePerson(oldPerson);
     }
+
+    @Override
+    public List<Person> getStudentById(long id) {
+        logger.info(this.getClass().getName() + " method getStudentById started, id = " + id);
+        List<Person> studentList;
+        studentList = personDao.getPersonByRole(Status.student);;
+        logger.info(this.getClass().getName() + " method getStudentById finished, id = " + id);
+        return studentList;
+    }
+
+
 }

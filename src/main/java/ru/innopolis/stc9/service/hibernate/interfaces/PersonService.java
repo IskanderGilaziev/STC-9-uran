@@ -1,6 +1,7 @@
 package ru.innopolis.stc9.service.hibernate.interfaces;
 
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 
 import java.util.List;
 
@@ -20,8 +21,7 @@ public interface PersonService {
      * @return
      */
     List<Person> getAllegedPersonForModeration();
-
     void refreshPersonsDataOnModeration(Person oldId, Person newId);
-
-    List<Person> getTeachers();
+    List<Person> getStudentById(long id);
+    List<Person> getPersonByRoleAndNullUser(Status status);
 }

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Entity
@@ -26,6 +28,8 @@ public class Person {
 
     @Column(nullable = true)
     private User user;
+
+    private Set<Performance> performances = new HashSet<>();
 
     public Person() {
     }
@@ -86,6 +90,7 @@ public class Person {
         this.status = status;
     }
 
+
     @OneToOne(optional = true, mappedBy = "person")
     public User getUser() {
         return user;
@@ -93,6 +98,15 @@ public class Person {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    public Set<Performance> getPerformances() {
+        return performances;
+    }
+
+    public void setPerformances(Set<Performance> performances) {
+        this.performances = performances;
     }
 
     @Override

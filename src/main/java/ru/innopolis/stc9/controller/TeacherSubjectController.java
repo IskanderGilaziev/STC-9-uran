@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.realisationJDBC.TeacherSubject;
 import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;
@@ -42,7 +43,7 @@ public class TeacherSubjectController {
         List<TeacherSubject> teacherSubjectList = service.getAll();
         if (teacherSubjectList != null) {
             model.addAttribute("teacherSubjectList", teacherSubjectList);
-            return "/teacherSubjectList";
+            return "/perfomanceList";
         } else {
             return "index";
         }
@@ -54,13 +55,13 @@ public class TeacherSubjectController {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
         } else {
-            List<Person> teacherList = personService.getTeachers();
+            List<Person> teacherList = personService.getPersonByRoleAndNullUser(Status.teacher);
             List<Subject> subjectList = subjectService.getAll();
             model.addAttribute("teacherList", teacherList);
             model.addAttribute("subjectList", subjectList);
             model.addAttribute("action", "add");
         }
-        return "/addOrUpdateTL";
+        return "/addOrUpdatePerfom";
     }
 
     @RequestMapping(value = "/addOrUpdateTL", method = RequestMethod.POST)
@@ -87,7 +88,7 @@ public class TeacherSubjectController {
     @RequestMapping(value = "/updateTeacherSubject", method = RequestMethod.GET)
     public String updatePerson(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
-        List<Person> teacherList = personService.getTeachers();
+        List<Person> teacherList = personService.getPersonByRoleAndNullUser(Status.teacher);
         List<Subject> subjectList = subjectService.getAll();
         model.addAttribute("teacherList", teacherList);
         model.addAttribute("subjectList", subjectList);
