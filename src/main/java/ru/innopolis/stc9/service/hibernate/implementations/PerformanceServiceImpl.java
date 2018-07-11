@@ -56,7 +56,13 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     @Override
     public List<Performance> getPerfomanceListByPerson(long personId) {
-        logger.info(this.getClass().getName() + " method getLessonListBySubjId started");
+        logger.info(this.getClass().getName() + " method getPerfomanceListByPerson started");
         return performanceDao.getPerfomanceListByPerson(personId);
+    }
+
+    @Override
+    public  List<Performance> getByLessonId(long lessonId) {
+        logger.info(this.getClass().getName() + " method getByLessonId started");
+        return performanceDao.getByLessonId(lessonId);
     }
 }

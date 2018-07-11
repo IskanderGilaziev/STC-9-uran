@@ -32,9 +32,9 @@ public class PerformanceController {
 
     @RequestMapping(value = "/addOrUpdatePerform", method = RequestMethod.GET)
     public String addPerformance(HttpServletRequest request, Model model) {
-        model.addAttribute("action","add");
+        model.addAttribute("action", "add");
         long lessonId = Long.parseLong(request.getParameter("lessonId"));
-        model.addAttribute("lesson",lessonService.getById(lessonId));
+        model.addAttribute("lesson", lessonService.getById(lessonId));
         List<Person> studentList = personService.getPersonByRoleAndNullUser(Status.student);
         model.addAttribute("studentList", studentList);
         return "/addOrUpdatePerfom";
@@ -47,13 +47,13 @@ public class PerformanceController {
                                   @RequestAttribute int[] marks,
                                   @RequestAttribute boolean[] attendances,
                                   Model model) {
-        for(int i = 0; i<studentsId.length-1;i++) {
+        for (int i = 0; i < studentsId.length; i++) {
             Performance performance = new Performance(personService.getById(studentsId[i]),
                     lessonService.getById(lessonId), marks[i], attendances[i]);
             service.addOrUpdateById(performance);
         }
-//        model.addAttribute("performance", performance);
-        return "/getPerformance";
+        model.addAttribute("lessonId",lessonId);
+        return "redirect:getPerformance";
     }
 
     @RequestMapping(value = "/deletePerformance", method = RequestMethod.GET)
@@ -98,11 +98,16 @@ public class PerformanceController {
         return "/getPerformance";
     }
 
-    @RequestMapping(value = "/performance", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPerformance", method = RequestMethod.GET)
     public String getPerformance(HttpServletRequest request,
-                                 @RequestAttribute String id, Model model) {
-        Performance performance = service.getById(Long.parseLong(id));
-        model.addAttribute("performance", performance);
-        return "/getPerformance";
+                                 @RequestAttribute long lessonId, Model model) {
+        model.addAttribute("lesson",lessonService.getById(lessonId));
+        List<Performance> performanceList = service.getByLessonId(lessonId);
+        if (performanceList != null) {
+            model.addAttribute("performanceList", performanceList);
+            return "/getPerformance";
+        } else {
+            return "index";
+        }
     }
 }
