@@ -1,7 +1,6 @@
 package ru.innopolis.stc9.db.hibernate.dao.interfaces;
 
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 
 import java.util.List;
 
@@ -14,7 +13,11 @@ public interface SpecialityDao {
 
     void deleteBySpecialityId(long id);
 
-    Speciality getByName(String name);
+//    /**
+//     * Список дисциплин, которых нет в данной специальности, но есть в базе
+//     * @param speciality
+//     * @return
+//     */
+//    List<Subject> getLackingSubjects(Speciality speciality);
 
-    void toDetached(Speciality speciality);
 }

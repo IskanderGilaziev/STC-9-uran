@@ -11,10 +11,9 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
-import ru.innopolis.stc9.service.hibernate.implementations.SubjectService;
+import ru.innopolis.stc9.service.hibernate.implementations.SubjectServiceHibernate;
 import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
-
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ public class SubjectController extends HttpServlet{
     private static final Logger logger = Logger.getLogger(SubjectController.class);
 
     @Autowired
-    private SubjectService service;
+    private SubjectServiceHibernate service;
 
     @Autowired
     private LessonService lessonService;
@@ -150,9 +149,10 @@ public class SubjectController extends HttpServlet{
                                 @RequestAttribute Date date,
                                 @RequestAttribute String theme,
                                 @RequestAttribute String homework, Model model) {
+        Person teacher = personService.getById(teacher_item);
         Lesson lesson = new Lesson(id,
                 service.getById(subjectId),
-                teacher_item, date , theme, homework);
+                teacher, date, theme, homework);
         lessonService.addOrUpdateById(lesson);
         model.addAttribute("lesson", lesson);
         model.addAttribute("id", subjectId);

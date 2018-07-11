@@ -11,9 +11,9 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.realisationJDBC.TeacherSubject;
-import ru.innopolis.stc9.service.hibernate.interfaces.ISubjectService;
 import ru.innopolis.stc9.service.ITeacherSubjectService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
+import ru.innopolis.stc9.service.hibernate.interfaces.SubjectService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -29,7 +29,7 @@ public class TeacherSubjectController {
     private PersonService personService;
 
     @Autowired
-    private ISubjectService subjectService;
+    private SubjectService subjectService;
 
     @RequestMapping(value = "/deleteTeacherSubject", method = RequestMethod.GET)
     public String deleteTeacherSubject(HttpServletRequest request,

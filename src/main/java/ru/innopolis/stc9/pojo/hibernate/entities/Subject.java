@@ -3,9 +3,7 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -17,6 +15,9 @@ public class Subject {
 
     @Column(nullable = false)
     private String name;
+
+    private Set<Speciality> specialtySet = new HashSet<>();
+
 
     private Set<Lesson> lessonList = new HashSet<Lesson>();
 
@@ -59,6 +60,18 @@ public class Subject {
 
     public void setLessonList(Set<Lesson> lessonList) {
         this.lessonList = lessonList;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "specialty_subject",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "specialty_id"))
+    public Set<Speciality> getSpecialtySet() {
+        return specialtySet;
+    }
+
+    public void setSpecialtySet(Set<Speciality> specialtySet) {
+        this.specialtySet = specialtySet;
     }
 
     @Override

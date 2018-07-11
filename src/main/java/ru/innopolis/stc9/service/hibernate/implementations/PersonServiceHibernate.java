@@ -107,7 +107,7 @@ public class PersonServiceHibernate implements PersonService {
     public List<Person> getStudentById(long id) {
         logger.info(this.getClass().getName() + " method getStudentById started, id = " + id);
         List<Person> studentList;
-        studentList = personDao.getPersonByRole(Status.student);;
+        studentList = personDao.getPersonByRole(Status.student);
         logger.info(this.getClass().getName() + " method getStudentById finished, id = " + id);
         return studentList;
     }

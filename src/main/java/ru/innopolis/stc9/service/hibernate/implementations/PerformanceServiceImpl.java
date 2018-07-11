@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 @Service
 public class PerformanceServiceImpl implements PerformanceService {
-    private static final Logger logger = Logger.getLogger(SubjectService.class);
+    private static final Logger logger = Logger.getLogger(SubjectServiceHibernate.class);
 
     private final PerformanceDao performanceDao;
 

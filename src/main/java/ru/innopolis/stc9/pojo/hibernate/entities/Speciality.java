@@ -3,6 +3,8 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Entity
@@ -10,23 +12,50 @@ import javax.persistence.*;
 public class Speciality {
 
     private long id;
+    /**
+     * Название специальности, по которой могут обучаться группы
+     */
     @Column(nullable = false)
     private String name;
+
+    /**
+     * время обучения, года
+     */
     @Column(nullable = false)
-    private long semesterCount;
+    private int yTotal;
+    /**
+     * Отметка, что данная специальность с набором свойственных ей предметов еще актуальна.
+     * 0 - действует
+     * не 0 - архивная
+     * Соответственно, при создании новых групп ее можно будет использовать.
+     * Если значение составить false, то эта специальность
+     * может быть использована только для уже существующих групп для окончания обучения.
+     */
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int isActive;
+    /**
+     * Список дисципли, которые должны изучить студенты за время обучения
+     */
+    private Set<Subject> subjectSet = new HashSet<>();
+
+    /**
+     * Список учебных групп, которые обучаются по заданной специальности
+     */
+    private Set<Team> teamSet = new HashSet<>();
+
 
     public Speciality() {
     }
 
-    public Speciality(long id, String name, long semesterCount) {
+    public Speciality(long id, String name, int yTotal) {
         this.id = id;
         this.name = name;
-        this.semesterCount = semesterCount;
+        this.yTotal = yTotal;
     }
 
-    public Speciality(String name, long semesterCount) {
+    public Speciality(String name, int yTotal) {
         this.name = name;
-        this.semesterCount = semesterCount;
+        this.yTotal = yTotal;
     }
 
     @Id
@@ -48,12 +77,49 @@ public class Speciality {
         this.name = name;
     }
 
-    public long getSemesterCount() {
-        return semesterCount;
+    public int getyTotal() {
+        return yTotal;
     }
 
-    public void setSemesterCount(long semesterCount) {
-        this.semesterCount = semesterCount;
+    public void setyTotal(int yTotal) {
+        this.yTotal = yTotal;
+    }
+
+    public int getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "specialty_subject",
+            joinColumns = @JoinColumn(name = "specialty_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    public Set<Subject> getSubjectSet() {
+        return subjectSet;
+    }
+
+    public void setSubjectSet(Set<Subject> subjectSet) {
+        this.subjectSet = subjectSet;
+    }
+
+    public int isActive() {
+        return isActive;
+    }
+
+    public void setActive(int active) {
+        isActive = active;
+    }
+
+    @OneToMany(mappedBy = "speciality", fetch = FetchType.LAZY)
+    public Set<Team> getTeamSet() {
+        return teamSet;
+    }
+
+    public void setTeamSet(Set<Team> teamSet) {
+        this.teamSet = teamSet;
     }
 
     @Override
@@ -64,7 +130,8 @@ public class Speciality {
         Speciality that = (Speciality) o;
 
         if (id != that.id) return false;
-        if (semesterCount != that.semesterCount) return false;
+        if (yTotal != that.yTotal) return false;
+        if (isActive != that.isActive) return false;
         return name != null ? name.equals(that.name) : that.name == null;
     }
 
@@ -72,7 +139,8 @@ public class Speciality {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) (semesterCount ^ (semesterCount >>> 32));
+        result = 31 * result + yTotal;
+        result = 31 * result + isActive;
         return result;
     }
 
@@ -81,7 +149,10 @@ public class Speciality {
         return "Speciality{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", semesterCount=" + semesterCount +
+                ", yTotal=" + yTotal +
+                ", isActive=" + isActive +
+                ", subject count=" + subjectSet.size() +
+                ", team count=" + teamSet.size() +
                 '}';
     }
 }

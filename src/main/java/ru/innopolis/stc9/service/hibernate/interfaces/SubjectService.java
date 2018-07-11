@@ -4,7 +4,7 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
 
-public interface ISubjectService {
+public interface SubjectService {
 
     Subject getById(long id);
 

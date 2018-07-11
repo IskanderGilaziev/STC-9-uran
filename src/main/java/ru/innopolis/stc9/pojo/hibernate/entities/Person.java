@@ -31,6 +31,10 @@ public class Person {
 
     private Set<Performance> performances = new HashSet<>();
 
+    private Team team;
+
+    private Set<Lesson> lessonSet = new HashSet<>();
+
     public Person() {
     }
 
@@ -90,7 +94,6 @@ public class Person {
         this.status = status;
     }
 
-
     @OneToOne(optional = true, mappedBy = "person")
     public User getUser() {
         return user;
@@ -107,6 +110,25 @@ public class Person {
 
     public void setPerformances(Set<Performance> performances) {
         this.performances = performances;
+    }
+
+    //    @JoinColumn(name = "personId", nullable = false)
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    public Set<Lesson> getLessonSet() {
+        return lessonSet;
+    }
+
+    public void setLessonSet(Set<Lesson> lessonSet) {
+        this.lessonSet = lessonSet;
     }
 
     @Override

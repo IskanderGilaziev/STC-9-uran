@@ -71,52 +71,52 @@
         <url-pattern>/speciality/*</url-pattern>
     </servlet-mapping>
 
-    <display-name>status</display-name>
+    <!--<display-name>status</display-name>-->
 
-    <servlet>
-        <servlet-name>status</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    </servlet>
+    <!--<servlet>-->
+    <!--<servlet-name>status</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>status</servlet-name>
-        <url-pattern>/status/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>status</servlet-name>-->
+    <!--<url-pattern>/status/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
- <display-name>program</display-name>
+    <!--<display-name>program</display-name>-->
 
-    <servlet>
-        <servlet-name>program</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    </servlet>
+    <!--<servlet>-->
+    <!--<servlet-name>program</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>program</servlet-name>
-        <url-pattern>/program/*</url-pattern>
-    </servlet-mapping>
-        
-   <display-name>teacherSubject</display-name>
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>program</servlet-name>-->
+    <!--<url-pattern>/program/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!---->
+    <!--<display-name>teacherSubject</display-name>-->
 
-    <servlet>
-        <servlet-name>teacherSubject</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    </servlet>
+    <!--<servlet>-->
+    <!--<servlet-name>teacherSubject</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>teacherSubject</servlet-name>
-        <url-pattern>/teacherSubject/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>teacherSubject</servlet-name>-->
+    <!--<url-pattern>/teacherSubject/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-    <display-name>scheduleItem</display-name>
-    <servlet>
-        <servlet-name>scheduleItem</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    </servlet>
+    <!--<display-name>scheduleItem</display-name>-->
+    <!--<servlet>-->
+    <!--<servlet-name>scheduleItem</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>scheduleItem</servlet-name>
-        <url-pattern>/scheduleItem/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>scheduleItem</servlet-name>-->
+    <!--<url-pattern>/scheduleItem/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <display-name>perfomance</display-name>
     <servlet>
