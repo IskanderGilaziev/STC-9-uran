@@ -12,10 +12,10 @@
             <input type="hidden" name="action" value="${action}">
 
                     <c:if test="${action=='update'}">
-                        <h2>Редактирование</h2>
+                        <h2>Редактирование существующей специальности</h2>
                     </c:if>
                     <c:if test="${action=='add'}">
-                        <h2>Добавление новогй специальности</h2>
+                        <h2>Добавление новой специальности</h2>
                     </c:if>
             <ul>
                 <li>
@@ -25,9 +25,9 @@
                 </li>
 
                 <li>
-                    <label for="semesterCount">Кол-во семестров:</label>
+                    <label for="semesterCount">Срок обучения:</label>
                     <input type="text" placeholder="семестры" required
-                           value="<c:if test="${action=='update'}">${speciality.semesterCount}</c:if>" name="semesterCount"/>
+                           value="<c:if test="${action=='update'}">${speciality.yTotal}</c:if>" name="semesterCount"/>
                 </li>
 
                 <li>
