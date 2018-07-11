@@ -11,6 +11,7 @@
         <tr>
             <th>№</th>
             <th>Название специальности</th>
+            <th>Срок обучения</th>
             <th>Кол-во дисциплин</th>
             <th>Кол-во групп</th>
             <th>Архивная?</th>
@@ -21,6 +22,7 @@
         <tr>
             <td>${counter.count}</td>
             <td><a href="/speciality/speciality?id=${speciality.id}">${speciality.name}</a></td>
+            <td>${speciality.yTotal}</td>
             <td>${fn:length(speciality.subjectSet)}</td>
             <td>${fn:length(speciality.teamSet)}</td>
             <td>

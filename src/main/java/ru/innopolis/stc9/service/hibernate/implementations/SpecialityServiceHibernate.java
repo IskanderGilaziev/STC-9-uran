@@ -45,15 +45,50 @@ public class SpecialityServiceHibernate implements SpecialityService {
     @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
-        specialityDao.deleteBySpecialityId(id);
+        specialityDao.deleteBySpecialityIdFull(id);
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
     }
 
+    /**
+     * По умолчанию специальность создается активной.
+     *
+     * @param name
+     * @param yTotal
+     */
     @Override
-    public void addOrUpdate(Speciality speciality) {
-        logger.info(this.getClass().getName() + " method add started");
-        specialityDao.addOrUpdateSpeciality(speciality);
-        logger.info(this.getClass().getName() + " method add finished");
+    public void addNew(String name, int yTotal) {
+        if (name != null && !name.isEmpty() && yTotal > 0) {
+            Speciality speciality = new Speciality(name, yTotal);
+            specialityDao.addOrUpdateSpeciality(speciality);
+            logger.info("after insert operation");
+        } else {
+            logger.info("invalid parameters");
+        }
+    }
+
+    /**
+     * Обновить существующую специальность, не затрагивая ее статуса действующая/архивная
+     *
+     * @param id
+     * @param name
+     * @param yTotal
+     */
+    @Override
+    public void updateExiting(long id, String name, int yTotal) {
+        if (name != null && !name.isEmpty() && yTotal > 0) {
+            Speciality speciality = specialityDao.getById(id);
+            if (speciality != null) {
+                speciality.setName(name);
+                speciality.setyTotal(yTotal);
+                speciality.setIsActive(0);
+                specialityDao.addOrUpdateSpeciality(speciality);
+                logger.info("after insert operation");
+            } else {
+                logger.warn("no speciality with id = " + id);
+            }
+        } else {
+            logger.info("invalid parameters");
+        }
     }
 
     @Override
@@ -185,7 +220,7 @@ public class SpecialityServiceHibernate implements SpecialityService {
     @Override
     public void changeStatus(long speciality) {
         Speciality s = specialityDao.getById(speciality);
-        s.setActive(Math.abs(s.getIsActive() - 1));
+        s.setIsActive(Math.abs(s.getIsActive() - 1));
         specialityDao.addOrUpdateSpeciality(s);
     }
 }

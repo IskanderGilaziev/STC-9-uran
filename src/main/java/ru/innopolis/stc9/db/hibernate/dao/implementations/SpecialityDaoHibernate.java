@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
+import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class SpecialityDaoHibernate implements SpecialityDao {
@@ -63,13 +65,23 @@ public class SpecialityDaoHibernate implements SpecialityDao {
         }
     }
 
+    /**
+     * Удаляет только специальность, оставляя группы в системе
+     *
+     * @param id
+     */
     @Override
-    public void deleteBySpecialityId(long id) {
+    public void deleteBySpecialityIdFull(long id) {
         logger.debug(DEBUG_BEFORE);
         if (id > 0) {
             try (Session session = factory.openSession()) {
                 session.beginTransaction();
                 Speciality speciality = (Speciality) session.get(Speciality.class, id);
+                Set<Team> teamSet = speciality.getTeamSet();
+                for (Team t : teamSet) {
+                    t.setSpeciality(null);
+                }
+                session.saveOrUpdate(speciality);
                 session.delete(speciality);
                 session.getTransaction().commit();
             } catch (Exception e) {

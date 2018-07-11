@@ -11,13 +11,10 @@ public interface SpecialityDao {
 
     void addOrUpdateSpeciality(Speciality speciality);
 
-    void deleteBySpecialityId(long id);
-
-//    /**
-//     * Список дисциплин, которых нет в данной специальности, но есть в базе
-//     * @param speciality
-//     * @return
-//     */
-//    List<Subject> getLackingSubjects(Speciality speciality);
-
+    /**
+     * Удаляет только специальность, оставляя группы в системе
+     *
+     * @param id
+     */
+    void deleteBySpecialityIdFull(long id);
 }

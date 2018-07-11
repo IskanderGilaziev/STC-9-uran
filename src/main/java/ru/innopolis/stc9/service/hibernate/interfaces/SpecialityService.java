@@ -12,7 +12,22 @@ public interface SpecialityService {
 
     void deleteById(long id);
 
-    void addOrUpdate(Speciality speciality);
+    /**
+     * По умолчанию специальность создается активной.
+     *
+     * @param name
+     * @param yTotal
+     */
+    void addNew(String name, int yTotal);
+
+    /**
+     * Обновить существующую специальность, не затрагивая ее статуса действующая/архивная
+     *
+     * @param id
+     * @param name
+     * @param yTotal
+     */
+    void updateExiting(long id, String name, int yTotal);
 
     List<Speciality> getAll();
 

@@ -56,12 +56,10 @@ public class SpecialityController {
                               @RequestAttribute int semesterCount, Model model) {
         logger.debug(LOG_BEFORE + MSG_ID + id + ", action = " + action + ", name = " + name + ", semesterCount = " + semesterCount);
         if (action.equals("add")) {
-            Speciality speciality = new Speciality(name, semesterCount);
-            specialityService.addOrUpdate(speciality);
+            specialityService.addNew(name, semesterCount);
         } else {
             if (action.equals(PARAM_UPDATE)) {
-                Speciality speciality = new Speciality(id, name, semesterCount);
-                specialityService.addOrUpdate(speciality);
+                specialityService.updateExiting(id, name, semesterCount);
             }
         }
         return "redirect:specialityAll";

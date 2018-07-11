@@ -12,7 +12,6 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/security-context.xml
-            <!--/WEB-INF/database-config.xml-->
             /WEB-INF/database-hibernate.xml
         </param-value>
     </context-param>
@@ -70,6 +69,18 @@
         <servlet-name>speciality</servlet-name>
         <url-pattern>/speciality/*</url-pattern>
     </servlet-mapping>
+
+    <display-name>group</display-name>
+    <servlet>
+        <servlet-name>group</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>group</servlet-name>
+        <url-pattern>/group/*</url-pattern>
+    </servlet-mapping>
+
 
     <!--<display-name>status</display-name>-->
 

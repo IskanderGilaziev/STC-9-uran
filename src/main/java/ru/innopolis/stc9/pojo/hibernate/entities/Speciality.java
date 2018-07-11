@@ -23,6 +23,7 @@ public class Speciality {
      */
     @Column(nullable = false)
     private int yTotal;
+
     /**
      * Отметка, что данная специальность с набором свойственных ей предметов еще актуальна.
      * 0 - действует
@@ -47,15 +48,15 @@ public class Speciality {
     public Speciality() {
     }
 
-    public Speciality(long id, String name, int yTotal) {
-        this.id = id;
+    public Speciality(String name, int yTotal) {
         this.name = name;
         this.yTotal = yTotal;
     }
 
-    public Speciality(String name, int yTotal) {
+    public Speciality(String name, int yTotal, int isActive) {
         this.name = name;
         this.yTotal = yTotal;
+        this.isActive = isActive;
     }
 
     @Id
@@ -103,14 +104,6 @@ public class Speciality {
 
     public void setSubjectSet(Set<Subject> subjectSet) {
         this.subjectSet = subjectSet;
-    }
-
-    public int isActive() {
-        return isActive;
-    }
-
-    public void setActive(int active) {
-        isActive = active;
     }
 
     @OneToMany(mappedBy = "speciality", fetch = FetchType.LAZY)
