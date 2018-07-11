@@ -34,7 +34,7 @@ public class Program {
 
   @Id
   @Column(unique = true)
-  @SequenceGenerator(name = "programSeq", sequenceName = "PROGRAM_SEQUENCE")
+  @SequenceGenerator(name = "programSeq", sequenceName = "PROGRAM_SEQUENCE" , allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "programSeq")
   public long getId() {
     return id;
@@ -74,7 +74,7 @@ public class Program {
     this.semester = semester;
   }
 
-  @ManyToMany //(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinTable(name = "program_subject",
           joinColumns = @JoinColumn(name = "program_id"),
           inverseJoinColumns = @JoinColumn(name = "subject_id"))

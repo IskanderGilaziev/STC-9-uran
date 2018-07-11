@@ -26,8 +26,7 @@ public class Subject {
     }
 
     @Id
-    @SequenceGenerator(name = "subjectSeq", sequenceName = "subject_SEQUENCE")
-//    , allocationSize = 1)
+    @SequenceGenerator(name = "subjectSeq", sequenceName = "subject_SEQUENCE"  , allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectSeq")
     public long getId() {
         return id;

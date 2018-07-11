@@ -20,8 +20,7 @@ public class Speciality {
     }
 
     @Id
-    @SequenceGenerator(name = "specialitySeq", sequenceName = "speciality_SEQUENCE")
-//    , allocationSize = 1)
+    @SequenceGenerator(name = "specialitySeq", sequenceName = "speciality_SEQUENCE", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "specialitySeq")
     public long getId() {
         return id;
@@ -65,8 +64,7 @@ public class Speciality {
 
         return id == that.id &&
                 Objects.equals(name, that.name) &&
-                semesterCount == that.semesterCount &&
-                Objects.equals(programs, that.programs);
+                semesterCount == that.semesterCount ;
     }
 
     @Override
