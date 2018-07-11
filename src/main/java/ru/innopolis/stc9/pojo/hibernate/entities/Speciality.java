@@ -71,7 +71,7 @@ public class Speciality {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, semesterCount, programs);
+        return Objects.hash(id, name, semesterCount);
     }
 
     @Override
@@ -80,7 +80,6 @@ public class Speciality {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", semesterCount=" + semesterCount +
-                ", Program=" + programs.toString() +
                 '}';
     }
 }

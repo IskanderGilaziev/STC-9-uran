@@ -2,6 +2,7 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -14,8 +15,7 @@ public class Program {
   private Set<Subject> subjects = new HashSet<>();
   private long hours;
 
-    public Program() {
-    }
+  public Program() { }
 
   public Program(long id, Speciality speciality, long semester, Subject subject, long hours) {
     this.id = id;
@@ -117,13 +117,7 @@ public class Program {
   }
 
   @Override
-  public int hashCode() {
-    int result = (int) (id ^ (id >>> 32));
-    result = 31 * result + (speciality != null ? speciality.hashCode() : 0);
-    result = 31 * result + (int) (semester ^ (semester >>> 32));
-    result = 31 * result + (subjects != null ? subjects.hashCode() : 0);
-    result = 31 * result + (int) (hours ^ (hours >>> 32));
-    return result;
+  public int hashCode() {return Objects.hash(id, semester, hours);
   }
 
   @Override

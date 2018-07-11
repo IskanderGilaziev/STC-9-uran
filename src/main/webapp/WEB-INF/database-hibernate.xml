@@ -15,12 +15,19 @@
         <property name="packagesToScan" value="ru.innopolis.stc9.pojo.hibernate.entities"/>
         <property name="hibernateProperties">
             <props>
+
                 <prop key="hibernate.hbm2ddl.auto">
                     update
                 </prop>
+
                 <prop key="hibernate.dialect">
                     org.hibernate.dialect.PostgreSQL9Dialect
                 </prop>
+
+                <prop key="hibernate.enable_lazy_load_no_trans">
+                    true
+                </prop>
+
             </props>
         </property>
     </bean>
