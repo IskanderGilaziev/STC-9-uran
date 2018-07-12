@@ -42,6 +42,7 @@
             </td>
             <td>
                 <select id="marks" name="marks">
+                    <option value="0">-</option>
                     <option value="5">Отлично</option>
                     <option value="4">Хорошо</option>
                     <option value="3">Удовлетворительно</option>

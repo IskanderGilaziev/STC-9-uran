@@ -20,8 +20,11 @@
         <tr>
             <td>${perform.person.id}</td>
             <td>${perform.person.name}</td>
-            <td>${perform.attendance}</td>
-            <td>${perform.mark}</td>
+            <td>
+                <c:if test="${perform.attendance}">+</c:if>
+                <c:if test="${!(perform.attendance)}"><span style="color:#f00;">Н</span></c:if>
+            </td>
+            <td><c:if test="${perform.mark!=0}">${perform.mark}</c:if></td>
         </tr>
     </c:forEach>
 </table>

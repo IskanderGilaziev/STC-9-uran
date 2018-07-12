@@ -110,7 +110,7 @@ public class Lesson {
         this.subject = subject;
     }
 
-    @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "lesson", fetch = FetchType.EAGER)
     public Set<Performance> getPerformances() {
         return performances;
     }
