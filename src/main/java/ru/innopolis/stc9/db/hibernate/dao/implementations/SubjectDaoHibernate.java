@@ -7,7 +7,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
-import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class SubjectDaoHibernate implements SubjectDao {
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
     private static final String WARN_NPE = "Null objest : subject";
     private static final String DEBUC_AFTER = "Before exit.";
-   
+
     @Autowired
     private SessionFactory factory;
 
@@ -63,13 +62,14 @@ public class SubjectDaoHibernate implements SubjectDao {
     public void deleteBySubjectId(long id) {
         logger.debug(DEBUG_BEFORE);
         if (id != 0) {
-            Subject subject = getById(id);
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.delete(subject);
-            session.getTransaction().commit();
-            session.close();
-            logger.info(logResult());
+            try (Session session = factory.openSession()) {
+                Subject subject = (Subject) session.get(Subject.class, id);
+                session.beginTransaction();
+                session.delete(subject);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         } else {
             logger.warn(WARN_NPE);
         }
@@ -87,6 +87,8 @@ public class SubjectDaoHibernate implements SubjectDao {
                 if (query.list() != null && !query.list().isEmpty()) {
                     subject = (Subject) query.list().get(0);
                 }
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
         }
         return subject;
@@ -107,11 +109,6 @@ public class SubjectDaoHibernate implements SubjectDao {
     }
 
     private String logResult(boolean b) {
-        return (b ? "Success" : "False") + " : ";
+        return (b ? "Success" : "Fail") + " : ";
     }
-
-    private String logResult() {
-        return "Unknown result of operation";
-    }
-    
 }
