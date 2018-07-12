@@ -9,6 +9,7 @@
     <c:forEach var="lesson" items="${lessonList}">
     <li>${lesson.theme} (<a href="/subject/updateLesson?id=${lesson.id}&subjId=${subject.id}">редактировать</a> /
         <a href="/subject/deleteLesson?id=${lesson.id}&subjId=${subject.id}">удалить</a> /
+        <a href="/perfomance/getPerformance?lessonId=${lesson.id}">просмотреть ведомость</a> /
         <a href="/perfomance/addOrUpdatePerform?lessonId=${lesson.id}">поставить оценку</a>)</li>
     </c:forEach>
 </ul>
