@@ -2,6 +2,8 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -25,6 +27,12 @@ public class Person {
 
     @Column(nullable = true)
     private User user;
+
+    private Set<Performance> performances = new HashSet<>();
+
+    private Team team;
+
+//    private Set<Lesson> lessonSet = new HashSet<>();
 
     public Person() {
     }
@@ -93,6 +101,33 @@ public class Person {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    public Set<Performance> getPerformances() {
+        return performances;
+    }
+
+    public void setPerformances(Set<Performance> performances) {
+        this.performances = performances;
+    }
+
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    /*@OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    public Set<Lesson> getLessonSet() {
+        return lessonSet;
+    }
+
+    public void setLessonSet(Set<Lesson> lessonSet) {
+        this.lessonSet = lessonSet;
+    }*/
 
     @Override
     public boolean equals(Object o) {

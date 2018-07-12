@@ -3,7 +3,7 @@
 <%@ include file="/header.jsp" %>
 <%@ include file="/aside.jsp" %>
 
-<h1>Добавление группы </h1>
+<h1>Добавление новой группы </h1>
 <form action="/addGroup" method="post">
     <ul>
         <li>

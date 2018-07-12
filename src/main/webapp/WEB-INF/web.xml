@@ -13,7 +13,6 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/security-context.xml
-            <!--/WEB-INF/database-config.xml-->
             /WEB-INF/database-hibernate.xml
         </param-value>
     </context-param>
@@ -72,51 +71,74 @@
         <url-pattern>/speciality/*</url-pattern>
     </servlet-mapping>
 
-    <display-name>status</display-name>
-
+    <display-name>group</display-name>
     <servlet>
-        <servlet-name>status</servlet-name>
+        <servlet-name>group</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>status</servlet-name>
-        <url-pattern>/status/*</url-pattern>
+        <servlet-name>group</servlet-name>
+        <url-pattern>/group/*</url-pattern>
     </servlet-mapping>
 
- <display-name>program</display-name>
 
+    <!--<display-name>status</display-name>-->
+
+    <!--<servlet>-->
+    <!--<servlet-name>status</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>status</servlet-name>-->
+    <!--<url-pattern>/status/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<display-name>program</display-name>-->
+
+    <!--<servlet>-->
+    <!--<servlet-name>program</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>program</servlet-name>-->
+    <!--<url-pattern>/program/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!---->
+    <!--<display-name>teacherSubject</display-name>-->
+
+    <!--<servlet>-->
+    <!--<servlet-name>teacherSubject</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>teacherSubject</servlet-name>-->
+    <!--<url-pattern>/teacherSubject/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<display-name>scheduleItem</display-name>-->
+    <!--<servlet>-->
+    <!--<servlet-name>scheduleItem</servlet-name>-->
+    <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>scheduleItem</servlet-name>-->
+    <!--<url-pattern>/scheduleItem/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <display-name>perfomance</display-name>
     <servlet>
-        <servlet-name>program</servlet-name>
+        <servlet-name>perfomance</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>program</servlet-name>
-        <url-pattern>/program/*</url-pattern>
-    </servlet-mapping>
-        
-   <display-name>teacherSubject</display-name>
-
-    <servlet>
-        <servlet-name>teacherSubject</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>teacherSubject</servlet-name>
-        <url-pattern>/teacherSubject/*</url-pattern>
-    </servlet-mapping>
-
-    <display-name>scheduleItem</display-name>
-    <servlet>
-        <servlet-name>scheduleItem</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>scheduleItem</servlet-name>
-        <url-pattern>/scheduleItem/*</url-pattern>
+        <servlet-name>perfomance</servlet-name>
+        <url-pattern>/perfomance/*</url-pattern>
     </servlet-mapping>
   
     <servlet-mapping>

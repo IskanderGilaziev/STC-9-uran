@@ -26,10 +26,29 @@ public class PersonServiceHibernate implements PersonService {
     @Override
     public Person getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Person person = null;
-        person = personDao.getById(id);
+        Person person = personDao.getById(id);
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return person;
+    }
+
+    /**
+     * Определяет, можно ли сменить статус человека?
+     * Если у человека определена учебная группа, оценки и т.д., то он остается студентом.
+     * Если человек вел предметы - преподаватель.
+     * В таких случаях статус изменять нельзя.
+     *
+     * @param person
+     * @return
+     */
+    @Override
+    public boolean isAvailableForStatusChange(Person person) {
+//        boolean result = true;
+//        switch (person.getStatus()){
+//            case student:
+////                result = person.getTeam()!=null ||  (person.getLessonSet()!=null && person.getLessonSet().isEmpty());
+//        }
+//        boolean isStudent =
+        return false;
     }
 
     @Override
@@ -85,12 +104,12 @@ public class PersonServiceHibernate implements PersonService {
     }
 
     @Override
-    public List<Person> getTeachers() {
-        logger.info(this.getClass().getName() + " method getTeachers started");
-        List<Person> teacherList;
-        teacherList = personDao.getPersonByRole(Status.teacher);
-        logger.info(this.getClass().getName() + " method getTeachers finished");
-        return teacherList;
+    public List<Person> getPersonByRoleAndNullUser(Status status) {
+        logger.info(this.getClass().getName() + " method getPersonByRoleAndNullUser started");
+        List<Person> personList;
+        personList = personDao.getPersonByRole(status);
+        logger.info(this.getClass().getName() + " method getPersonByRoleAndNullUser finished");
+        return personList;
     }
 
     @Override
@@ -103,4 +122,15 @@ public class PersonServiceHibernate implements PersonService {
         }
         personDao.addOrUpdatePerson(oldPerson);
     }
+
+    @Override
+    public List<Person> getStudentById(long id) {
+        logger.info(this.getClass().getName() + " method getStudentById started, id = " + id);
+        List<Person> studentList;
+        studentList = personDao.getPersonByRole(Status.student);
+        logger.info(this.getClass().getName() + " method getStudentById finished, id = " + id);
+        return studentList;
+    }
+
+
 }

@@ -41,8 +41,8 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public Lesson add(Subject subject, String teacher_item, String date, String theme, String homework) {
-        Lesson lesson = new Lesson(subject, Integer.parseInt(teacher_item), Date.valueOf(date), theme, homework);
+    public Lesson add(Subject subject, long teacher_item, String date, String theme, String homework) {
+        Lesson lesson = new Lesson(subject, teacher_item, Date.valueOf(date), theme, homework);
         addOrUpdateById(lesson);
         return lesson;
     }

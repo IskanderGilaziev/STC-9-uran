@@ -17,6 +17,7 @@ import ru.innopolis.stc9.service.hibernate.interfaces.UserService;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -64,6 +65,7 @@ public class PersonController extends HttpServlet {
             personService.addOrUpdate(person);
         } else {
             if (action.equals(ATTRIBUTE_UPDATE)) {
+
                 Person person = personService.getById(Long.valueOf(id));
                 person.setName(name);
                 person.setBirthday(Date.valueOf(birthday));
@@ -94,9 +96,10 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
-    public String updatePerson(@RequestAttribute String id, Model model) {
+    public String updatePerson(@RequestAttribute long id, Model model) {
         model.addAttribute("statusList", Status.values());
-        model.addAttribute(ATTRIBUTE_PERSON, personService.getById(Long.parseLong(id)));
+        model.addAttribute(ATTRIBUTE_PERSON, personService.getById(id));
+
         model.addAttribute(ATTRIBUTE_ACTION, ATTRIBUTE_UPDATE);
         return ("/addOrUpdate");
     }
@@ -105,6 +108,8 @@ public class PersonController extends HttpServlet {
     public String getPerson(@RequestAttribute long id, Model model) {
         Person person = personService.getById(id);
         model.addAttribute(ATTRIBUTE_PERSON, person);
+        int yCurrent = LocalDate.now().getYear();
+        model.addAttribute("yCurrent", yCurrent);
         return "/getPerson";
     }
 

@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-
+import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class SpecialityDaoHibernate implements SpecialityDao {
@@ -24,9 +25,12 @@ public class SpecialityDaoHibernate implements SpecialityDao {
     @Override
     public Speciality getById(long id) {
         logger.debug(DEBUG_BEFORE + id);
-        Session session = factory.openSession();
-        Speciality speciality = (Speciality) session.get(Speciality.class, id);
-        session.close();
+        Speciality speciality = null;
+        try (Session session = factory.openSession()) {
+            speciality = (Speciality) session.get(Speciality.class, id);
+        } catch (Exception e) {
+            logger.error("id = " + id + "; message: " + e.getMessage());
+        }
         logger.info(logResult(speciality != null));
         return speciality;
     }
@@ -38,9 +42,10 @@ public class SpecialityDaoHibernate implements SpecialityDao {
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM Speciality");
             specialityList = query.list();
-            session.close();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
-        logger.info(logResult(!specialityList.isEmpty()) + specialityList.size());
+        logger.info(specialityList != null ? "found " + specialityList.size() + " objects" : "Fail");
         return specialityList;
     }
 
@@ -48,68 +53,47 @@ public class SpecialityDaoHibernate implements SpecialityDao {
     public void addOrUpdateSpeciality(Speciality speciality) {
         logger.debug(DEBUG_BEFORE);
         if (speciality != null) {
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.saveOrUpdate(speciality);
-            session.getTransaction().commit();
-            session.close();
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                session.saveOrUpdate(speciality);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                logger.error("argument = " + speciality + "; message: " + e.getMessage());
+            }
         } else {
             logger.warn(WARN_NPE);
         }
     }
 
+    /**
+     * Удаляет только специальность, оставляя группы в системе
+     *
+     * @param id
+     */
     @Override
-    public void deleteBySpecialityId(long id) {
+    public void deleteBySpecialityIdFull(long id) {
         logger.debug(DEBUG_BEFORE);
-        if (id != 0) {
-            Speciality speciality = getById(id);
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.delete(speciality);
-            session.getTransaction().commit();
-            session.close();
-            logger.info(logResult());
+        if (id > 0) {
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                Speciality speciality = (Speciality) session.get(Speciality.class, id);
+                Set<Team> teamSet = speciality.getTeamSet();
+                for (Team t : teamSet) {
+                    t.setSpeciality(null);
+                }
+                session.saveOrUpdate(speciality);
+                session.delete(speciality);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         } else {
             logger.warn(WARN_NPE);
         }
         logger.debug(DEBUC_AFTER);
     }
 
-
-    @Override
-    public Speciality getByName(String name) {
-        Speciality speciality = null;
-        if (name != null && !name.isEmpty()) {
-            try (Session session = factory.openSession()) {
-                Query query = session.createQuery("FROM Speciality WHERE name = :param");
-                query.setParameter("param", name);
-                if (query.list() != null && !query.list().isEmpty()) {
-                    speciality = (Speciality) query.list().get(0);
-                }
-            }
-        }
-        return speciality;
-    }
-
-    @Override
-    public void toDetached(Speciality speciality) {
-        logger.debug(DEBUG_BEFORE);
-        if (speciality != null) {
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.evict(speciality);
-            session.getTransaction().commit();
-            session.close();
-        } else {
-            logger.warn(WARN_NPE);
-        }
-    }
-
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
-    }
-
-    private String logResult() {
-        return "Unknown result of operation";
     }
 }

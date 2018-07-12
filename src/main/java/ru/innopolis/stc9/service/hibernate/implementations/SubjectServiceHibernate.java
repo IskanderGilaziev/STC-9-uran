@@ -3,56 +3,54 @@ package ru.innopolis.stc9.service.hibernate.implementations;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
-import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
-import ru.innopolis.stc9.service.hibernate.interfaces.ISpecialityService;
+import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
+import ru.innopolis.stc9.service.hibernate.interfaces.SubjectService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Service
-public class SpecialityService implements ISpecialityService {
-    private static final Logger logger = Logger.getLogger(SpecialityService.class);
+public class SubjectServiceHibernate implements SubjectService {
+    private static final Logger logger = Logger.getLogger(SubjectServiceHibernate.class);
 
-    private final ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao specialityDao;
+    private final SubjectDao subjectDao;
 
     @Autowired
-    public SpecialityService(SpecialityDao specialityDao) {
-        this.specialityDao = specialityDao;
+    public SubjectServiceHibernate(SubjectDao subjectDao) {
+        this.subjectDao = subjectDao;
     }
 
     @Override
-    public Speciality getById(long id) {
+    public Subject getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Speciality speciality = null;
-        speciality = specialityDao.getById(id);
+        Subject subject = null;
+        subject = subjectDao.getById(id);
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
-        return speciality;
+        return subject;
     }
 
     @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
-        specialityDao.deleteBySpecialityId(id);
+        subjectDao.deleteBySubjectId(id);
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
     }
 
     @Override
-    public void addOrUpdate(Speciality speciality) {
+    public void addOrUpdate(Subject subject) {
         logger.info(this.getClass().getName() + " method add started");
-        specialityDao.addOrUpdateSpeciality(speciality);
+        subjectDao.addOrUpdateSubject(subject);
         logger.info(this.getClass().getName() + " method add finished");
     }
 
     @Override
-    public List<Speciality> getAll() {
+    public List<Subject> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
-        List<Speciality> specialityList;
-        specialityList = specialityDao.getAllSpecialitys();
+        List<Subject> subjectList;
+        subjectList = subjectDao.getAllSubjects();
         logger.info(this.getClass().getName() + " method getAll finished");
-        return specialityList;
+        return subjectList;
     }
-
-
-
-
 }
