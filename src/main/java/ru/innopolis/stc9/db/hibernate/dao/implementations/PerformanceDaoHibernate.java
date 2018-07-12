@@ -75,7 +75,7 @@ public class PerformanceDaoHibernate implements PerformanceDao {
         logger.debug(DEBUG_BEFORE);
         List<Performance> performanceList = null;
         try (Session session = factory.openSession()) {
-            Query query = session.createQuery("FROM Perfomance");
+            Query query = session.createQuery("FROM Performance");
             performanceList = query.list();
             session.close();
         }
@@ -87,8 +87,23 @@ public class PerformanceDaoHibernate implements PerformanceDao {
     public List<Performance> getPerfomanceListByPerson(long personId) {
         logger.debug(DEBUG_BEFORE);
         try (Session session = factory.openSession()) {
-            Query query = session.createQuery("FROM Perfomance p WHERE p.person.id = :personId");
+            Query query = session.createQuery("FROM Performance WHERE person_id = :personId");
             query.setParameter("personId", personId);
+            List<Performance> performanceList = query.getResultList();
+            for (Performance performance : performanceList)
+                Hibernate.initialize(performance.getMark());
+            session.close();
+            logger.debug(DEBUC_AFTER);
+            return performanceList;
+        }
+    }
+
+    @Override
+    public List<Performance> getByLessonId(long lessonId) {
+        logger.debug(DEBUG_BEFORE);
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("FROM Performance WHERE lesson_id = :lessonId");
+            query.setParameter("lessonId", lessonId);
             List<Performance> performanceList = query.getResultList();
             for (Performance performance : performanceList)
                 Hibernate.initialize(performance.getMark());

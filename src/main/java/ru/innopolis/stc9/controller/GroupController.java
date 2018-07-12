@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 import ru.innopolis.stc9.pojo.realisationJDBC.Group;
@@ -75,7 +76,7 @@ public class GroupController {
             model.addAttribute("groupList", groupList);
             model.addAttribute("yCurrent", LocalDate.now().getYear());
         } else {
-            model.addAttribute("msg", "Опаньки! У нас проблемы.");
+            model.addAttribute("msg", "Мне кажется, у нас проблемы...");
             resultPage = "error";
         }
         return resultPage;
@@ -103,9 +104,31 @@ public class GroupController {
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)
-    public String getGroup(@RequestAttribute String id, Model model) {
-        /*Group group = groupService.getById(Integer.parseInt(id));
-        model.addAttribute("group", group);*/
+    public String getGroup(@RequestAttribute long id, Model model) {
+        Team group = groupService.getById(id);
+        model.addAttribute("group", group);
+        List<Person> students = groupService.getAllSuitPerson(group);
+        model.addAttribute("students", students);
         return "/getGroup";
     }
+
+    @RequestMapping(value = "/addStudent", method = RequestMethod.GET)
+    public String addStudent(@RequestAttribute long groupId,
+                             @RequestAttribute long selectedStudent,
+                             Model model) {
+        groupService.addStudentToTeam(groupId, selectedStudent);
+        model.addAttribute("id", groupId);
+        return "redirect:group";
+    }
+
+    @RequestMapping(value = "/delStudent", method = RequestMethod.GET)
+    public String delStudent(@RequestAttribute long groupId,
+                             @RequestAttribute long selectedStudent,
+                             Model model) {
+        groupService.delStudentFromTeam(selectedStudent);
+        model.addAttribute("id", groupId);
+        return "redirect:group";
+    }
+
+
 }

@@ -18,6 +18,20 @@ public interface PersonDao {
 
     List<Person> getPersonByRoleAndNullUser(Status status);
 
+    /**
+     * Поиск из таблицы Person строк со статусом студент и null а колонке "группа"
+     *
+     * @return
+     */
+    List<Person> getAllSuitStudentsForTeam();
+
+    /**
+     * Удалить студента из группы
+     *
+     * @param personId
+     */
+    void deletePersonFromGroup(long personId);
+
     Person getByName(String name);
 
     void toDetached(Person person);

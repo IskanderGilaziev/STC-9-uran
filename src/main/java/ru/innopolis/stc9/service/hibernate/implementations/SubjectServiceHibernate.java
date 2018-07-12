@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
+import ru.innopolis.stc9.service.hibernate.interfaces.SubjectService;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Transactional
 @Service
-public class SubjectServiceHibernate implements ru.innopolis.stc9.service.hibernate.interfaces.SubjectService {
+public class SubjectServiceHibernate implements SubjectService {
     private static final Logger logger = Logger.getLogger(SubjectServiceHibernate.class);
 
     private final SubjectDao subjectDao;

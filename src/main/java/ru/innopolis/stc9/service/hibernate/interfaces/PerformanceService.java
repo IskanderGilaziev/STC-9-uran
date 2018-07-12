@@ -10,4 +10,6 @@ public interface PerformanceService {
     void deleteById(long id);
     List<Performance> getAll();
     List<Performance> getPerfomanceListByPerson(long personId);
+
+    List<Performance> getByLessonId(long lessonId);
 }

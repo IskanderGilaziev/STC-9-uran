@@ -41,4 +41,21 @@
         </c:forEach>
     </table>
 </div>
+
+
+<c:if test="${fn:length(subjectList) gt 0}">
+    <form class="editForm">
+        <h5>Добавить предмет</h5>
+        <input type="hidden" name="specialityId" value="${speciality.id}">
+        <p><select size="1" name="selectedSubject" required>
+            <c:forEach var="subject" items="${subjectList}">
+                <option value="${subject.id}">${subject.name}</option>
+            </c:forEach>
+        </select></p>
+        <p>
+            <button class="submit" type="submit" formaction="addSubject" method="post">Добавить
+            </button>
+        </p>
+    </form>
+</c:if>
 <%@ include file="../../../footer.jsp" %>

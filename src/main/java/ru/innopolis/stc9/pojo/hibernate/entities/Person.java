@@ -33,7 +33,7 @@ public class Person {
 
     private Team team;
 
-    private Set<Lesson> lessonSet = new HashSet<>();
+//    private Set<Lesson> lessonSet = new HashSet<>();
 
     public Person() {
     }
@@ -112,7 +112,6 @@ public class Person {
         this.performances = performances;
     }
 
-    //    @JoinColumn(name = "personId", nullable = false)
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Team getTeam() {
         return team;
@@ -122,14 +121,14 @@ public class Person {
         this.team = team;
     }
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    /*@OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     public Set<Lesson> getLessonSet() {
         return lessonSet;
     }
 
     public void setLessonSet(Set<Lesson> lessonSet) {
         this.lessonSet = lessonSet;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {

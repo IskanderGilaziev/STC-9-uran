@@ -145,14 +145,14 @@ public class SubjectController extends HttpServlet{
     public String updateLesson2(HttpServletRequest request,
                                 @RequestAttribute long id,
                                 @RequestAttribute long subjectId,
-                                @RequestAttribute Integer teacher_item,
+                                @RequestAttribute long teacher_item,
                                 @RequestAttribute Date date,
                                 @RequestAttribute String theme,
                                 @RequestAttribute String homework, Model model) {
         Person teacher = personService.getById(teacher_item);
         Lesson lesson = new Lesson(id,
                 service.getById(subjectId),
-                teacher, date, theme, homework);
+                teacher_item, date, theme, homework);
         lessonService.addOrUpdateById(lesson);
         model.addAttribute("lesson", lesson);
         model.addAttribute("id", subjectId);

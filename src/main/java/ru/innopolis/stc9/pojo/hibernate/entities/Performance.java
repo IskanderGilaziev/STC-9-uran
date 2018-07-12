@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Component
 @Entity
-@Table(name = "perfomance")
+@Table(name = "performance")
 public class Performance {
     private long id;
 
@@ -48,9 +48,9 @@ public class Performance {
     }
 
     @Id
-    @Column(name = "perfomance_id",unique = true)
-    @SequenceGenerator(name = "perfomanceSeq", sequenceName = "PERFOMANCE_SEQUENCE")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "perfomanceSeq")
+    @Column(name = "performance_id", unique = true)
+    @SequenceGenerator(name = "performanceSeq", sequenceName = "PERFORMANCE_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "performanceSeq")
     public long getId() {
         return id;
     }
@@ -59,7 +59,7 @@ public class Performance {
         this.id = id;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     public Person getPerson() {
         return person;
     }

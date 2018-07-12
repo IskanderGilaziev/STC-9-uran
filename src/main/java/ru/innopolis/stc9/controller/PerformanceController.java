@@ -14,7 +14,6 @@ import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PerformanceService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 

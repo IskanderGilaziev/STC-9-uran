@@ -40,9 +40,10 @@
             <label for="status">Роль:</label>
             <select id="status" name="status">
                 <c:forEach var="rol" items="${statusList}">
-                    <%--<option value="${rol.ordinal()}">${rol.name()}</option>--%>
-                    <option value="${rol.ordinal()}"
-                            <c:if test="${person.status eq rol}">selected</c:if>>${rol.name()}</option>
+                    <c:if test="${rol.name() ne 'unknown'}">
+                        <option value="${rol.ordinal()}"
+                                <c:if test="${person.status eq rol}">selected</c:if>>${rol.name()}</option>
+                    </c:if>
                 </c:forEach>
             </select>
         </li>

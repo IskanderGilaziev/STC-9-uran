@@ -22,7 +22,32 @@
     </c:if>
 </p>
 
-<p><b>Роль в учебном процессе:</b> ${person.status}</p>
+<p><b>Роль в учебном процессе:</b>
+    <c:choose>
+        <c:when test="${person.status eq 'admin'}">
+            Администратор системы
+        </c:when>
+        <c:when test="${person.status eq 'manager'}">
+            Сотрудник учебного отдела
+        </c:when>
+        <c:when test="${person.status eq 'teacher'}">
+            Преподаватель
+        </c:when>
+        <c:when test="${person.status eq 'student'}">
+            студент
+            <c:if test="${person.team ne null}">
+                группы ${person.team.nameGroup}, ${yCurrent - person.team.yStart+1}-й курс
+            </c:if>
+            <c:if test="${person.team eq null}">
+                . Рекомендуется <a href="/group/groupAll">зачислить</a> в учебную группу.
+            </c:if>
+        </c:when>
+        <c:otherwise>
+            требуется уточнение
+        </c:otherwise>
+    </c:choose>
+</p>
+
 <c:if test="${person.user != null}">
     <p><b>Логин: </b>${person.user.login}</p>
     <p><b>Права в системе: </b>${person.user.role}</p>
@@ -42,5 +67,4 @@
 <c:if test="${person.user eq null}">
     В системе не зарегистрирован
 </c:if>
-<%--<p>:</b> ${person.status}</p>--%>
 <%@ include file="../../../footer.jsp" %>

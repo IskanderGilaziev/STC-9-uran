@@ -27,10 +27,10 @@ public class Team implements Serializable {
      * Список студентов группы
      */
     private Set<Person> personSet = new HashSet<>();
-    /**
-     * Список состоявшихся уроков группы
-     */
-    private Set<Lesson> lessonSet = new HashSet<>();
+//    /**
+//     * Список состоявшихся уроков группы
+//     */
+//    private Set<Lesson> lessonSet = new HashSet<>();
     /**
      * Специальность, по которой обучается группа.
      * В ней же определены предметы, которые они должны будут изучить.
@@ -83,14 +83,14 @@ public class Team implements Serializable {
         this.personSet = personSet;
     }
 
-    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
+    /*@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     public Set<Lesson> getLessonSet() {
         return lessonSet;
     }
 
     public void setLessonSet(Set<Lesson> lessonSet) {
         this.lessonSet = lessonSet;
-    }
+    }*/
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Speciality getSpeciality() {

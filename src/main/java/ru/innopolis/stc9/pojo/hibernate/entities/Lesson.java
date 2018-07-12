@@ -14,7 +14,7 @@ public class Lesson {
     private long id;
 
     @Column(nullable = false)
-    private Person teacher;
+    private long teacherItem;
 
     @Column(nullable = false)
     private Date date;
@@ -27,36 +27,31 @@ public class Lesson {
 
     @JoinColumn(name = "subjectId", nullable = false)
     private Subject subject;
-    /**
-     * У какой группы проводился урок
-     */
-    @Column(nullable = false)
-    private Team team;
 
     private Set<Performance> performances = new HashSet<>();
 
     public Lesson() {
     }
 
-    public Lesson(Subject subject, Person teacher, Date date, String theme, String homework) {
+    public Lesson(Subject subject, long teacherItem, Date date, String theme, String homework) {
         this.subject = subject;
-        this.teacher = teacher;
+        this.teacherItem = teacherItem;
         this.date = date;
         this.theme = theme;
         this.homework = homework;
     }
 
-    public Lesson(Subject subject, Person teacher, Date date, String theme) {
+    public Lesson(Subject subject, long teacherItem, Date date, String theme) {
         this.subject = subject;
-        this.teacher = teacher;
+        this.teacherItem = teacherItem;
         this.date = date;
         this.theme = theme;
     }
 
-    public Lesson(long id, Subject subject, Person teacher, Date date, String theme, String homework) {
+    public Lesson(long id, Subject subject, long teacherItem, Date date, String theme, String homework) {
         this.id = id;
         this.subject = subject;
-        this.teacher = teacher;
+        this.teacherItem = teacherItem;
         this.date = date;
         this.theme = theme;
         this.homework = homework;
@@ -74,13 +69,12 @@ public class Lesson {
         this.id = id;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Person getTeacher() {
-        return teacher;
+    public long getTeacherItem() {
+        return teacherItem;
     }
 
-    public void setTeacher(Person teacher) {
-        this.teacher = teacher;
+    public void setTeacherItem(long teacherItem) {
+        this.teacherItem = teacherItem;
     }
 
     public Date getDate() {
@@ -125,20 +119,11 @@ public class Lesson {
         this.performances = performances;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
     @Override
     public String toString() {
         return "Lesson{" +
                 "id=" + id +
-//                ", teacher=" + teacher +
+                ", teacherItem=" + teacherItem +
                 ", date=" + date +
                 ", theme='" + theme + '\'' +
                 ", homework='" + homework + '\'' +

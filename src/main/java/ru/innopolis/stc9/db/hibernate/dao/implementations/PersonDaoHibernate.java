@@ -62,12 +62,14 @@ public class PersonDaoHibernate implements PersonDao {
     public void deleteByPersonId(long id) {
         logger.debug(DEBUG_BEFORE);
         if (id != 0) {
-            Person person = getById(id);
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.delete(person);
-            session.getTransaction().commit();
-            session.close();
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                Person person = (Person) session.get(Person.class, id);
+                session.delete(person);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
             logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
@@ -86,6 +88,47 @@ public class PersonDaoHibernate implements PersonDao {
         }
         logger.info(logResult(!personList.isEmpty()) + personList.size());
         return personList;
+    }
+
+    /**
+     * Поиск из таблицы Person строк со статусом студент и null а колонке "группа"
+     *
+     * @return
+     */
+    @Override
+    public List<Person> getAllSuitStudentsForTeam() {
+        logger.debug(DEBUG_BEFORE);
+        List<Person> personList = null;
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("FROM Person p where p.status = :role AND p.team = " + null);
+            query.setParameter("role", Status.student);
+            personList = query.list();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info((personList != null) ? "found " + personList.size() + " person(-s)" : "fail");
+        return personList;
+    }
+
+    /**
+     * Удалить студента из группы
+     *
+     * @param personId
+     */
+    @Override
+    public void deletePersonFromGroup(long personId) {
+        logger.debug("id = " + personId);
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Person student = (Person) session.get(Person.class, personId);
+            if (student.getStatus().equals(Status.student)) {
+                student.setTeam(null);
+            }
+            session.saveOrUpdate(student);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     @Override

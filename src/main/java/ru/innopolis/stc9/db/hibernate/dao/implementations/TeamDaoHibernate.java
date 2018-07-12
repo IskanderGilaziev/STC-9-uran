@@ -30,9 +30,12 @@ public class TeamDaoHibernate implements TeamDao {
     @Override
     public Team getById(long id) {
         logger.debug(DEBUG_BEFORE + id);
-        Session session = factory.openSession();
-        Team team = (Team) session.get(Team.class, id);
-        session.close();
+        Team team = null;
+        try (Session session = factory.openSession()) {
+            team = (Team) session.get(Team.class, id);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         logger.info(team != null ? "Success " + team : "Fail");
         return team;
     }
