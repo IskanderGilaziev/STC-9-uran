@@ -9,6 +9,14 @@ public interface SpecialityDao {
 
     List<Speciality> getAllSpecialitys();
 
+    /**
+     * Выбрать все действующие или архивные специальности
+     *
+     * @param isActive - индикатор активности
+     * @return
+     */
+    List<Speciality> getAllSpecialitiesByActiveField(int isActive);
+
     void addOrUpdateSpeciality(Speciality speciality);
 
     /**

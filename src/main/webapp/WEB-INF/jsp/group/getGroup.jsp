@@ -9,13 +9,21 @@
     <p><b>Специальность обучения:</b> ${group.speciality.name}</p>
 </c:if>
 
-<%--<c:if test="${group.speciality eq null} ">--%>
-<%--<p><b>Специальность обучения:</b>--%>
-<%--Рекомендуется задать группе <a href="/speciality/specialityAll">специальность</a>--%>
-<%--обучения</p>--%>
-<%--</c:if>--%>
-
-<p><b>Специальность обучения:</b> ${group.speciality.name}</p>
+<p><b>Специальность обучения:</b>
+    <c:choose>
+        <c:when test="${group.speciality eq null}">
+            Рекомендуется назначить группе
+            <a href="/speciality/specialityAll">специальность</a>
+            обучения
+        </c:when>
+        <c:otherwise>
+            ${group.speciality.name}
+            <c:if test="${group.speciality.isActive ne 0}">
+                (архивная)
+            </c:if>
+        </c:otherwise>
+    </c:choose>
+</p>
 <p><b>Год начала обучения:</b> ${group.yStart}</p>
 
 
@@ -64,10 +72,11 @@
 </c:if>
 
 <c:if test="${fn:length(students) eq 0}">
-    В системе нет ни одного подходящего студента. Рекомендуется
-    <a href="/person/addOrUpdate">добавить</a> нового студента или назначить группе
-    <a href="/speciality/specialityAll">специальность</a>
-    обучения.
+    <p>В системе нет ни одного подходящего студента. Рекомендуется
+        <a href="/person/addOrUpdate">добавить</a> нового студента или назначить группе
+        <a href="/speciality/specialityAll">специальность</a>
+        обучения.
+    </p>
 </c:if>
 
 <%@ include file="/footer.jsp" %>

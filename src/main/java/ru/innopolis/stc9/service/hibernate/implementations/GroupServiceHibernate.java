@@ -4,14 +4,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
+import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.TeamDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 import ru.innopolis.stc9.service.hibernate.interfaces.GroupService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -21,11 +22,13 @@ public class GroupServiceHibernate implements GroupService {
     private static final String LOG_BEFORE = "First line. Argument(-s): ";
     private final TeamDao teamDao;
     private final PersonDao personDao;
+    private final SpecialityDao specialityDao;
 
     @Autowired
-    public GroupServiceHibernate(TeamDao teamDao, PersonDao personDao) {
+    public GroupServiceHibernate(TeamDao teamDao, PersonDao personDao, SpecialityDao specialityDao) {
         this.teamDao = teamDao;
         this.personDao = personDao;
+        this.specialityDao = specialityDao;
     }
 
     /**
@@ -39,6 +42,57 @@ public class GroupServiceHibernate implements GroupService {
         List<Team> list = teamDao.getAll();
         logger.info((list != null) ? "found " + list.size() + " group(-s)" : "Fail");
         return list;
+    }
+
+    /**
+     * Создать новую учебную группу
+     *
+     * @param nameGroup
+     * @param yStart
+     * @param specialityId
+     */
+    @Override
+    public void addNewGroup(String nameGroup, int yStart, long specialityId) {
+        if (nameGroup != null && !nameGroup.isEmpty() && yStart > 0) {
+            Team team = new Team(nameGroup, yStart);
+            Speciality speciality = specialityDao.getById(specialityId);
+            if (speciality != null && speciality.getIsActive() == 0) {
+                team.setSpeciality(speciality);
+                teamDao.addOrUpdate(team);
+            }
+        }
+    }
+
+    /**
+     * Обновить данные существующей группы
+     *
+     * @param id
+     * @param nameGroup
+     * @param yStart
+     * @param specialityId
+     */
+    @Override
+    public void updateExitingGroup(long id, String nameGroup, int yStart, long specialityId) {
+        if (nameGroup != null && !nameGroup.isEmpty() && yStart > 0) {
+            Team team = teamDao.getById(id);
+            team.setNameGroup(nameGroup);
+            team.setyStart(yStart);
+            Speciality speciality = specialityDao.getById(specialityId);
+            if (speciality != null && speciality.getIsActive() == 0) {
+                team.setSpeciality(speciality);
+                teamDao.addOrUpdate(team);
+            }
+        }
+    }
+
+    /**
+     * Удалить группу по ее id
+     *
+     * @param id
+     */
+    @Override
+    public void deleteById(long id) {
+        teamDao.deleteById(id);
     }
 
     /**
@@ -57,20 +111,11 @@ public class GroupServiceHibernate implements GroupService {
 
     /**
      * Выборка из БД студентов, которые не зафиксированы ни в одной группе.
-     * См. комментарий в методе
-     * Список будет пуст, если в группе не задана специальность.
-     *
-     * @param group
-     * @return
-     * @link{ru.innopolis.stc9.service.hibernate.implementations.SpecialityServiceHibernate#getSuitGroups(ru.innopolis.stc9.pojo.hibernate.entities.Speciality)}
      */
     @Override
     public List<Person> getAllSuitPerson(Team group) {
         logger.debug(LOG_BEFORE + "-");
-        List<Person> allStudents = new ArrayList<>();
-        if (group != null && group.getSpeciality() != null) {
-            allStudents = personDao.getAllSuitStudentsForTeam();
-        }
+        List<Person> allStudents = personDao.getAllSuitStudentsForTeam();
         logger.info("found " + allStudents.size() + "student(-s)");
         return allStudents;
     }
@@ -105,6 +150,8 @@ public class GroupServiceHibernate implements GroupService {
      */
     @Override
     public void delStudentFromTeam(long personId) {
-        personDao.deletePersonFromGroup(personId);
+        Person student = personDao.getById(personId);
+        student.setTeam(null);
+        personDao.addOrUpdatePerson(student);
     }
 }

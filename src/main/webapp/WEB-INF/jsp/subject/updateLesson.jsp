@@ -9,7 +9,8 @@
         <li><label for="teacherItem">Выберите преподавателя: </label>
             <select id="teacherItem" name="teacherItem">
                 <c:forEach var="teacher" items="${teacherList}">
-                    <option value="${teacher.id}" <c:if test="${lesson.teacherItem eq teacher.id}">selected</c:if>>${teacher.name}</option>
+                    <option value="${teacher.id}"
+                            <c:if test="${lesson.teacherItem eq teacher.id}">selected</c:if>>${teacher.name}</option>
                 </c:forEach>
             </select></li>
         <li><label for="date">Дата проведения:</label>

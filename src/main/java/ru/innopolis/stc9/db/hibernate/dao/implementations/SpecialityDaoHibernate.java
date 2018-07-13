@@ -49,6 +49,27 @@ public class SpecialityDaoHibernate implements SpecialityDao {
         return specialityList;
     }
 
+    /**
+     * Выбрать все действующие или архивные специальности
+     *
+     * @param isActive - индикатор активности
+     * @return
+     */
+    @Override
+    public List<Speciality> getAllSpecialitiesByActiveField(int isActive) {
+        logger.debug(DEBUG_BEFORE);
+        List<Speciality> specialityList = null;
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("FROM Speciality WHERE isActive = :param");
+            query.setParameter("param", isActive);
+            specialityList = query.list();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info(specialityList != null ? "found " + specialityList.size() + " objects" : "Fail");
+        return specialityList;
+    }
+
     @Override
     public void addOrUpdateSpeciality(Speciality speciality) {
         logger.debug(DEBUG_BEFORE);

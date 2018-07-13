@@ -32,12 +32,36 @@ public class TeamDaoHibernate implements TeamDao {
         logger.debug(DEBUG_BEFORE + id);
         Team team = null;
         try (Session session = factory.openSession()) {
+            session.beginTransaction();
             team = (Team) session.get(Team.class, id);
+            session.saveOrUpdate(team);
+            session.getTransaction().commit();
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
         logger.info(team != null ? "Success " + team : "Fail");
         return team;
+    }
+
+    /**
+     * Удалить группу по id
+     *
+     * @param id
+     */
+    @Override
+    public void deleteById(long id) {
+        logger.debug(DEBUG_BEFORE + id);
+        Team team = null;
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            team = (Team) session.get(Team.class, id);
+            team.setSpeciality(null);
+            session.delete(team);
+            session.getTransaction().commit();
+            logger.info("delete team with id = " + id);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     /**
@@ -92,8 +116,11 @@ public class TeamDaoHibernate implements TeamDao {
         logger.debug(DEBUG_BEFORE);
         List<Team> teamList = null;
         try (Session session = factory.openSession()) {
-            Query query = session.createQuery("FROM Team t WHERE t.yStart >= " + earliestYear);
+            session.beginTransaction();
+            Query query = session.createQuery("FROM Team t WHERE t.speciality IS NULL AND t.yStart >= :year");
+            query.setParameter("year", earliestYear);
             teamList = query.list();
+            session.getTransaction().commit();
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

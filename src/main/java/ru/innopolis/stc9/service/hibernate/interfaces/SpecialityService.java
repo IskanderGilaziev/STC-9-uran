@@ -32,6 +32,21 @@ public interface SpecialityService {
     List<Speciality> getAll();
 
     /**
+     * Выбрать только действующие специальности (без архивных)
+     *
+     * @return
+     */
+    List<Speciality> getAllActive();
+
+    /**
+     * Подобрать список специальностей для группы при редактировании
+     *
+     * @param group
+     * @return
+     */
+    List<Speciality> getSuitSpeciality(Team group);
+
+    /**
      * Список предметов, которых нет в данной специальности
      *
      * @param speciality

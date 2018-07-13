@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Team;
-import ru.innopolis.stc9.pojo.realisationJDBC.Group;
 import ru.innopolis.stc9.service.hibernate.interfaces.GroupService;
 import ru.innopolis.stc9.service.hibernate.interfaces.SpecialityService;
 
@@ -20,6 +19,9 @@ import java.util.List;
 @Controller
 public class GroupController {
     private static final Logger logger = Logger.getLogger(GroupController.class);
+    private static final String BEFORE = "First line. Input argument(-s):";
+    private static final String ARG_GROUP_ID = "groupId = ";
+    private static final String ARG_ID = "id = ";
     private final GroupService groupService;
     private final SpecialityService specialityService;
 
@@ -31,80 +33,85 @@ public class GroupController {
 
     @RequestMapping(value = "/addGroup", method = RequestMethod.GET)
     public String addGroup(Model model) {
-        int u = 0;
-        List<Speciality> specialityList = specialityService.getAll();
-        /*List<Program> listProgram = programService.getAll();
-        model.addAttribute("listProgram", listProgram);*/
+        logger.debug(BEFORE + "-");
+        List<Speciality> specialityList = specialityService.getAllActive();
+        model.addAttribute("yCurrent", LocalDate.now().getYear());
+        model.addAttribute("specialityList", specialityList);
         return "/addGroup";
     }
 
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-    public String addGroupPost(@RequestAttribute int cur_semester_education,
-                               @RequestAttribute long program,
+    public String addGroupPost(@RequestAttribute String nameGroup,
+                               @RequestAttribute int yStart,
+                               @RequestAttribute long specialityId,
                                Model model) {
-        int u = 0;
-        /*int cur_semestr = Integer.parseInt(cur_semester_education);
-        int prog = Integer.parseInt(program);
-        Program p = programService.getById(prog);
+        logger.debug(new StringBuffer(BEFORE).append(" nameGroup = ").append(nameGroup).append(", yStart = ").append(yStart).append(", specialityId = ").append(specialityId));
+        groupService.addNewGroup(nameGroup, yStart, specialityId);
+        return "redirect:groupAll";
+    }
 
-        Group group = new Group(cur_semestr, p);
-        groupService.add(group);
-        model.addAttribute("group", group);*/
+    @RequestMapping(value = "/updateGroup", method = RequestMethod.POST)
+    public String updateGroupPost(@RequestAttribute long groupId,
+                                  @RequestAttribute String nameGroup,
+                                  @RequestAttribute int yStart,
+                                  @RequestAttribute long specialityId,
+                                  Model model) {
+        logger.debug(new StringBuffer(BEFORE).append(ARG_GROUP_ID).append(groupId).append(", nameGroup = ").append(nameGroup).append(", yStart = ").append(yStart).append(", specialityId = ").append(specialityId));
+        groupService.updateExitingGroup(groupId, nameGroup, yStart, specialityId);
         return "redirect:groupAll";
     }
 
     @RequestMapping(value = "/deleteGroup", method = RequestMethod.GET)
-    public String deleteGroupGet(@RequestAttribute Group group, Model model) {
-        /*groupService.deleteById(group.getId());*/
-        return "/redirect:personAll";
+    public String deleteGroupGet(@RequestAttribute long id, Model model) {
+        logger.debug(BEFORE + ARG_ID + id);
+        groupService.deleteById(id);
+        return "redirect:groupAll";
     }
-
-    @RequestMapping(value = "/deleteGroup", method = RequestMethod.POST)
-    public String deleteGroupPost(@RequestAttribute String id,
-                                  Model model) {
-        /*groupService.deleteById(Long.parseLong(id));
-        logger.info("Group deleted");*/
-        return "/deleteGroup";
-    }
-
 
     @RequestMapping(value = "/groupAll", method = RequestMethod.GET)
     public String getAll(Model model) {
-        String resultPage = "groupList";
+        logger.debug(BEFORE + "-");
         List<Team> groupList = groupService.getAllTeams();
         if (groupList != null) {
             model.addAttribute("groupList", groupList);
             model.addAttribute("yCurrent", LocalDate.now().getYear());
+            return "groupList";
         } else {
-            model.addAttribute("msg", "Мне кажется, у нас проблемы...");
-            resultPage = "error";
+            return showErrorPage("Мне кажется, у нас проблемы...", model);
         }
-        return resultPage;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateGroupGet(@RequestAttribute Group group,
+    @RequestMapping(value = "/updateGroup", method = RequestMethod.GET)
+    public String updateGroupGet(@RequestAttribute long id,
                                  Model model) {
-        /*model.addAttribute("group", group);*/
-        return "/updateGroup";
+        logger.debug(BEFORE + ARG_ID + id);
+        Team group = groupService.getById(id);
+        if (group != null) {
+            model.addAttribute("group", group);
+            List<Speciality> specialityList = specialityService.getSuitSpeciality(group);
+            model.addAttribute("specialityList", specialityList);
+            return "addGroup";
+        } else {
+            return showErrorPage("Запрашиваемые данные не найдены.", model);
+        }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateGroupPost(@RequestAttribute String id,
-                                  @RequestAttribute String cur_semester_education,
-                                  @RequestAttribute String program,
-                                  Model model) {
-        /*int cur_semestr = Integer.parseInt(cur_semester_education);
-        long prog = Long.parseLong(program);
-        Program p = programService.getById(prog);
-        Group group = new Group(cur_semestr, p);
-        groupService.update(group);
-        model.addAttribute("group", group);*/
-        return "/addGroup";
+    /**
+     * Страница с ошибкой
+     *
+     * @param s
+     * @param model
+     * @return
+     */
+    private String showErrorPage(String s, Model model) {
+        logger.debug(BEFORE + "s = " + s);
+        model.addAttribute("msg", s);
+        return "error";
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)
     public String getGroup(@RequestAttribute long id, Model model) {
+        logger.debug(BEFORE + ARG_ID + id);
         Team group = groupService.getById(id);
         model.addAttribute("group", group);
         List<Person> students = groupService.getAllSuitPerson(group);
@@ -116,6 +123,7 @@ public class GroupController {
     public String addStudent(@RequestAttribute long groupId,
                              @RequestAttribute long selectedStudent,
                              Model model) {
+        logger.debug(BEFORE + ARG_GROUP_ID + groupId + ", selectedStudent = " + selectedStudent);
         groupService.addStudentToTeam(groupId, selectedStudent);
         model.addAttribute("id", groupId);
         return "redirect:group";
@@ -125,6 +133,7 @@ public class GroupController {
     public String delStudent(@RequestAttribute long groupId,
                              @RequestAttribute long selectedStudent,
                              Model model) {
+        logger.debug(BEFORE + ARG_GROUP_ID + groupId + ", selectedStudent = " + selectedStudent);
         groupService.delStudentFromTeam(selectedStudent);
         model.addAttribute("id", groupId);
         return "redirect:group";

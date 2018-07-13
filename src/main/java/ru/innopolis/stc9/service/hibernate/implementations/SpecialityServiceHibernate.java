@@ -101,6 +101,37 @@ public class SpecialityServiceHibernate implements SpecialityService {
     }
 
     /**
+     * Выбрать только действующие специальности (без архивных)
+     *
+     * @return
+     */
+    @Override
+    public List<Speciality> getAllActive() {
+        List<Speciality> specialityList = specialityDao.getAllSpecialitiesByActiveField(0);
+        logger.info("found " + specialityList.size() + " object(-s)");
+        return specialityList;
+    }
+
+    /**
+     * Подобрать список специальностей для группы при редактировании.
+     * Если в группе еще не определены студенты - можно предложить все действующие специальности.
+     * Иначе - список ограничивается только
+     *
+     * @param group
+     * @return
+     */
+    @Override
+    public List<Speciality> getSuitSpeciality(Team group) {
+        List<Speciality> specialityList = new ArrayList<>();
+        if (group.getPersonSet() == null) {
+            specialityList = getAllActive();
+        } else {
+            specialityList.add(group.getSpeciality());
+        }
+        return specialityList;
+    }
+
+    /**
      * Список предметов, которых нет в данной специальности
      *
      * @param speciality
@@ -197,8 +228,8 @@ public class SpecialityServiceHibernate implements SpecialityService {
         Speciality speciality = specialityDao.getById(specialityId);
         Team team = teamDao.getById(teamId);
         if (speciality != null && team != null) {
-            team.setSpeciality(speciality);
-            teamDao.addOrUpdate(team);
+            speciality.getTeamSet().add(team);
+            specialityDao.addOrUpdateSpeciality(speciality);
         }
     }
 

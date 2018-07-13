@@ -46,9 +46,9 @@ public class SubjectController extends HttpServlet{
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.POST)
     public String addOrUpdate(HttpServletRequest request,
-                                    @RequestAttribute long id,
-                                     @RequestAttribute String action,
-                                    @RequestAttribute String name, Model model) {
+                              @RequestAttribute long id,
+                              @RequestAttribute String action,
+                              @RequestAttribute String name, Model model) {
 
         if (action.equals("add")) {
             Subject subject = new Subject(name);
@@ -64,7 +64,7 @@ public class SubjectController extends HttpServlet{
 
     @RequestMapping(value = "/deleteSubject", method = RequestMethod.GET)
     public String delete(HttpServletRequest request,
-                               @RequestAttribute long id, Model model) {
+                         @RequestAttribute long id, Model model) {
         service.deleteById(id);
         return ("redirect:subjectAll");
     }
@@ -83,7 +83,7 @@ public class SubjectController extends HttpServlet{
 
     @RequestMapping(value = "/updateSubject", method = RequestMethod.GET)
     public String update(HttpServletRequest request,
-                               @RequestAttribute long id, Model model) {
+                         @RequestAttribute long id, Model model) {
         model.addAttribute("subject", service.getById(id));
         model.addAttribute("action", "update");
         return ("/addOrUpdateSubject");
@@ -91,7 +91,7 @@ public class SubjectController extends HttpServlet{
 
     @RequestMapping(value = "/subject", method = RequestMethod.GET)
     public String get(HttpServletRequest request,
-                            @RequestAttribute long id, Model model) {
+                      @RequestAttribute long id, Model model) {
         Subject subject = service.getById(id);
         List<Lesson> lessonList = lessonService.getLessonListBySubjId(id);
         model.addAttribute("subject", subject);
@@ -137,7 +137,7 @@ public class SubjectController extends HttpServlet{
                                @RequestAttribute long id, Model model) {
         model.addAttribute("lesson", lessonService.getById(id));
         List<Person> teacherList = personService.getPersonByRoleAndNullUser(Status.teacher);
-        model.addAttribute("teacherList",teacherList);
+        model.addAttribute("teacherList", teacherList);
         return "/updateLesson";
     }
 

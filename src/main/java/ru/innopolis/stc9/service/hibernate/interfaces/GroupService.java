@@ -13,6 +13,33 @@ public interface GroupService {
      */
     List<Team> getAllTeams();
 
+
+    /**
+     * Создать новую учебную группу
+     *
+     * @param nameGroup
+     * @param yStart
+     * @param specialityId
+     */
+    void addNewGroup(String nameGroup, int yStart, long specialityId);
+
+    /**
+     * Обновить данные существующей группы
+     *
+     * @param id
+     * @param nameGroup
+     * @param yStart
+     * @param specialityId
+     */
+    void updateExitingGroup(long id, String nameGroup, int yStart, long specialityId);
+
+    /**
+     * Удалить группу по ее id
+     *
+     * @param id
+     */
+    void deleteById(long id);
+
     /**
      * Найти в БД по id
      *
@@ -24,7 +51,6 @@ public interface GroupService {
     /**
      * Выборка из БД студентов, которые не зафиксированы ни в одной группе
      *
-     * @param group
      * @return
      */
     List<Person> getAllSuitPerson(Team group);
