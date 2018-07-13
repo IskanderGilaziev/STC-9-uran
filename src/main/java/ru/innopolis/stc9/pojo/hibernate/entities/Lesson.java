@@ -1,11 +1,13 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Component
 @Entity
 @Table(name = "lesson")
 public class Lesson {
@@ -108,7 +110,7 @@ public class Lesson {
         this.subject = subject;
     }
 
-    @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "lesson", fetch = FetchType.EAGER)
     public Set<Performance> getPerformances() {
         return performances;
     }

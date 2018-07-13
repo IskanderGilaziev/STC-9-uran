@@ -30,30 +30,31 @@
             <th>Оценка</th>
         </tr>
         <c:forEach var="student" items="${studentList}">
-        <tr>
-            <td>${student.id}</td>
-            <td>${student.name}</td>
-            <td>
-                <input type="hidden" name="studentsId" value="${student.id}">
-                <select id="attendances" name="attendances">
-                    <option value="1">Присутствовал</option>
-                    <option value="0">Отсутствовал</option>
-                </select>
-            </td>
-            <td>
-                <select id="marks" name="marks">
-                    <option value="5">Отлично</option>
-                    <option value="4">Хорошо</option>
-                    <option value="3">Удовлетворительно</option>
-                    <option value="2">Неудовлетворительно</option>
-                </select>
-            </td>
-        </tr>
+            <tr>
+                <td>${student.id}</td>
+                <td>${student.name}</td>
+                <td>
+                    <input type="hidden" name="studentsId" value="${student.id}">
+                    <select id="attendances" name="attendances">
+                        <option value="1">Присутствовал</option>
+                        <option value="0">Отсутствовал</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="marks" name="marks">
+                        <option value="0">-</option>
+                        <option value="5">Отлично</option>
+                        <option value="4">Хорошо</option>
+                        <option value="3">Удовлетворительно</option>
+                        <option value="2">Неудовлетворительно</option>
+                    </select>
+                </td>
+            </tr>
         </c:forEach>
     </table>
-        <li>
-            <button class="submit" type="submit">OK</button>
-        </li>
+    <li>
+        <button class="submit" type="submit">OK</button>
+    </li>
     </ul>
 </form>
 <%@ include file="../../../footer.jsp" %>

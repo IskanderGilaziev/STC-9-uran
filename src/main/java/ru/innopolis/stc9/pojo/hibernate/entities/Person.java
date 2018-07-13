@@ -1,11 +1,13 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Component
 @Entity
 @Table(name = "person")
 public class Person {

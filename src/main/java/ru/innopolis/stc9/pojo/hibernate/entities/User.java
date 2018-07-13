@@ -1,11 +1,14 @@
 package ru.innopolis.stc9.pojo.hibernate.entities;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 
 /**
  * Contains the necessary data to describe the user of the system
  */
 
+@Component
 @Entity
 @Table(name = "users")
 public class User {
