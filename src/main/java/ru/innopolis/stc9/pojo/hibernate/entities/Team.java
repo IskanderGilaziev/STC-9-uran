@@ -3,14 +3,13 @@ package ru.innopolis.stc9.pojo.hibernate.entities;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
 @Entity
 @Table(name = "team")
-public class Team implements Serializable {
+public class Team {
     private long id;
     /**
      * Название группы

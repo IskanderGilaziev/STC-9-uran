@@ -19,7 +19,7 @@ public class Subject {
     private Set<Speciality> specialtySet = new HashSet<>();
 
 
-    private Set<Lesson> lessonList = new HashSet<Lesson>();
+    private Set<Lesson> lessonList = new HashSet<>();
 
     public Subject() {
     }

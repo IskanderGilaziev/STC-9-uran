@@ -18,6 +18,8 @@ public class PerformanceDaoHibernate implements PerformanceDao {
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
     private static final String WARN_NPE = "Null objest : lesson";
     private static final String DEBUC_AFTER = "Before exit.";
+    @Autowired
+    private SessionFactory factory;
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
@@ -27,8 +29,6 @@ public class PerformanceDaoHibernate implements PerformanceDao {
         return "Unknown result of operation";
     }
 
-    @Autowired
-    private SessionFactory factory;
     @Override
     public void addOrUpdateById(Performance performance) {
         logger.debug(DEBUG_BEFORE);

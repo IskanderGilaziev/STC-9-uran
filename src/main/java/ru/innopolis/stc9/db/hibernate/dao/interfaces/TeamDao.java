@@ -14,6 +14,13 @@ public interface TeamDao {
     Team getById(long id);
 
     /**
+     * Удалить группу по id
+     *
+     * @param id
+     */
+    void deleteById(long id);
+
+    /**
      * Освежить данные в базе
      *
      * @param team

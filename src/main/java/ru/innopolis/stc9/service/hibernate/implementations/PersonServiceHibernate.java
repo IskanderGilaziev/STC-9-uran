@@ -31,26 +31,6 @@ public class PersonServiceHibernate implements PersonService {
         return person;
     }
 
-    /**
-     * Определяет, можно ли сменить статус человека?
-     * Если у человека определена учебная группа, оценки и т.д., то он остается студентом.
-     * Если человек вел предметы - преподаватель.
-     * В таких случаях статус изменять нельзя.
-     *
-     * @param person
-     * @return
-     */
-    @Override
-    public boolean isAvailableForStatusChange(Person person) {
-//        boolean result = true;
-//        switch (person.getStatus()){
-//            case student:
-////                result = person.getTeam()!=null ||  (person.getLessonSet()!=null && person.getLessonSet().isEmpty());
-//        }
-//        boolean isStudent =
-        return false;
-    }
-
     @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
