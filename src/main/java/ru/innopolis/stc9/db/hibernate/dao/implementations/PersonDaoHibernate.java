@@ -200,6 +200,32 @@ public class PersonDaoHibernate implements PersonDao {
         }
     }
 
+    /**
+     * Найти человека по его логину
+     *
+     * @param login
+     * @return
+     */
+    @Override
+    public Person getByLogin(String login) {
+        logger.debug(DEBUG_BEFORE);
+        Person result = null;
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from Person p WHERE p.user.login = :param");
+            query.setParameter("param", login);
+            List<Person> persons = query.list();
+            if (persons.size() == 1) {
+                result = persons.get(0);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info(result == null ? "Fail" : "Perosn with login " + login + " was found: " + result);
+        return result;
+    }
+
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
     }

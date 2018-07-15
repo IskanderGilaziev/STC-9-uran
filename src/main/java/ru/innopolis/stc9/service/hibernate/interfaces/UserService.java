@@ -1,7 +1,10 @@
 package ru.innopolis.stc9.service.hibernate.interfaces;
 
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
+
+import java.util.Set;
 
 public interface UserService {
 
@@ -38,5 +41,14 @@ public interface UserService {
      */
     boolean signUpUser(String personName, String email, String login, String password, String passwordConfirm);
 
+    Person getByUserName(String login);
+
+    /**
+     * Узнать по каким предметам у авторизованного студента уже есть оценки
+     *
+     * @param login
+     * @return
+     */
+    Set<Subject> getSubjectsForStudentByUser(String login);
 
 }

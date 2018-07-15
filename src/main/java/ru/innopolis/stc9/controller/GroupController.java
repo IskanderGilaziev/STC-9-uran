@@ -13,6 +13,7 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 import ru.innopolis.stc9.service.hibernate.interfaces.GroupService;
 import ru.innopolis.stc9.service.hibernate.interfaces.SpecialityService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -139,5 +140,12 @@ public class GroupController {
         return "redirect:group";
     }
 
+    @RequestMapping(value = "/myGroup", method = RequestMethod.GET)
+    public String myGroup(HttpServletRequest request,
+                          Model model) {
+        Team group = groupService.getTeamByUser(request.getUserPrincipal());
+        model.addAttribute("group", group);
+        return "myGroup";
+    }
 
 }

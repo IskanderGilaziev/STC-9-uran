@@ -228,8 +228,10 @@ public class SpecialityServiceHibernate implements SpecialityService {
         Speciality speciality = specialityDao.getById(specialityId);
         Team team = teamDao.getById(teamId);
         if (speciality != null && team != null) {
-            speciality.getTeamSet().add(team);
-            specialityDao.addOrUpdateSpeciality(speciality);
+            team.setSpeciality(speciality);
+            teamDao.addOrUpdate(team);
+            /*speciality.getTeamSet().add(team);
+            specialityDao.addOrUpdateSpeciality(speciality);*/
         }
     }
 

@@ -1,8 +1,10 @@
 package ru.innopolis.stc9.db.hibernate.dao.interfaces;
 
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserDao {
 
@@ -27,5 +29,7 @@ public interface UserDao {
      * @return
      */
     long userCountWithRole(String securityRole);
+
+    Set<Subject> allSubjectsForStudent(String login);
 
 }

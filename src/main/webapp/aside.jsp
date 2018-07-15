@@ -9,10 +9,6 @@
         <li><a href="/subject/subjectAll">Список предметов</a></li>
         <li><a href="/speciality/specialityAll">Список специальностей</a></li>
         <li><a href="/group/groupAll">Учебные группы</a></li>
-            <%--<li><a href="/status/roleAll">Список типов пользователей</a></li>--%>
-        <li><a href="/program/programAll">Список учебных программ</a></li>
-        <li><a href="/teacherSubject/tlAll">Предмет-преподаватель</a></li>
-        <li><a href="/scheduleItem/seeScheduleGroupsInProgress">Расписание</a></li>
     </ul>
     <div><a href="/static/j_spring_security_logout">Выйти</a></div>
 
@@ -22,8 +18,8 @@
 <sec:authorize access="hasRole('ROLE_USER')">
     <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
-            <li><a href="/program/programAll">Список учебных программ</a></li>
-            <li><a href="/teacherSubject/tlAll">Предмет-преподаватель</a></li>
+            <li><a href="/group/myGroup">Моя группа</a></li>
+            <li><a href="/perfomance/mySubjects">Мои оценки</a></li>
         </ul>
         <div><a href="/static/j_spring_security_logout"> Выйти </a></div>
     </div>

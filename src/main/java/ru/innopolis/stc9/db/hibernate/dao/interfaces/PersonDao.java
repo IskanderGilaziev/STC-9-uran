@@ -35,4 +35,12 @@ public interface PersonDao {
     Person getByName(String name);
 
     void toDetached(Person person);
+
+    /**
+     * Найти человека по его логину
+     *
+     * @param login
+     * @return
+     */
+    Person getByLogin(String login);
 }
