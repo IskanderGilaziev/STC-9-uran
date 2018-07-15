@@ -14,7 +14,8 @@
 <div class="main">
     <div class="content">
         <div id="navbar" class="navbar-collapse collapse">
-            <form action="${pageContext.request.contextPath}/j_spring_security_check" method="post">
+            <form action="/j_spring_security_check" method="post">
+                <%--<form action="${pageContext.request.contextPath}/j_spring_security_check" method="post">--%>
                 <h2>Вход в систему</h2>
 
                 <div class="form-group">
@@ -30,7 +31,7 @@
             </form>
         </div>
         <br><br>
-        <a href="${pageContext.request.contextPath}/registration">Регистрация</a>
+        <a href="/registration">Регистрация</a>
 
     </div>
 </div>

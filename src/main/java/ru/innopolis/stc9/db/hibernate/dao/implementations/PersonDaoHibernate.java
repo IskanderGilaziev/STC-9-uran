@@ -80,6 +80,7 @@ public class PersonDaoHibernate implements PersonDao {
             try (Session session = factory.openSession()) {
                 session.beginTransaction();
                 Person person = (Person) session.get(Person.class, id);
+                // TODO: 15.07.2018 Как удалить все и сразу?
                 session.delete(person);
                 session.getTransaction().commit();
             } catch (Exception e) {

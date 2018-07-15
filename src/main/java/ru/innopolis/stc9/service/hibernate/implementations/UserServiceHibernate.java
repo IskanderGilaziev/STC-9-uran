@@ -126,21 +126,25 @@ public class UserServiceHibernate implements UserService {
     @Override
     public boolean signUpUser(String personName, String email, String login, String password, String passwordConfirm) {
         boolean result;
-        checkPasswords(password, passwordConfirm);
-        boolean isFirstAdmin = userDao.userCountWithRole(securityRoles[0]) == 0;
-        Person person = new Person(personName, email);
-        person.setStatus(Status.unknown);
-        User user = new User(login, bcryptEncoder.encode(password));
-        user.setEnabled(0);
-        user.setRole(securityRoles[1]);
-        if (isFirstAdmin) {
-            setRoot(person, user);
+        if (userDao.getByLogin(login) == null) {
+            checkPasswords(password, passwordConfirm);
+            boolean isFirstAdmin = userDao.userCountWithRole(securityRoles[0]) == 0;
+            Person person = new Person(personName, email);
+            person.setStatus(Status.unknown);
+            User user = new User(login, bcryptEncoder.encode(password));
+            user.setEnabled(0);
+            user.setRole(securityRoles[1]);
+            if (isFirstAdmin) {
+                setRoot(person, user);
+            }
+            personDao.addOrUpdatePerson(person);
+            user.setPerson(person);
+            userDao.addUser(user);
+            result = true;
+            logger.info(person);
+        } else {
+            result = true;
         }
-        personDao.addOrUpdatePerson(person);
-        user.setPerson(person);
-        userDao.addUser(user);
-        result = true;
-        logger.info(person);
         return result;
     }
 

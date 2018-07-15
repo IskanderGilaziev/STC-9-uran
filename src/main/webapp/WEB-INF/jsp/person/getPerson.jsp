@@ -60,7 +60,7 @@
         </c:if>
     </p>
     <p>
-        <a href="${pageContext.request.contextPath}/person/ban?id=${person.id}">Изменить доступ в систему</a>
+        <a href="/person/person/ban?id=${person.id}">Изменить доступ в систему</a>
     </p>
 
 </c:if>

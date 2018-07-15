@@ -5,7 +5,6 @@
 <%@ include file="../../../aside.jsp" %>
 
 <h1>${subject.name}</h1>
-<%--<p>${fn:length(performanceList)}</p>--%>
 
 <div class="table-responsive">
     <table class="table table-striped">

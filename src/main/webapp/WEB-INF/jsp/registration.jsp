@@ -21,7 +21,7 @@
 </h5>
 
 <div id="navbar" class="navbar-collapse collapse">
-    <form action="${pageContext.request.contextPath}/registration" method="post">
+    <form action="/registration" method="post">
 
         <div class="form-group">
             <input type='text' name='personName' placeholder="имя" class="form-control" required autofocus><br>
