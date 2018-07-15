@@ -23,9 +23,11 @@
         <col width="250px">
         <col width="30px">
         <col width="30px">
+        <col width="30px">
         <tr>
             <th>№</th>
             <th>Имя студента</th>
+            <th>Группа</th>
             <th>Присутствие</th>
             <th>Оценка</th>
         </tr>
@@ -33,6 +35,7 @@
             <tr>
                 <td>${student.id}</td>
                 <td>${student.name}</td>
+                <td>${student.team.nameGroup}</td>
                 <td>
                     <input type="hidden" name="studentsId" value="${student.id}">
                     <select id="attendances" name="attendances">

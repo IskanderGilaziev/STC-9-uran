@@ -15,14 +15,18 @@ import ru.innopolis.stc9.service.hibernate.implementations.SubjectServiceHiberna
 import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
 import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.List;
 
 @Controller
-public class SubjectController extends HttpServlet{
+public class SubjectController {
     private static final Logger logger = Logger.getLogger(SubjectController.class);
+    private static final String ATTR_SUBJECT = "subject";
+    private static final String ATTR_ACTION = "action";
+    private static final String ATTR_UPDATE = "update";
+    private static final String ATTR_LESSON = "lesson";
+    private static final String REDIR_SUBJECT = "redirect:subject";
 
     @Autowired
     private SubjectServiceHibernate service;
@@ -35,18 +39,17 @@ public class SubjectController extends HttpServlet{
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
-        if (model.containsAttribute("subject")) {
-            model.addAttribute("action", "update");
+        if (model.containsAttribute(ATTR_SUBJECT)) {
+            model.addAttribute(ATTR_ACTION, ATTR_UPDATE);
             model.addAttribute("id", request.getParameter("id"));
         } else {
-            model.addAttribute("action", "add");
+            model.addAttribute(ATTR_ACTION, "add");
         }
         return "/addOrUpdateSubject";
     }
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.POST)
-    public String addOrUpdate(HttpServletRequest request,
-                              @RequestAttribute long id,
+    public String addOrUpdate(@RequestAttribute long id,
                               @RequestAttribute String action,
                               @RequestAttribute String name, Model model) {
 
@@ -54,7 +57,7 @@ public class SubjectController extends HttpServlet{
             Subject subject = new Subject(name);
             service.addOrUpdate(subject);
         } else {
-            if (action.equals("update")) {
+            if (action.equals(ATTR_UPDATE)) {
                 Subject subject = new Subject(id, name);
                 service.addOrUpdate(subject);
             }
@@ -63,8 +66,7 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/deleteSubject", method = RequestMethod.GET)
-    public String delete(HttpServletRequest request,
-                         @RequestAttribute long id, Model model) {
+    public String delete(@RequestAttribute long id, Model model) {
         service.deleteById(id);
         return ("redirect:subjectAll");
     }
@@ -75,35 +77,32 @@ public class SubjectController extends HttpServlet{
         if (subjectList != null) {
             model.addAttribute("subjectList", subjectList);
             return "/subjectList";
-        }
-        else {
+        } else {
             return "index";
         }
     }
 
     @RequestMapping(value = "/updateSubject", method = RequestMethod.GET)
-    public String update(HttpServletRequest request,
-                         @RequestAttribute long id, Model model) {
-        model.addAttribute("subject", service.getById(id));
-        model.addAttribute("action", "update");
+    public String update(@RequestAttribute long id, Model model) {
+        model.addAttribute(ATTR_SUBJECT, service.getById(id));
+        model.addAttribute(ATTR_ACTION, ATTR_UPDATE);
         return ("/addOrUpdateSubject");
     }
 
     @RequestMapping(value = "/subject", method = RequestMethod.GET)
-    public String get(HttpServletRequest request,
-                      @RequestAttribute long id, Model model) {
+    public String get(@RequestAttribute long id, Model model) {
         Subject subject = service.getById(id);
         List<Lesson> lessonList = lessonService.getLessonListBySubjId(id);
-        model.addAttribute("subject", subject);
+        model.addAttribute(ATTR_SUBJECT, subject);
         model.addAttribute("lessonList", lessonList);
         return "/getSubject";
     }
 
     @RequestMapping(value = "/addLesson", method = RequestMethod.GET)
-    public String addLesson(HttpServletRequest request, @RequestAttribute long subjId, Model model) {
+    public String addLesson(@RequestAttribute long subjId, Model model) {
         Subject subject = service.getById(subjId);
-        List<Person> teacherList = personService.getPersonByRoleAndNullUser(Status.teacher);
-        model.addAttribute("subject", subject);
+        List<Person> teacherList = personService.getPersonsByRole(Status.teacher);
+        model.addAttribute(ATTR_SUBJECT, subject);
         model.addAttribute("teacherList", teacherList);
         return "/addLesson";
     }
@@ -117,53 +116,53 @@ public class SubjectController extends HttpServlet{
                              @RequestAttribute String homework,
                              Model model) {
         Lesson lesson = lessonService.add(service.getById(subjectId),
-                teacherItem,date,theme,homework);
-        model.addAttribute("lesson", lesson);
+                teacherItem, date, theme, homework);
+        model.addAttribute(ATTR_LESSON, lesson);
         model.addAttribute("id", subjectId);
-        return "redirect:subject";
+        return REDIR_SUBJECT;
     }
 
     @RequestMapping(value = "/deleteLesson", method = RequestMethod.GET)
-    public String deleteLesson(HttpServletRequest request,
-                               @RequestAttribute Lesson lesson,
+    public String deleteLesson(@RequestAttribute Lesson lesson,
                                @RequestAttribute String subjId, Model model) {
         lessonService.deleteById(lesson.getId());
         model.addAttribute("id", subjId);
-        return "redirect:subject";
+        return REDIR_SUBJECT;
     }
 
     @RequestMapping(value = "/updateLesson", method = RequestMethod.GET)
-    public String updateLesson(HttpServletRequest request,
-                               @RequestAttribute long id, Model model) {
-        model.addAttribute("lesson", lessonService.getById(id));
-        List<Person> teacherList = personService.getPersonByRoleAndNullUser(Status.teacher);
+    public String updateLesson(@RequestAttribute long id, Model model) {
+        model.addAttribute(ATTR_LESSON, lessonService.getById(id));
+        List<Person> teacherList = personService.getPersonsByRole(Status.teacher);
         model.addAttribute("teacherList", teacherList);
         return "/updateLesson";
     }
 
     @RequestMapping(value = "/updateLesson", method = RequestMethod.POST)
-    public String updateLesson2(HttpServletRequest request,
-                                @RequestAttribute long id,
-                                @RequestAttribute long subjectId,
-                                @RequestAttribute long teacher_item,
-                                @RequestAttribute Date date,
+    public String updateLesson2(@RequestAttribute long id,
+                                @RequestAttribute long teacherItem,
+                                @RequestAttribute String date,
                                 @RequestAttribute String theme,
-                                @RequestAttribute String homework, Model model) {
-        Person teacher = personService.getById(teacher_item);
-        Lesson lesson = new Lesson(id,
-                service.getById(subjectId),
-                teacher_item, date, theme, homework);
+                                @RequestAttribute String homework,
+                                Model model) {
+        Lesson lesson = lessonService.getById(id);
+        Person teacher = personService.getById(teacherItem);
+        if (teacher != null) {
+            lesson.setTeacherItem(teacher.getId());
+        }
+        lesson.setDate(Date.valueOf(date));
+        lesson.setTheme(theme);
+        lesson.setHomework(homework);
         lessonService.addOrUpdateById(lesson);
-        model.addAttribute("lesson", lesson);
-        model.addAttribute("id", subjectId);
-        return "redirect:subject";
+        model.addAttribute(ATTR_LESSON, lesson);
+        model.addAttribute("id", lesson.getSubject().getId());
+        return REDIR_SUBJECT;
     }
 
     @RequestMapping(value = "/lesson", method = RequestMethod.GET)
-    public String getLesson(HttpServletRequest request,
-                            @RequestAttribute String id, Model model) {
+    public String getLesson(@RequestAttribute String id, Model model) {
         Lesson lesson = lessonService.getById(Long.parseLong(id));
-        model.addAttribute("lesson", lesson);
+        model.addAttribute(ATTR_LESSON, lesson);
         return "/getLesson";
     }
 }

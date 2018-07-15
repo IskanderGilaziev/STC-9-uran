@@ -19,8 +19,12 @@ public class PersonDaoHibernate implements PersonDao {
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
     private static final String WARN_NPE = "Null objest : person";
     private static final String DEBUC_AFTER = "Before exit.";
+    private final SessionFactory factory;
+
     @Autowired
-    private SessionFactory factory;
+    public PersonDaoHibernate(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     @Override
     public Person getById(long id) {
@@ -81,14 +85,13 @@ public class PersonDaoHibernate implements PersonDao {
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
         }
         logger.debug(DEBUC_AFTER);
     }
 
-    @Override
+    /*@Override
     public List<Person> getPersonByRole(Status status) {
         logger.debug(DEBUG_BEFORE);
         List<Person> personList = new ArrayList<>();
@@ -103,7 +106,7 @@ public class PersonDaoHibernate implements PersonDao {
         }
         logger.info(logResult(!personList.isEmpty()) + personList.size());
         return personList;
-    }
+    }*/
 
     /**
      * Поиск из таблицы Person строк со статусом студент и null а колонке "группа"
@@ -149,7 +152,7 @@ public class PersonDaoHibernate implements PersonDao {
     }
 
     @Override
-    public List<Person> getPersonByRoleAndNullUser(Status status) {
+    public List<Person> getPersonsByRole(Status status) {
         logger.debug(DEBUG_BEFORE);
         List<Person> personList = new ArrayList<>();
         try (Session session = factory.openSession()) {
@@ -228,9 +231,5 @@ public class PersonDaoHibernate implements PersonDao {
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
-    }
-
-    private String logResult() {
-        return "Unknown result of operation";
     }
 }

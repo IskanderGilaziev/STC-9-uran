@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.LessonDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,10 +23,6 @@ public class LessonDaoHibernate implements LessonDao {
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
-    }
-
-    private String logResult() {
-        return "Unknown result of operation";
     }
 
     @Autowired
@@ -58,7 +55,7 @@ public class LessonDaoHibernate implements LessonDao {
     @Override
     public List<Lesson> getAll() {
         logger.debug(DEBUG_BEFORE);
-        List<Lesson> lessonList = null;
+        List<Lesson> lessonList = new ArrayList<>();
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM Lesson");
             lessonList = query.list();
@@ -79,7 +76,6 @@ public class LessonDaoHibernate implements LessonDao {
             session.delete(lesson);
             session.getTransaction().commit();
             session.close();
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
         }

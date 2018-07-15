@@ -4,7 +4,11 @@
 <%@ include file="../../../aside.jsp" %>
 <h1>Редактирование</h1>
 <form class="editForm" action="/subject/updateLesson" method="post" name="editForm">
-    <input type="hidden" name="subjectId" value="${subject.id}">
+    <%--<input type="hidden" name="subjectId" value="${subject.id}">--%>
+    <c:if test="${lesson ne null}">
+        Я передаю ${lesson.id} скрытно
+        <input type="hidden" name="id" value="${lesson.id}">
+    </c:if>
     <ul>
         <li><label for="teacherItem">Выберите преподавателя: </label>
             <select id="teacherItem" name="teacherItem">

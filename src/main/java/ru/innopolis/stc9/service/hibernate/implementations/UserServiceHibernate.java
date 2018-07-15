@@ -8,14 +8,10 @@ import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.UserDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
-import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
 import ru.innopolis.stc9.service.hibernate.interfaces.UserService;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.security.Principal;
 
 @Service
 public class UserServiceHibernate implements UserService {
@@ -56,7 +52,6 @@ public class UserServiceHibernate implements UserService {
      * Set security role based on user status
      *
      * @param person
-     * @return
      */
     @Override
     public void setSecurityRole(Person person) {
@@ -74,14 +69,13 @@ public class UserServiceHibernate implements UserService {
      * @return
      */
     private String securityRole(Status status) {
-        String result = null;
         int index = 0;
         switch (status) {
             case unknown:
             case student:
                 index = 1;
         }
-        result = securityRoles[index];
+        String result = securityRoles[index];
         return result;
     }
 
@@ -157,24 +151,13 @@ public class UserServiceHibernate implements UserService {
     }
 
     @Override
-    public Person getByUserName(String login) {
+    public Person getByUserName(Principal principal) {
         Person person = null;
+        String login = principal.getName();
         if (login != null && !login.isEmpty()) {
             User user = userDao.getByLogin(login);
             person = user.getPerson();
         }
         return person;
-    }
-
-    @Override
-    public Set<Subject> getSubjectsForStudentByUser(String login) {
-        Person student = personDao.getByLogin(login);
-//        Person student = userDao.getByLogin(login).getPerson();
-        Set<Subject> subjectSet = new HashSet<>();
-        if (login != null && !login.isEmpty()) {
-            subjectSet = userDao.allSubjectsForStudent(login);
-        }
-        Map<Subject, Integer> lessonCount = new HashMap<>();
-        return subjectSet;
     }
 }

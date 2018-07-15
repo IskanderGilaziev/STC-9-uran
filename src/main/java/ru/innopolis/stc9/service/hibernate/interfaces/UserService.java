@@ -1,10 +1,9 @@
 package ru.innopolis.stc9.service.hibernate.interfaces;
 
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
-import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
 
-import java.util.Set;
+import java.security.Principal;
 
 public interface UserService {
 
@@ -16,7 +15,6 @@ public interface UserService {
      * Set security role based on user status
      *
      * @param person
-     * @return
      */
     void setSecurityRole(Person person);
 
@@ -41,14 +39,5 @@ public interface UserService {
      */
     boolean signUpUser(String personName, String email, String login, String password, String passwordConfirm);
 
-    Person getByUserName(String login);
-
-    /**
-     * Узнать по каким предметам у авторизованного студента уже есть оценки
-     *
-     * @param login
-     * @return
-     */
-    Set<Subject> getSubjectsForStudentByUser(String login);
-
+    Person getByUserName(Principal principal);
 }

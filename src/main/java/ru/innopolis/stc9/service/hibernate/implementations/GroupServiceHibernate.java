@@ -168,7 +168,6 @@ public class GroupServiceHibernate implements GroupService {
     @Override
     public Team getTeamByUser(Principal principal) {
         Person student = userDao.getByLogin(principal.getName()).getPerson();
-        Team team = student.getStatus().equals(Status.student) ? student.getTeam() : null;
-        return team;
+        return student.getStatus().equals(Status.student) ? student.getTeam() : null;
     }
 }

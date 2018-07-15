@@ -36,8 +36,7 @@ public class SpecialityServiceHibernate implements SpecialityService {
     @Override
     public Speciality getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Speciality speciality = null;
-        speciality = specialityDao.getById(id);
+        Speciality speciality = specialityDao.getById(id);
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return speciality;
     }
@@ -230,8 +229,6 @@ public class SpecialityServiceHibernate implements SpecialityService {
         if (speciality != null && team != null) {
             team.setSpeciality(speciality);
             teamDao.addOrUpdate(team);
-            /*speciality.getTeamSet().add(team);
-            specialityDao.addOrUpdateSpeciality(speciality);*/
         }
     }
 

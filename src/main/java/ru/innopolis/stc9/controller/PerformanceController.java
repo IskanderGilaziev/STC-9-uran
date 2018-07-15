@@ -19,6 +19,8 @@ import java.util.List;
 @Controller
 public class PerformanceController {
     private static final Logger logger = Logger.getLogger(PerformanceController.class);
+    private static final String ATTR_PERF_LIST = "performanceList";
+
     @Autowired
     private PerformanceService service;
 
@@ -39,14 +41,13 @@ public class PerformanceController {
         model.addAttribute("action", "add");
         long lessonId = Long.parseLong(request.getParameter("lessonId"));
         model.addAttribute("lesson", lessonService.getById(lessonId));
-        List<Person> studentList = personService.getPersonByRoleAndNullUser(Status.student);
+        List<Person> studentList = personService.getPersonsByRole(Status.student);
         model.addAttribute("studentList", studentList);
         return "/addOrUpdatePerfom";
     }
 
     @RequestMapping(value = "/addOrUpdatePerform", method = RequestMethod.POST)
-    public String addPerformance2(HttpServletRequest request,
-                                  @RequestAttribute Integer lessonId,
+    public String addPerformance2(@RequestAttribute Integer lessonId,
                                   @RequestAttribute int[] studentsId,
                                   @RequestAttribute int[] marks,
                                   @RequestAttribute boolean[] attendances,
@@ -71,7 +72,7 @@ public class PerformanceController {
     public String getAll(HttpServletRequest request, Model model) {
         List<Performance> performanceList = service.getAll();
         if (performanceList != null) {
-            model.addAttribute("performanceList", performanceList);
+            model.addAttribute(ATTR_PERF_LIST, performanceList);
             return "/performanceList";
         } else {
             return "index";
@@ -108,7 +109,7 @@ public class PerformanceController {
         model.addAttribute("lesson", lessonService.getById(lessonId));
         List<Performance> performanceList = service.getByLessonId(lessonId);
         if (performanceList != null) {
-            model.addAttribute("performanceList", performanceList);
+            model.addAttribute(ATTR_PERF_LIST, performanceList);
             return "/getPerformance";
         } else {
             return "index";
@@ -117,12 +118,9 @@ public class PerformanceController {
 
     @RequestMapping(value = "/mySubjects", method = RequestMethod.GET)
     public String studentSubjects(
-//            Authentication authentication,
             HttpServletRequest request,
             Model model) {
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        Person person = userService.getByUserName(userDetails.getUsername());
-        Person person = userService.getByUserName(request.getUserPrincipal().getName());
+        Person person = userService.getByUserName(request.getUserPrincipal());
         List<Subject> subjectList = service.getListOfSubjectsWithLessonForStudent(person);
         model.addAttribute("subjectList", subjectList);
         return "/mySubjects";
@@ -132,11 +130,11 @@ public class PerformanceController {
     public String studentSubjects(HttpServletRequest request,
                                   @RequestAttribute long subject,
                                   Model model) {
-        Person person = userService.getByUserName(request.getUserPrincipal().getName());
+        Person person = userService.getByUserName(request.getUserPrincipal());
         Subject subj = subjectService.getById(subject);
         List<Performance> performanceList = service.getListOfPerformanceForStudentBySubject(person, subj);
         model.addAttribute("subject", subj);
-        model.addAttribute("performanceList", performanceList);
+        model.addAttribute(ATTR_PERF_LIST, performanceList);
         return "/myMarks";
     }
 }

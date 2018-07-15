@@ -21,9 +21,10 @@ public interface PersonService {
      * @return
      */
     List<Person> getAllegedPersonForModeration();
+
     void refreshPersonsDataOnModeration(Person oldId, Person newId);
 
     List<Person> getStudentById(long id);
 
-    List<Person> getPersonByRoleAndNullUser(Status status);
+    List<Person> getPersonsByRole(Status status);
 }

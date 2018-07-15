@@ -36,8 +36,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     public Performance getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Performance subject = null;
-        subject = performanceDao.getById(id);
+        Performance subject = performanceDao.getById(id);
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return subject;
     }
@@ -93,8 +92,7 @@ public class PerformanceServiceImpl implements PerformanceService {
      */
     @Override
     public List<Performance> getListOfPerformanceForStudentBySubject(Person person, Subject subject) {
-        List<Performance> performanceList = person.getStatus().equals(Status.student) ?
+        return person.getStatus().equals(Status.student) ?
                 performanceDao.getPerformanceForStudentBySubject(person, subject) : new ArrayList<>();
-        return performanceList;
     }
 }

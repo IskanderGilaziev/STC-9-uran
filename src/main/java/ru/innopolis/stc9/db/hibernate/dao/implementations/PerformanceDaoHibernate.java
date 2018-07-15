@@ -28,10 +28,6 @@ public class PerformanceDaoHibernate implements PerformanceDao {
         return (b ? "Success" : "False") + " : ";
     }
 
-    private String logResult() {
-        return "Unknown result of operation";
-    }
-
     @Override
     public void addOrUpdateById(Performance performance) {
         logger.debug(DEBUG_BEFORE);
@@ -66,7 +62,6 @@ public class PerformanceDaoHibernate implements PerformanceDao {
             session.delete(performance);
             session.getTransaction().commit();
             session.close();
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
         }
@@ -119,7 +114,7 @@ public class PerformanceDaoHibernate implements PerformanceDao {
     @Override
     public List<Subject> getSubjectsForStudent(Person person) {
         logger.debug(DEBUG_BEFORE);
-        List<Subject> subjectList = null;
+        List<Subject> subjectList = new ArrayList<>();
         try (Session session = factory.openSession()) {
             session.beginTransaction();
             Query query = session.createQuery("SELECT distinct p.lesson.subject FROM Performance p WHERE p.person = :param");
@@ -144,19 +139,19 @@ public class PerformanceDaoHibernate implements PerformanceDao {
     public List<Performance> getPerformanceForStudentBySubject(Person person, Subject subject) {
         logger.debug(DEBUG_BEFORE);
         List<Performance> performanceList = new ArrayList<>();
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-//            Subject subject = (Subject) session.get(Subject.class, subjectId);
-            if (subject != null) {
+        if (subject != null) {
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
                 Query query = session.createQuery("FROM Performance p WHERE p.person = :persName AND p.lesson.subject = :subj ORDER BY p.lesson.date");
                 query.setParameter("persName", person);
                 query.setParameter("subj", subject);
                 performanceList = query.getResultList();
-                int u = 0;
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+        } else {
+            logger.warn("subject is a null object.");
         }
         logger.debug(performanceList.isEmpty() ? "fail" : "found " + performanceList.size());
         return performanceList;
