@@ -5,10 +5,10 @@
 <sec:authorize access="hasRole('ROLE_ADMIN')">
 <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
-        <li><a href="/person/personAll">Список персон</a></li>
-        <li><a href="/subject/subjectAll">Список предметов</a></li>
-        <li><a href="/speciality/specialityAll">Список специальностей</a></li>
-        <li><a href="/group/groupAll">Учебные группы</a></li>
+        <li><a href="/admin/person/personAll">Список персон</a></li>
+        <li><a href="/admin/subject/subjectAll">Список предметов</a></li>
+        <li><a href="/admin/speciality/specialityAll">Список специальностей</a></li>
+        <li><a href="/admin/group/groupAll">Учебные группы</a></li>
     </ul>
     <div><a href="/static/j_spring_security_logout">Выйти</a></div>
 

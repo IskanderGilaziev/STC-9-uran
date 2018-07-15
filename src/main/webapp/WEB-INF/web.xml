@@ -35,7 +35,7 @@
 
     <servlet-mapping>
         <servlet-name>person</servlet-name>
-        <url-pattern>/person/*</url-pattern>
+        <url-pattern>/admin/person/*</url-pattern>
     </servlet-mapping>
 
     <display-name>subject</display-name>
@@ -46,7 +46,7 @@
 
     <servlet-mapping>
         <servlet-name>subject</servlet-name>
-        <url-pattern>/subject/*</url-pattern>
+        <url-pattern>/admin/subject/*</url-pattern>
     </servlet-mapping>
 
     <display-name>lesson</display-name>
@@ -57,7 +57,7 @@
 
     <servlet-mapping>
         <servlet-name>lesson</servlet-name>
-        <url-pattern>/lesson/*</url-pattern>
+        <url-pattern>/admin/lesson/*</url-pattern>
     </servlet-mapping>
 
     <display-name>speciality</display-name>
@@ -68,7 +68,7 @@
 
     <servlet-mapping>
         <servlet-name>speciality</servlet-name>
-        <url-pattern>/speciality/*</url-pattern>
+        <url-pattern>/admin/speciality/*</url-pattern>
     </servlet-mapping>
 
     <display-name>group</display-name>
@@ -79,7 +79,7 @@
 
     <servlet-mapping>
         <servlet-name>group</servlet-name>
-        <url-pattern>/group/*</url-pattern>
+        <url-pattern>/admin/group/*</url-pattern>
     </servlet-mapping>
 
 
@@ -138,7 +138,7 @@
 
     <servlet-mapping>
         <servlet-name>perfomance</servlet-name>
-        <url-pattern>/perfomance/*</url-pattern>
+        <url-pattern>/admin/perfomance/*</url-pattern>
     </servlet-mapping>
   
     <servlet-mapping>
