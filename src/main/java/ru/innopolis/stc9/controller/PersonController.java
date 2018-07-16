@@ -64,13 +64,7 @@ public class PersonController extends HttpServlet {
             personService.addOrUpdate(person);
         } else {
             if (action.equals(ATTRIBUTE_UPDATE)) {
-
-                Person person = personService.getById(Long.valueOf(id));
-                person.setName(name);
-                person.setBirthday(Date.valueOf(birthday));
-                person.setEmail(email);
-                person.setStatus(Status.values()[Integer.parseInt(status)]);
-                personService.addOrUpdate(person);
+                personService.updateExitingPerson(Long.valueOf(id), name, Date.valueOf(birthday), email, Status.values()[Integer.parseInt(status)]);
             }
         }
         return REDIRECT_PERSON_ALL;

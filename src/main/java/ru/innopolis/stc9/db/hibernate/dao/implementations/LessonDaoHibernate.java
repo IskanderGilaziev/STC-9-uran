@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.LessonDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
 import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,12 @@ public class LessonDaoHibernate implements LessonDao {
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
     private static final String WARN_NPE = "Null objest : lesson";
     private static final String DEBUC_AFTER = "Before exit.";
+    @Autowired
+    private SessionFactory factory;
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
     }
-
-    @Autowired
-    private SessionFactory factory;
 
     @Override
     public void addOrUpdateById(Lesson lesson) {
@@ -101,5 +101,31 @@ public class LessonDaoHibernate implements LessonDao {
             logger.debug(DEBUC_AFTER);
             return lessons;
         }
+    }
+
+    /**
+     * Найти число уроков, проведенных этим человеком.
+     *
+     * @param person
+     * @return
+     */
+    @Override
+    public int getLessonCountByPerson(Person person) {
+        logger.debug(DEBUG_BEFORE + person);
+        long result = 0;
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("SELECT COUNT (l.id) FROM Lesson l WHERE l.teacherItem = :param");
+            query.setParameter("param", person.getId());
+            List<Long> longs = query.list();
+            if (!longs.isEmpty()) {
+                result = longs.get(0);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.debug(DEBUC_AFTER);
+        return (int) result;
     }
 }

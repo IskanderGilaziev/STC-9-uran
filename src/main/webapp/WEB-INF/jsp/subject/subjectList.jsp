@@ -13,9 +13,9 @@
             <th></th>
             <th></th>
         </tr>
-        <c:forEach var="subject" items="${subjectList}">
+        <c:forEach var="subject" items="${subjectList}" varStatus="counter">
         <tr>
-            <td>${subject.id}</td>
+            <td>${counter.count}</td>
             <td>
                 <a href="/subject/subject?id=${subject.id}">${subject.name}</a>
             </td>

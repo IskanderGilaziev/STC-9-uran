@@ -12,5 +12,13 @@ public interface SubjectService {
 
     void addOrUpdate(Subject subject);
 
+    /**
+     * Обновить существующий предмет
+     *
+     * @param id
+     * @param name
+     */
+    void updateExitingSubject(long id, String name);
+
     List<Subject> getAll();
 }

@@ -63,9 +63,12 @@ public class SubjectDaoHibernate implements SubjectDao {
         logger.debug(DEBUG_BEFORE);
         if (id != 0) {
             try (Session session = factory.openSession()) {
-                Subject subject = (Subject) session.get(Subject.class, id);
                 session.beginTransaction();
-                session.delete(subject);
+                Subject subject = (Subject) session.get(Subject.class, id);
+                if (subject != null && subject.getSpecialtySet().isEmpty() &&
+                        subject.getLessonList().isEmpty()) {
+                    session.delete(subject);
+                }
                 session.getTransaction().commit();
             } catch (Exception e) {
                 logger.error(e.getMessage());
