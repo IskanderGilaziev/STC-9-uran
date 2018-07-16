@@ -7,9 +7,11 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SubjectDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class SubjectDaoHibernate implements SubjectDao {
@@ -63,9 +65,17 @@ public class SubjectDaoHibernate implements SubjectDao {
         logger.debug(DEBUG_BEFORE);
         if (id != 0) {
             try (Session session = factory.openSession()) {
-                Subject subject = (Subject) session.get(Subject.class, id);
                 session.beginTransaction();
-                session.delete(subject);
+                Subject subject = (Subject) session.get(Subject.class, id);
+                Set<Speciality> specialitySet = subject.getSpecialtySet();
+                for (Speciality s : specialitySet) {
+                    Set<Subject> subjectSet = s.getSubjectSet();
+                    if (subjectSet.contains(subject)) {
+                        subjectSet.remove(subject);
+                    }
+                    session.saveOrUpdate(s);
+                }
+//                session.delete(subject);
                 session.getTransaction().commit();
             } catch (Exception e) {
                 logger.error(e.getMessage());

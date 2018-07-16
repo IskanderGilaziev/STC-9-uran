@@ -34,8 +34,26 @@ public class SubjectServiceHibernate implements SubjectService {
     @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
+
         subjectDao.deleteBySubjectId(id);
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
+    }
+
+    /**
+     * Обновить существующий предмет
+     *
+     * @param id
+     * @param name
+     */
+    @Override
+    public void updateExitingSubject(long id, String name) {
+        if (name != null && !name.isEmpty()) {
+            Subject subject = subjectDao.getById(id);
+            if (subject != null) {
+                subject.setName(name);
+                subjectDao.addOrUpdateSubject(subject);
+            }
+        }
     }
 
     @Override

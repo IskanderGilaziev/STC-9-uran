@@ -19,7 +19,7 @@
         <c:forEach var="subject" items="${subjectList}" varStatus="counter">
             <tr>
                 <td>${counter.count}</td>
-                <td><a href="/perfomance/myMarks?subject=${subject.id}">${subject.name}</a></td>
+                <td><a href="/student/myMarks?subject=${subject.id}">${subject.name}</a></td>
                 <td>${fn:length(subject.lessonList)}</td>
             </tr>
         </c:forEach>
