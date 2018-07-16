@@ -7,11 +7,14 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
+import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class PersonDaoHibernate implements PersonDao {
@@ -80,8 +83,19 @@ public class PersonDaoHibernate implements PersonDao {
             try (Session session = factory.openSession()) {
                 session.beginTransaction();
                 Person person = (Person) session.get(Person.class, id);
-                // TODO: 15.07.2018 Как удалить все и сразу?
-                session.delete(person);
+                Set<Performance> performanceSet = person.getPerformances();
+                for (Performance p : performanceSet) {
+                    session.delete(p);
+                }
+                Team team = person.getTeam();
+                if (team != null) {
+                    for (Person p : team.getPersonSet()) {
+                        if (p.equals(person)) {
+                            session.delete(p);
+                        }
+                    }
+                }
+                session.delete(person.getUser() != null ? person.getUser() : person);
                 session.getTransaction().commit();
             } catch (Exception e) {
                 logger.error(e.getMessage());
