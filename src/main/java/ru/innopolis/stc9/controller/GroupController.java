@@ -13,6 +13,7 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 import ru.innopolis.stc9.service.hibernate.interfaces.GroupService;
 import ru.innopolis.stc9.service.hibernate.interfaces.SpecialityService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class GroupController {
     private static final String BEFORE = "First line. Input argument(-s):";
     private static final String ARG_GROUP_ID = "groupId = ";
     private static final String ARG_ID = "id = ";
+    private static final String ATTR_GROUP = "group";
+    private static final String REDIR_GROUP_ALL = "redirect:groupAll";
     private final GroupService groupService;
     private final SpecialityService specialityService;
 
@@ -47,7 +50,7 @@ public class GroupController {
                                Model model) {
         logger.debug(new StringBuffer(BEFORE).append(" nameGroup = ").append(nameGroup).append(", yStart = ").append(yStart).append(", specialityId = ").append(specialityId));
         groupService.addNewGroup(nameGroup, yStart, specialityId);
-        return "redirect:groupAll";
+        return REDIR_GROUP_ALL;
     }
 
     @RequestMapping(value = "/updateGroup", method = RequestMethod.POST)
@@ -58,14 +61,14 @@ public class GroupController {
                                   Model model) {
         logger.debug(new StringBuffer(BEFORE).append(ARG_GROUP_ID).append(groupId).append(", nameGroup = ").append(nameGroup).append(", yStart = ").append(yStart).append(", specialityId = ").append(specialityId));
         groupService.updateExitingGroup(groupId, nameGroup, yStart, specialityId);
-        return "redirect:groupAll";
+        return REDIR_GROUP_ALL;
     }
 
     @RequestMapping(value = "/deleteGroup", method = RequestMethod.GET)
     public String deleteGroupGet(@RequestAttribute long id, Model model) {
         logger.debug(BEFORE + ARG_ID + id);
         groupService.deleteById(id);
-        return "redirect:groupAll";
+        return REDIR_GROUP_ALL;
     }
 
     @RequestMapping(value = "/groupAll", method = RequestMethod.GET)
@@ -87,7 +90,7 @@ public class GroupController {
         logger.debug(BEFORE + ARG_ID + id);
         Team group = groupService.getById(id);
         if (group != null) {
-            model.addAttribute("group", group);
+            model.addAttribute(ATTR_GROUP, group);
             List<Speciality> specialityList = specialityService.getSuitSpeciality(group);
             model.addAttribute("specialityList", specialityList);
             return "addGroup";
@@ -113,7 +116,7 @@ public class GroupController {
     public String getGroup(@RequestAttribute long id, Model model) {
         logger.debug(BEFORE + ARG_ID + id);
         Team group = groupService.getById(id);
-        model.addAttribute("group", group);
+        model.addAttribute(ATTR_GROUP, group);
         List<Person> students = groupService.getAllSuitPerson(group);
         model.addAttribute("students", students);
         return "/getGroup";
@@ -139,5 +142,12 @@ public class GroupController {
         return "redirect:group";
     }
 
+    @RequestMapping(value = "/myGroup", method = RequestMethod.GET)
+    public String myGroup(HttpServletRequest request,
+                          Model model) {
+        Team group = groupService.getTeamByUser(request.getUserPrincipal());
+        model.addAttribute(ATTR_GROUP, group);
+        return "myGroup";
+    }
 
 }

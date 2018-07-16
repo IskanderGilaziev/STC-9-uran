@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.LessonDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Lesson;
+import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class LessonDaoHibernate implements LessonDao {
@@ -22,10 +25,6 @@ public class LessonDaoHibernate implements LessonDao {
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
-    }
-
-    private String logResult() {
-        return "Unknown result of operation";
     }
 
     @Autowired
@@ -58,7 +57,7 @@ public class LessonDaoHibernate implements LessonDao {
     @Override
     public List<Lesson> getAll() {
         logger.debug(DEBUG_BEFORE);
-        List<Lesson> lessonList = null;
+        List<Lesson> lessonList = new ArrayList<>();
         try (Session session = factory.openSession()) {
             Query query = session.createQuery("FROM Lesson");
             lessonList = query.list();
@@ -76,10 +75,13 @@ public class LessonDaoHibernate implements LessonDao {
             Lesson lesson = getById(id);
             Session session = factory.openSession();
             session.beginTransaction();
+            Set<Performance> list = lesson.getPerformances();
+            for (Performance p : list) {
+                session.delete(p);
+            }
             session.delete(lesson);
             session.getTransaction().commit();
             session.close();
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
         }

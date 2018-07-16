@@ -7,11 +7,14 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
+import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class PersonDaoHibernate implements PersonDao {
@@ -19,8 +22,12 @@ public class PersonDaoHibernate implements PersonDao {
     private static final String DEBUG_BEFORE = "First  line of method. Argument(s): ";
     private static final String WARN_NPE = "Null objest : person";
     private static final String DEBUC_AFTER = "Before exit.";
+    private final SessionFactory factory;
+
     @Autowired
-    private SessionFactory factory;
+    public PersonDaoHibernate(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     @Override
     public Person getById(long id) {
@@ -76,19 +83,30 @@ public class PersonDaoHibernate implements PersonDao {
             try (Session session = factory.openSession()) {
                 session.beginTransaction();
                 Person person = (Person) session.get(Person.class, id);
-                session.delete(person);
+                Set<Performance> performanceSet = person.getPerformances();
+                for (Performance p : performanceSet) {
+                    session.delete(p);
+                }
+                Team team = person.getTeam();
+                if (team != null) {
+                    for (Person p : team.getPersonSet()) {
+                        if (p.equals(person)) {
+                            session.delete(p);
+                        }
+                    }
+                }
+                session.delete(person.getUser() != null ? person.getUser() : person);
                 session.getTransaction().commit();
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
         }
         logger.debug(DEBUC_AFTER);
     }
 
-    @Override
+    /*@Override
     public List<Person> getPersonByRole(Status status) {
         logger.debug(DEBUG_BEFORE);
         List<Person> personList = new ArrayList<>();
@@ -103,7 +121,7 @@ public class PersonDaoHibernate implements PersonDao {
         }
         logger.info(logResult(!personList.isEmpty()) + personList.size());
         return personList;
-    }
+    }*/
 
     /**
      * Поиск из таблицы Person строк со статусом студент и null а колонке "группа"
@@ -149,7 +167,7 @@ public class PersonDaoHibernate implements PersonDao {
     }
 
     @Override
-    public List<Person> getPersonByRoleAndNullUser(Status status) {
+    public List<Person> getPersonsByRole(Status status) {
         logger.debug(DEBUG_BEFORE);
         List<Person> personList = new ArrayList<>();
         try (Session session = factory.openSession()) {
@@ -200,11 +218,33 @@ public class PersonDaoHibernate implements PersonDao {
         }
     }
 
-    private String logResult(boolean b) {
-        return (b ? "Success" : "False") + " : ";
+    /**
+     * Найти человека по его логину
+     *
+     * @param login
+     * @return
+     */
+    @Override
+    public Person getByLogin(String login) {
+        logger.debug(DEBUG_BEFORE);
+        Person result = null;
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from Person p WHERE p.user.login = :param");
+            query.setParameter("param", login);
+            List<Person> persons = query.list();
+            if (persons.size() == 1) {
+                result = persons.get(0);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info(result == null ? "Fail" : "Perosn with login " + login + " was found: " + result);
+        return result;
     }
 
-    private String logResult() {
-        return "Unknown result of operation";
+    private String logResult(boolean b) {
+        return (b ? "Success" : "False") + " : ";
     }
 }

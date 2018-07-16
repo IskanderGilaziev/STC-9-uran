@@ -55,7 +55,7 @@ public class TeacherSubjectController {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
         } else {
-            List<Person> teacherList = personService.getPersonByRoleAndNullUser(Status.teacher);
+            List<Person> teacherList = personService.getPersonsByRole(Status.teacher);
             List<Subject> subjectList = subjectService.getAll();
             model.addAttribute("teacherList", teacherList);
             model.addAttribute("subjectList", subjectList);
@@ -88,7 +88,7 @@ public class TeacherSubjectController {
     @RequestMapping(value = "/updateTeacherSubject", method = RequestMethod.GET)
     public String updatePerson(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
-        List<Person> teacherList = personService.getPersonByRoleAndNullUser(Status.teacher);
+        List<Person> teacherList = personService.getPersonsByRole(Status.teacher);
         List<Subject> subjectList = subjectService.getAll();
         model.addAttribute("teacherList", teacherList);
         model.addAttribute("subjectList", subjectList);

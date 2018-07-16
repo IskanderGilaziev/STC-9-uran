@@ -65,7 +65,7 @@ public class PersonServiceHibernate implements PersonService {
         Status[] statuses = Status.values();
         for (Status s : statuses) {
             if (!s.equals(Status.unknown)) {
-                List<Person> statusPerson = personDao.getPersonByRoleAndNullUser(s);
+                List<Person> statusPerson = personDao.getPersonsByRole(s);
                 removeFromListWithNullUser(statusPerson);
                 allegedPerson.addAll(statusPerson);
             }
@@ -84,11 +84,11 @@ public class PersonServiceHibernate implements PersonService {
     }
 
     @Override
-    public List<Person> getPersonByRoleAndNullUser(Status status) {
-        logger.info(this.getClass().getName() + " method getPersonByRoleAndNullUser started");
+    public List<Person> getPersonsByRole(Status status) {
+        logger.info(this.getClass().getName() + " method getPersonsByRole started");
         List<Person> personList;
-        personList = personDao.getPersonByRole(status);
-        logger.info(this.getClass().getName() + " method getPersonByRoleAndNullUser finished");
+        personList = personDao.getPersonsByRole(status);
+        logger.info(this.getClass().getName() + " method getPersonsByRole finished");
         return personList;
     }
 
@@ -107,7 +107,7 @@ public class PersonServiceHibernate implements PersonService {
     public List<Person> getStudentById(long id) {
         logger.info(this.getClass().getName() + " method getStudentById started, id = " + id);
         List<Person> studentList;
-        studentList = personDao.getPersonByRole(Status.student);
+        studentList = personDao.getPersonsByRole(Status.student);
         logger.info(this.getClass().getName() + " method getStudentById finished, id = " + id);
         return studentList;
     }

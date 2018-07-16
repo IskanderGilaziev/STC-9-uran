@@ -3,6 +3,7 @@ package ru.innopolis.stc9.service.hibernate.interfaces;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface GroupService {
@@ -69,4 +70,12 @@ public interface GroupService {
      * @param personId
      */
     void delStudentFromTeam(long personId);
+
+    /**
+     * Определить учебную группу авторизовавшегося студента
+     *
+     * @param principal
+     * @return
+     */
+    Team getTeamByUser(Principal principal);
 }

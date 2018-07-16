@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PersonDao;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.SpecialityDao;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.TeamDao;
+import ru.innopolis.stc9.db.hibernate.dao.interfaces.UserDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Speciality;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
@@ -13,6 +14,7 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Team;
 import ru.innopolis.stc9.service.hibernate.interfaces.GroupService;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 
 @Transactional
@@ -23,12 +25,14 @@ public class GroupServiceHibernate implements GroupService {
     private final TeamDao teamDao;
     private final PersonDao personDao;
     private final SpecialityDao specialityDao;
+    private final UserDao userDao;
 
     @Autowired
-    public GroupServiceHibernate(TeamDao teamDao, PersonDao personDao, SpecialityDao specialityDao) {
+    public GroupServiceHibernate(TeamDao teamDao, PersonDao personDao, SpecialityDao specialityDao, UserDao userDao) {
         this.teamDao = teamDao;
         this.personDao = personDao;
         this.specialityDao = specialityDao;
+        this.userDao = userDao;
     }
 
     /**
@@ -153,5 +157,17 @@ public class GroupServiceHibernate implements GroupService {
         Person student = personDao.getById(personId);
         student.setTeam(null);
         personDao.addOrUpdatePerson(student);
+    }
+
+    /**
+     * Определить учебную группу авторизовавшегося студента
+     *
+     * @param principal
+     * @return
+     */
+    @Override
+    public Team getTeamByUser(Principal principal) {
+        Person student = userDao.getByLogin(principal.getName()).getPerson();
+        return student.getStatus().equals(Status.student) ? student.getTeam() : null;
     }
 }

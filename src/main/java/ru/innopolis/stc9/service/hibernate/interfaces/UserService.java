@@ -3,6 +3,8 @@ package ru.innopolis.stc9.service.hibernate.interfaces;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
 
+import java.security.Principal;
+
 public interface UserService {
 
     void deleteById(User user);
@@ -13,7 +15,6 @@ public interface UserService {
      * Set security role based on user status
      *
      * @param person
-     * @return
      */
     void setSecurityRole(Person person);
 
@@ -38,5 +39,5 @@ public interface UserService {
      */
     boolean signUpUser(String personName, String email, String login, String password, String passwordConfirm);
 
-
+    Person getByUserName(Principal principal);
 }

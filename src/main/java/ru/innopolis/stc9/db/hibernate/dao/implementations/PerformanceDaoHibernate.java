@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PerformanceDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -23,10 +26,6 @@ public class PerformanceDaoHibernate implements PerformanceDao {
 
     private String logResult(boolean b) {
         return (b ? "Success" : "False") + " : ";
-    }
-
-    private String logResult() {
-        return "Unknown result of operation";
     }
 
     @Override
@@ -63,7 +62,6 @@ public class PerformanceDaoHibernate implements PerformanceDao {
             session.delete(performance);
             session.getTransaction().commit();
             session.close();
-            logger.info(logResult());
         } else {
             logger.warn(WARN_NPE);
         }
@@ -111,5 +109,51 @@ public class PerformanceDaoHibernate implements PerformanceDao {
             logger.debug(DEBUC_AFTER);
             return performanceList;
         }
+    }
+
+    @Override
+    public List<Subject> getSubjectsForStudent(Person person) {
+        logger.debug(DEBUG_BEFORE);
+        List<Subject> subjectList = new ArrayList<>();
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("SELECT distinct p.lesson.subject FROM Performance p WHERE p.person = :param");
+            query.setParameter("param", person);
+            subjectList = query.getResultList();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.debug(subjectList.isEmpty() ? "fail" : "found " + subjectList.size());
+        return subjectList;
+    }
+
+    /**
+     * Список оценок студента по конкретному предмету
+     *
+     * @param person
+     * @param subject
+     * @return
+     */
+    @Override
+    public List<Performance> getPerformanceForStudentBySubject(Person person, Subject subject) {
+        logger.debug(DEBUG_BEFORE);
+        List<Performance> performanceList = new ArrayList<>();
+        if (subject != null) {
+            try (Session session = factory.openSession()) {
+                session.beginTransaction();
+                Query query = session.createQuery("FROM Performance p WHERE p.person = :persName AND p.lesson.subject = :subj ORDER BY p.lesson.date");
+                query.setParameter("persName", person);
+                query.setParameter("subj", subject);
+                performanceList = query.getResultList();
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        } else {
+            logger.warn("subject is a null object.");
+        }
+        logger.debug(performanceList.isEmpty() ? "fail" : "found " + performanceList.size());
+        return performanceList;
     }
 }

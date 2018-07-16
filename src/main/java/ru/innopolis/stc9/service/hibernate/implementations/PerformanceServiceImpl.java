@@ -5,9 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.PerformanceDao;
 import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
+import ru.innopolis.stc9.pojo.hibernate.entities.Person;
+import ru.innopolis.stc9.pojo.hibernate.entities.Status;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.service.hibernate.interfaces.PerformanceService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -32,8 +36,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     public Performance getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Performance subject = null;
-        subject = performanceDao.getById(id);
+        Performance subject = performanceDao.getById(id);
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
         return subject;
     }
@@ -64,5 +67,32 @@ public class PerformanceServiceImpl implements PerformanceService {
     public List<Performance> getByLessonId(long lessonId) {
         logger.info(this.getClass().getName() + " method getByLessonId started");
         return performanceDao.getByLessonId(lessonId);
+    }
+
+    /**
+     * Выборка списка предметов, по которым у данного студента были уроки
+     *
+     * @param person
+     * @return
+     */
+    @Override
+    public List<Subject> getListOfSubjectsWithLessonForStudent(Person person) {
+        List<Subject> subjectList = person.getStatus().equals(Status.student) ?
+                performanceDao.getSubjectsForStudent(person) : new ArrayList<>();
+        logger.info(subjectList.isEmpty() ? "Fail" : "Found " + subjectList.size() + " objest(-s).");
+        return subjectList;
+    }
+
+    /**
+     * Выборка академических отметок студента по конкретному предмету
+     *
+     * @param person
+     * @param subject
+     * @return
+     */
+    @Override
+    public List<Performance> getListOfPerformanceForStudentBySubject(Person person, Subject subject) {
+        return person.getStatus().equals(Status.student) ?
+                performanceDao.getPerformanceForStudentBySubject(person, subject) : new ArrayList<>();
     }
 }

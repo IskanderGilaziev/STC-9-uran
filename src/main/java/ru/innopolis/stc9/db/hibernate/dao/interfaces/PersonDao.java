@@ -14,9 +14,15 @@ public interface PersonDao {
 
     void deleteByPersonId(long id);
 
-    List<Person> getPersonByRole(Status status);
+//    List<Person> getPersonByRole(Status status);
 
-    List<Person> getPersonByRoleAndNullUser(Status status);
+    /**
+     * Выбрать всех персон в системе по статусу
+     *
+     * @param status
+     * @return
+     */
+    List<Person> getPersonsByRole(Status status);
 
     /**
      * Поиск из таблицы Person строк со статусом студент и null а колонке "группа"
@@ -35,4 +41,12 @@ public interface PersonDao {
     Person getByName(String name);
 
     void toDetached(Person person);
+
+    /**
+     * Найти человека по его логину
+     *
+     * @param login
+     * @return
+     */
+    Person getByLogin(String login);
 }

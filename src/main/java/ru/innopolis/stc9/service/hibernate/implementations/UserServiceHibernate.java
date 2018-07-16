@@ -11,6 +11,8 @@ import ru.innopolis.stc9.pojo.hibernate.entities.Status;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
 import ru.innopolis.stc9.service.hibernate.interfaces.UserService;
 
+import java.security.Principal;
+
 @Service
 public class UserServiceHibernate implements UserService {
     private static final Logger logger = Logger.getLogger(UserServiceHibernate.class);
@@ -50,7 +52,6 @@ public class UserServiceHibernate implements UserService {
      * Set security role based on user status
      *
      * @param person
-     * @return
      */
     @Override
     public void setSecurityRole(Person person) {
@@ -68,14 +69,13 @@ public class UserServiceHibernate implements UserService {
      * @return
      */
     private String securityRole(Status status) {
-        String result = null;
         int index = 0;
         switch (status) {
             case unknown:
             case student:
                 index = 1;
         }
-        result = securityRoles[index];
+        String result = securityRoles[index];
         return result;
     }
 
@@ -126,21 +126,25 @@ public class UserServiceHibernate implements UserService {
     @Override
     public boolean signUpUser(String personName, String email, String login, String password, String passwordConfirm) {
         boolean result;
-        checkPasswords(password, passwordConfirm);
-        boolean isFirstAdmin = userDao.userCountWithRole(securityRoles[0]) == 0;
-        Person person = new Person(personName, email);
-        person.setStatus(Status.unknown);
-        User user = new User(login, bcryptEncoder.encode(password));
-        user.setEnabled(0);
-        user.setRole(securityRoles[1]);
-        if (isFirstAdmin) {
-            setRoot(person, user);
+        if (userDao.getByLogin(login) == null) {
+            checkPasswords(password, passwordConfirm);
+            boolean isFirstAdmin = userDao.userCountWithRole(securityRoles[0]) == 0;
+            Person person = new Person(personName, email);
+            person.setStatus(Status.unknown);
+            User user = new User(login, bcryptEncoder.encode(password));
+            user.setEnabled(0);
+            user.setRole(securityRoles[1]);
+            if (isFirstAdmin) {
+                setRoot(person, user);
+            }
+            personDao.addOrUpdatePerson(person);
+            user.setPerson(person);
+            userDao.addUser(user);
+            result = true;
+            logger.info(person);
+        } else {
+            result = true;
         }
-        personDao.addOrUpdatePerson(person);
-        user.setPerson(person);
-        userDao.addUser(user);
-        result = true;
-        logger.info(person);
         return result;
     }
 
@@ -150,4 +154,14 @@ public class UserServiceHibernate implements UserService {
         user.setRole(securityRoles[0]);
     }
 
+    @Override
+    public Person getByUserName(Principal principal) {
+        Person person = null;
+        String login = principal.getName();
+        if (login != null && !login.isEmpty()) {
+            User user = userDao.getByLogin(login);
+            person = user.getPerson();
+        }
+        return person;
+    }
 }

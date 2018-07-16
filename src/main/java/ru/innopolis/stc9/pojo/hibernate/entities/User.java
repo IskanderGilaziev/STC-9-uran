@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class User {
 
     private long id;
+    @Column(unique = true)
     private String login;
     private String password;
     private String role;
@@ -99,8 +100,7 @@ public class User {
         if (enabled != user.enabled) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (role != null ? !role.equals(user.role) : user.role != null) return false;
-        return person != null ? person.equals(user.person) : user.person == null;
+        return role != null ? role.equals(user.role) : user.role == null;
     }
 
     @Override
@@ -110,19 +110,15 @@ public class User {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + enabled;
-        result = 31 * result + (person != null ? person.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-//                ", password='" + password + '\'' +
+                "login='" + login + '\'' +
                 ", role='" + role + '\'' +
                 ", enabled=" + enabled +
-//                ", person=" + person +
                 '}';
     }
 }

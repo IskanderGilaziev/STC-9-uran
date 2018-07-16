@@ -7,9 +7,13 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.stc9.db.hibernate.dao.interfaces.UserDao;
+import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
+import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
 import ru.innopolis.stc9.pojo.hibernate.entities.User;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDaoHibernate implements UserDao {
@@ -32,7 +36,22 @@ public class UserDaoHibernate implements UserDao {
 
     @Override
     public User getByLogin(String name) {
-        return null;
+        logger.debug(DEBUG_BEFORE);
+        User result = null;
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from User WHERE login = :param");
+            query.setParameter("param", name);
+            List<User> userList = query.list();
+            if (userList.size() == 1) {
+                result = userList.get(0);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info(result == null ? "Fail" : "User with login " + name + " was found.");
+        return result;
     }
 
     @Override
@@ -124,6 +143,26 @@ public class UserDaoHibernate implements UserDao {
         }
         logger.info(logResult(result >= 0) + result);
         return result;
+    }
+
+    @Override
+    public Set<Subject> allSubjectsForStudent(String login) {
+        logger.debug(DEBUG_BEFORE);
+        Set<Subject> subjectSet = new HashSet<>();
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from Performance p WHERE p.person.user.login = :param");
+            query.setParameter("param", login);
+            List<Performance> performance = query.list();
+            for (Performance p : performance) {
+                subjectSet.add(p.getLesson().getSubject());
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info(!subjectSet.isEmpty() ? "Fail" : "User with login " + login + " was found.");
+        return subjectSet;
     }
 
     private String logResult(boolean b) {
