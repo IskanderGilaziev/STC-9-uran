@@ -59,9 +59,6 @@ public class SubjectController {
         } else {
             if (action.equals(ATTR_UPDATE)) {
                 service.updateExitingSubject(id, name);
-//                Subject subject = service.getById(id);
-//                subject.setName(name);
-//                service.addOrUpdate(subject);
             }
         }
         return "redirect:subjectAll";
