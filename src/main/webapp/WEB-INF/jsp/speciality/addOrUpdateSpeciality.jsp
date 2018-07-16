@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
-<%@ include file="../../../aside.jsp" %>
+<%@ include file="../aside.jsp" %>
         <form class="editForm" action="/speciality/addOrUpdateSpeciality" method="post" name="editForm">
             <c:if test="${action=='update'}">
                 <input type="hidden" name="id" value="${speciality.id}">

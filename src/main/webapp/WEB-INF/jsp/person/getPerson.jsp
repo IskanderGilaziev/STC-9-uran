@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
-<%@ include file="../../../aside.jsp" %>
+<%@ include file="../aside.jsp" %>
 <h1>${person.name}</h1>
 
 <p><b>День рождения:</b>
@@ -60,7 +60,7 @@
         </c:if>
     </p>
     <p>
-        <a href="/person/person/ban?id=${person.id}">Изменить доступ в систему</a>
+        <a href="/person/ban?id=${person.id}">Изменить доступ в систему</a>
     </p>
 
 </c:if>

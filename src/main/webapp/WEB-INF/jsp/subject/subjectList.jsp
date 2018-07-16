@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
-<%@ include file="../../../aside.jsp" %>
+<%@ include file="../aside.jsp" %>
 <h1>Список предметов</h1>
 <p><b><a href="/subject/addOrUpdateSubject">Добавить новый предмет</a></b></p>
 <div class="table-responsive">

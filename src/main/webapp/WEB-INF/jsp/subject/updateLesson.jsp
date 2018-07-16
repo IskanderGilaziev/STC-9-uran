@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
-<%@ include file="../../../aside.jsp" %>
+<%@ include file="../aside.jsp" %>
 <h1>Редактирование</h1>
 <form class="editForm" action="/subject/updateLesson" method="post" name="editForm">
     <%--<input type="hidden" name="subjectId" value="${subject.id}">--%>

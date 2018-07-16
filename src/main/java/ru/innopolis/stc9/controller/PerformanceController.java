@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.hibernate.entities.Performance;
 import ru.innopolis.stc9.pojo.hibernate.entities.Person;
 import ru.innopolis.stc9.pojo.hibernate.entities.Status;
-import ru.innopolis.stc9.pojo.hibernate.entities.Subject;
-import ru.innopolis.stc9.service.hibernate.interfaces.*;
+import ru.innopolis.stc9.service.hibernate.interfaces.LessonService;
+import ru.innopolis.stc9.service.hibernate.interfaces.PerformanceService;
+import ru.innopolis.stc9.service.hibernate.interfaces.PersonService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -29,12 +30,6 @@ public class PerformanceController {
 
     @Autowired
     private PersonService personService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SubjectService subjectService;
 
     @RequestMapping(value = "/addOrUpdatePerform", method = RequestMethod.GET)
     public String addPerformance(HttpServletRequest request, Model model) {
@@ -114,27 +109,5 @@ public class PerformanceController {
         } else {
             return "index";
         }
-    }
-
-    @RequestMapping(value = "/mySubjects", method = RequestMethod.GET)
-    public String studentSubjects(
-            HttpServletRequest request,
-            Model model) {
-        Person person = userService.getByUserName(request.getUserPrincipal());
-        List<Subject> subjectList = service.getListOfSubjectsWithLessonForStudent(person);
-        model.addAttribute("subjectList", subjectList);
-        return "/mySubjects";
-    }
-
-    @RequestMapping(value = "/myMarks", method = RequestMethod.GET)
-    public String studentSubjects(HttpServletRequest request,
-                                  @RequestAttribute long subject,
-                                  Model model) {
-        Person person = userService.getByUserName(request.getUserPrincipal());
-        Subject subj = subjectService.getById(subject);
-        List<Performance> performanceList = service.getListOfPerformanceForStudentBySubject(person, subj);
-        model.addAttribute("subject", subj);
-        model.addAttribute(ATTR_PERF_LIST, performanceList);
-        return "/myMarks";
     }
 }

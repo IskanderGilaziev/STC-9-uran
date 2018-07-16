@@ -37,7 +37,6 @@ public class PersonController extends HttpServlet {
         this.userService = userService;
     }
 
-
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
         model.addAttribute("statusList", Status.values());
