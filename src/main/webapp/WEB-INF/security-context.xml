@@ -18,13 +18,21 @@
         <intercept-url pattern="/login" access="permitAll()"/>
         <intercept-url pattern="/registration" access="permitAll()"/>
         <intercept-url pattern="/logout" access="permitAll()"/>
-        <intercept-url pattern="/user**" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="/student/**" access="hasRole('ROLE_USER')"/>
+
+        <intercept-url pattern="/user/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/person/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/subject/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/lesson/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/speciality/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/group/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/perfomance/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+
         <form-login login-processing-url="/j_spring_security_check"
                     username-parameter="j_username"
                     password-parameter="j_password"
-
                     login-page="/login"
                     authentication-failure-url="/login?login_error=t"/>
         <logout logout-url="/static/j_spring_security_logout"/>

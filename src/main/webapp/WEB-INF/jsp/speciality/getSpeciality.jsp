@@ -2,7 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
-<%@ include file="../../../aside.jsp" %>
+<%@ include file="../aside.jsp" %>
 <h1>${speciality.name}</h1>
 
 <p><b>Срок обучения (в годах):</b>

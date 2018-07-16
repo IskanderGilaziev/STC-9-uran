@@ -2,7 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/header.jsp" %>
-<%@ include file="/aside.jsp" %>
+<%@ include file="/WEB-INF/jsp/aside.jsp" %>
 
 <h1>${group.nameGroup}</h1>
 <c:if test="${group.speciality ne null} ">

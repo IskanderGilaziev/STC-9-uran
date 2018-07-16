@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
-<%@ include file="../../../aside.jsp" %>
+<%@ include file="../aside.jsp" %>
 <form class="editForm" action="/person/moderation" method="post" name="editForm">
     <h1>Пользователь с данными:</h1>
     <h3>${unmoderatedPerson.name}</h3>
